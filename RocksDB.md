@@ -1,0 +1,1293 @@
+# LSM-Tree
+
+[^LSM-Tree]: Log-Structured Merge-Tree
+
+原文：[The Log-Structured Merge-Tree (LSM-Tree)](https://www.cs.umb.edu/~poneil/lsmtree.pdf)
+
+![image-20221103182033321](RocksDB.assets/image-20221103182033321.png)
+
+
+
+LSM Tree中的$C_0$树存放在内存中，而$C_1∼C_k $则存放在磁盘上。
+
+对于不频繁访问的数据，不断地从$C_0$向$C_k$移动。
+
+$C_i$有大小限制，数据溢出后，将数据归并到$C_{i+1}$中。
+
+**Five Minute Rule**
+
+​		Jim Gray，Gianfranco Putzolu：对于随机访问频率不少于每五分钟一次的页面应该被缓存。（五分钟只是一个意会，基于当时的内存与磁盘的成本）
+
+
+
+### 包含两个树结构的LSM-Tree
+
+[^]: LSM-Tree可以包含两个或者是更多的树结构（下面以两个树结构为例）
+
+因为$C_0$树是在内存中的。不一定要使用B树结构；（平衡二叉树也是可以的）
+
+$C_1$是放在磁盘中的，选择合适结构并优化。
+
+$C_1$树相比于B树，对连续的I/O操作进行了优化。
+
+在$C_1$ 树的每一层中，邻近的节点在磁盘上的位置也是相邻的。
+
+
+
+### 滚动合并(rolling merge)
+
+当一条日志被写入后，该条日志记录的索引项被插入到$C_0$树中，如果$C_0$树大小超过了阈值：会进行一个滚动合并(rolling merge)的过程。
+
+![image-20220630152658473](RocksDB.assets/image-20220630152658473.png)
+
+先读取C~1~树最底层的索引项，（这个缓存了多个页面索引项的合并区块称为empty block）。每次合并操作从已读取的多个索引项中取一个磁盘页面索引项，和C~0~中读取的一个最底层索引项合并；合并操作之后新生成的节点首先被写入到一个称为filling block的缓冲区。当filling block填充满了之后，所缓冲的C~1~的新的叶子节点被写入到磁盘上的空闲区域。
+
+注：这样，合并前的block并没有被覆盖掉，可用于故障恢复；合并过程中也会保存检查点，将缓存的信息强制写入到磁盘上。
+
+### 查
+
+​		数据是按新旧程度存在于C~0~ ~ C~i~，查操作从C~0~开始...**（查找了多个树，相比于B-tree更耗时)**。由于C~0~在内存中，这保证了最近一段时间内插入的数据无需查找到磁盘。
+
+### 删
+
+​		与前面的插入操作类似，对于LSM树的删除操作也可以采用延迟与批量化的方式来进行优化。可将删除操作推迟到要merge的时候再执行。**//中途非要查询即将被删除的数据怎么办？**
+
+
+
+​		还有两种比较高效的索引修改的方式。一种是预测删除通过简单的预测假设来进行批量化的删除操作。比如假设超过20天的索引项在merge时会被删除；另外一种是长延时查询，这种方式将查询项(find note entry)插入到C~0~树中，之后它会在C~i~ 与C~i+1~迁移的过程中做查询操作，直到当这个查询项被迁移到包含相关索引项的最大的C~i~ 时结束。**//长延时查询？**
+
+
+
+
+
+### 包含多个树的LSM-tree
+
+![image-20220630165708874](RocksDB.assets/image-20220630165708874.png)
+
+#### I/O效率
+
+文章证明了：i个tree的LSM的I/O代价比B-tree更小。
+
+#### 并行时可能出现的三种冲突：
+
+- 一个实际存储在DISK中的节点的查询操作，与涉及该节点的滚动合并不能并行执行。
+- 针对C~0~的查找、插入操作不能与C~0~、C~1~的合并并行执行（同上）。
+- 小编号C~i~间的合并频率更高，相邻的滚动合并有数据重叠，会发生阻塞，冲突。
+
+在LSM中，以节点作为加锁的最小单元。分别有写模式锁，读模式锁。
+
+在滚动合并过程中，C~i~中将要插入的新节点会首先放到一个多页面块(multi-page block)缓冲区中，并且按照从左到右的顺序放置。对于C~i~中指向的节点会在内存中被分成两个多页面块缓冲区，其中"emptying block"中是合并游标尚未到达的区域，而"filling block"中是已经进行合并操作的位置。在某些情况下，可能并不想C~i-1~ 中所有的索引项全部合并到C~i~ 
+
+对于C~i-1~，同样按照当前游标的位置，将缓冲区划分为"emptying block"——游标尚未到达的地方以及"filling block"——目前为止已经合并的地方。在滚动合并的过程中，将会对以上四个block全部加上写锁。当C~i~的"emptying block"用尽的时候释放锁。
+
+
+****
+
+[1] [Finding a needle in Haystack: Facebook’s photo storage](https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Beaver.pdf)
+
+[2] [DistCache: Provable Load Balancing for Large-Scale Storage Systems with Distributed Caching](https://www.usenix.org/conference/fast19/presentation/liu)
+
+[3] [The Log-Structured Merge-Tree (LSM-Tree)](https://www.cs.umb.edu/~poneil/lsmtree.pdf)
+
+[4] [The SB-tree: An index-sequential structure for high-performance sequential access](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.55.9482&rep=rep1&type=pdf)
+
+
+
+
+
+![image-20221103182413122](RocksDB.assets/image-20221103182413122.png)
+
+
+
+
+
+
+
+# LevelDB
+
+2022年7月1日10:19:09
+
+## 一个小demo
+
+环境：wsl2
+
+```bash
+git clone --recurse-submodules https://github.com/google/leveldb.git
+mkdir -p build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release .. && cmake --build .
+```
+
+make以后会在build目录生成一个**静态库**libleveldb.a
+
+```bash
+#将include下的leveldb目录拷贝到/usr/include/下：
+cp -r include/leveldb /usr/include/
+#将之前编译好的libleveldb.a
+cp build/libleveldb.a /usr/include/
+#然后
+g++ -o leveldbtest m.cpp libleveldb.a -lpthread
+```
+
+<img src="RocksDB.assets/image-20220701150433914.png" alt="image-20220701150433914" style="zoom: 67%;" />
+
+```c++
+#include "leveldb/db.h"
+#include <cassert>
+#include <iostream>
+
+using namespace std;
+using namespace leveldb;
+
+int main()
+{
+    leveldb::DB *db;
+    leveldb::Options options;
+    options.create_if_missing = true;
+    leveldb::Status status = leveldb::DB::Open(options, "testdb", &db);
+    assert(status.ok());
+    status = db->Put(WriteOptions(), "lzq", "Hello LevelDB");
+    assert(status.ok());
+    string res;
+    status = db->Get(ReadOptions(), "lzq", &res);
+    assert(status.ok());
+    cout << res << endl;
+
+    delete db;
+    return 0;
+```
+
+运行结果:
+
+```shell
+lzq@LAPTOP-F424RLVC:~/leveldb/benchmarks$ ./mytest
+Hello LevelDB
+lzq@LAPTOP-F424RLVC:~/leveldb/benchmarks$ ls
+db_bench.cc      db_bench_sqlite3.cc  libleveldb.a  mytest.cpp
+db_bench_log.cc  db_bench_tree_db.cc  mytest        testdb
+```
+
+
+
+### 安装Google test
+
+```
+git clone https://github.com/google/googletest.git -b release-1.12.0
+cd googletest        # Main directory of the cloned repository.
+mkdir build          # Create a directory to hold the build output.
+cd build
+cmake ..             # Generate native build scripts for GoogleTest.
+
+make
+sudo make install    # Install in /usr/local/ by default
+```
+
+
+
+```c++
+#include<gtest/gtest.h>
+  int add(int a,int b){
+    return a+b;
+  }
+  TEST(testCase, test0){
+    EXPECT_EQ(add(2,3),5);
+  }
+  int main(int argc, char **argv){
+    testing::InitGoogleTest(&argc,argv);
+    return RUN_ALL_TESTS();
+  }
+```
+
+测试安装：
+
+<img src="RocksDB.assets/image-20220706101410286.png" alt="image-20220706101410286" style="zoom:67%;" />
+
+
+
+
+
+> 跳表skiplist
+
+## 大致读写流程
+
+### 写入流程
+
+1. 写入位于磁盘中的WAL（Write Ahead Log）里。
+2. 写入`memtable`。
+3. 当大小达到一定阈值后，原有的`memtable`冻结变成`immutable`。后续的写入交接给新的`memtable`和WAL。
+4. 后台开启Compaction线程，开始将`immutable`落库变成一个L0层的`SSTable`，写入成功后释放掉以前的WAL。
+5. 若插入新的`SSTable`后，当前层（`Li`）的总文件大小超出了阈值，会从`Li`中挑选出一个文件，和`Li+1`层的重叠文件继续合并，直到所有层的大小都小于阈值。合并过程中，会保证`L1`以后，各`SSTable`的Key不重叠。
+
+### 读取流程
+
+> 注，这里每个步骤的命名后面介绍Bourbon的时候还会用到。
+
+![img](RocksDB.assets/v2-0fd452a20042b5f044f0f1bb194bde44_720w.webp)
+
+如果`Key`在`memtable`中，那么直接读取返回；否则自上而下地读取SST，其流程如下：
+
+1. `FindFiles`。从SST文件中查找，如果在 L0，那么每个文件都得读，因为 L0 不保证Key不重叠；如果在更深的层，那么Key保证不重叠，每层只需要读一个 SST 文件即可。L1 开始，每层可以在内存中维护一个 SST的有序区间索引，在索引上二分查找即可
+2. `LoadIB + FB`。IB 和 FB 分别是 `index block` 和 `filter block` 的缩写。`index block`是SST内部划分出的block的索引；`filter block` 则是一个布隆过滤器（Bloom Filter），可以快速排除 `Key` 不在的情况，因此首先加载这两个结构
+3. `SearchIB`。二分查找 `index block`，找到对应的`block`
+4. `SearchFB`。用布隆过滤器过滤，如果没有，则返回
+5. `LoadDB`。则把这个`block`加载到内存
+6. `SearchDB`。在这个`block`中继续二分查找
+7. `ReadValue`。找到 `Key`后读数据，如果考虑 WiscKey KV分离的情况，还需要去 vLog 中读取
+
+https://zhuanlan.zhihu.com/p/389397486
+
+## 大致结构
+
+![LevelDB的大致字段结构](RocksDB.assets/LevelDB的大致字段结构.jpg)
+
+TODO:图片待完善
+
+- MemTable：常驻内存的 C~0~树，本质是skiplist跳表。默认阈值是4MB，写满时变成只读的Immutable MEMTable。
+- Immutable MemTable：只读的MemTable后台的Compaction线程会将Immutable MemTable中的内容，创建一个SSTable文件，持久化到该磁盘文件中。
+- log文件
+
+
+- SSTable（sorted string ）：
+
+  - SSTable文件来保存只读的Immutable MEMTable， 它是key有序的，可以二分查找；
+  - 但是，**内存中的Immutable MemTable存储的Key数据是有重复的，有重叠的//？**需要有一个额外的线程定期地来整理这些SSTable文件，使之没有重叠，并且减少文件个数目，从而减少磁盘IO的次数，这样才能用二分查找，这个额外的线程就是Compaction压缩线程；所有的SSTable文件本身是不可修改的，Compaction压缩线程会把多个SSTable文件归并后产生新的SSTable文件，并删除旧的SSTable文件。
+
+- Manifest：LevelDB中有版本Version的概念，一个版本Version主要记录了每一层Level中所有文件的元数据Metadata，Metadata主要信息包含：文件号、文件大小、最大的Key和最小的Key等。每次压缩Compaction完成（产生新的SST），LevelDB都会创建又给新的Version，newVersion=oldVersion+VersionEdit，Manifest文件就是用来记录这些VersionEdit信息的。一个VersionEdit信息会被编码成一条Record记录，写入Manifest文件，每条记录包括：
+
+  - 1）新增哪些SSTable文件；
+
+  - 2）删除哪些SSTable文件；
+
+  - 3）当前Compaction的指针下标；
+
+  - 4）日志文件编号；
+
+  - 5）操作SequenceNumber等信息。
+
+  通过这些信息LevelDB在启动时便可以基于一个空的Version，不断地Apply这些记录，最终得到一个上次运行结束时的版本信息。
+
+- Current文件：这个文件中只有一个信息，就是记录当前的Manifest文件名。
+
+  因为每次LevelDB启动时，都会创建一个	新的Manifest文件。因此数据目录可能会存在多个Manifest文件。Current则用来指出哪个Manifest文件才是我们关心的那个Manifest文件。
+
+- **Compaction压缩：**LSM-Tree中有两种压缩策略Size-Tiered Compaction Strategy和Leveled Compaction Strategy。LevelDB采用的是Leveled Compaction Strategy。
+
+
+
+
+
+实际生成的数据库文件
+
+- LogFile	.log
+- TableFile   .ldb
+- SSTTableFile  .sst
+- ManiFest         MANIFEST-%06llu
+- 运行日志    LOG
+
+
+
+源码目录结构
+
+- db/, 数据库逻辑
+- doc/, MD文档
+- helpers/, LevelDB内存版, 通过namespace覆盖
+- port/, 平台相关代码
+- table/, LSM有关的
+
+
+
+memtable -> skiplist -> arena
+
+
+
+## include
+
+### Slice
+
+切片是一种简单的结构，包含指向某个外部存储器的指针和大小。
+
+```c++
+// Multiple threads can invoke const methods on a Slice without
+// external synchronization, but if any of the threads may call a
+// non-const method, all threads accessing the same Slice must use
+// external synchronization.
+```
+
+### FilterPolicy 
+
+### Status
+
+记录每步操作后的code和msg
+
+
+
+## util
+
+### Arena
+
+`util/arena.cc`
+
+一次性内存池，主要用于Memtable这种不断增加空间、空间满了之后一并存入SST的场景，因此它也是不支持手动调用Delete操作，由析构函数一起调用。
+
+![image-20220701174509775](RocksDB.assets/image-20220701174509775.png)
+
+kBlockSize = 4096 //arena的基本分配单位，默认4MB，4等分。
+
+
+
+#### MemoryUsage 
+
+只增不减
+
+//原子操作?
+
+#### Allocate
+
+```c++
+inline char* Arena::Allocate(size_t bytes) {
+  // The semantics of what to return are a bit messy if we allow
+  // 0-byte allocations, so we disallow them here (we don't need
+  // them for our internal use).
+  assert(bytes > 0);
+  if (bytes <= alloc_bytes_remaining_) {
+    char* result = alloc_ptr_;
+    alloc_ptr_ += bytes;
+    alloc_bytes_remaining_ -= bytes;
+    return result;
+  }
+  return AllocateFallback(bytes);
+}
+```
+
+### AllocateFallback
+
+如果小于1KB，就分配一块4KB大小的内存；如果大于1KB，就按bytes值分配大小；避免一次性申请大量内存造成浪费。
+
+### Cache
+
+`util/cache.cc`
+
+1. Block cache：缓存解压后的 data block，可以加快热数据的查询。
+2. Table cache：缓存打开的 SSTable 文件描述符和对应的 index block、meta block 等信息。
+
+在 LevelDB 中，block cache 和 table cache 都是基于 **[ShardedLRUCache](https://link.zhihu.com/?target=https%3A//github.com/google/leveldb/blob/1.22/util/cache.cc%23L338)** 实现的。
+
+>**ShardedLRUCache**
+
+**[ShardedLRUCache](https://link.zhihu.com/?target=https%3A//github.com/google/leveldb/blob/1.22/util/cache.cc%23L338)** 是在 **[LRUCache](https://link.zhihu.com/?target=https%3A//github.com/google/leveldb/blob/1.22/util/cache.cc%23L150)** 上包装了一层分片——根据 key 的哈希值的前 4 位（**[kNumShardBits](https://link.zhihu.com/?target=https%3A//github.com/google/leveldb/blob/1.22/util/cache.cc%23L335)**）分 16 个（**[kNumShards](https://link.zhihu.com/?target=https%3A//github.com/google/leveldb/blob/1.22/util/cache.cc%23L336)**） LRUCache。
+
+分片的作用是减少多线程对同一个 LRUCache 对象的争用。
+
+1. **[链表 lru_](https://link.zhihu.com/?target=https%3A//github.com/google/leveldb/blob/1.22/util/cache.cc%23L188)**：维护 cache 中的缓存对象的使用热度。数据每次被访问的时候，都会被插入到这个链表最新的地方。 lru_->next 指向最旧的数据， lru_->prev 指向最新的数据。当 cache 占用的内存超过限制时，则从 lru_->next 开始清理数据。
+2. **[链表 in_use_](https://link.zhihu.com/?target=https%3A//github.com/google/leveldb/blob/1.22/util/cache.cc%23L192)**：维护 cache 中有哪些缓存对象被返回给调用端使用。这些数据不能被淘汰。
+3. **[哈希表 table_](https://link.zhihu.com/?target=https%3A//github.com/google/leveldb/blob/1.22/util/cache.cc%23L194)**：保存所有 key -> 缓存对象，用于快速查找数据。
+
+那么，Lookup和Insert都是O（1）
+
+HandleTable类下3个接口：
+
+- Lookup
+
+- Insert     
+
+  //如果超过了list_的值，会调用Resize()，进行重新哈希（rehash）。直接扫描整个哈希表进行全量 rehash
+
+- Remove
+
+
+
+## db/log
+
+### logformat
+
+- 切割成以32KB为单位的物理Block，作为读取单位。
+- 每一条记录record分为4种type
+
+<img src="RocksDB.assets/2011121116352940.png" alt="img" style="zoom:50%;" />
+注：此key无序。
+
+`/db/logformat.h`
+
+```c++
+namespace leveldb {
+namespace log {
+
+enum RecordType {
+  // Zero is reserved for preallocated files
+  kZeroType = 0,
+
+  kFullType = 1,
+
+  // For fragments
+  kFirstType = 2,
+  kMiddleType = 3,
+  kLastType = 4
+};
+static const int kMaxRecordType = kLastType;
+
+static const int kBlockSize = 32768;
+
+// Header is checksum (4 bytes), length (2 bytes), type (1 byte).
+static const int kHeaderSize = 4 + 2 + 1;
+
+}  // namespace log
+}  // namespace leveldb
+```
+
+
+
+## Table
+
+- \table\block_builder：公共前缀压缩，"restart point"
+
+- \format.h、\format.cc
+
+  - BlockHandle：指向data/meta  block的指针，包含offset和size 
+
+    - EncodeTo
+    - DecodeFrom                                 
+
+  - Footer：两个BlockHandle
+
+    - metaindex_handle_ 
+    - index_handle_
+
+  - BlockContents
+
+    ```c++
+    struct BlockContents {
+     Slice data;      // Actual contents of data
+     bool cachable;    // True iff data can be cached
+     bool heap_allocated; // True iff caller should delete[] data.data()
+    };
+    ```
+
+  另外在\format.cc中实现了EncodeTo，DecodeFrom，ReadBlock
+
+  
+
+
+
+SST物理结构
+
+![image-20220705145511642](RocksDB.assets/image-20220705145511642.png)
+
+Type用于标识数据存储区是否采用了数据压缩算法（Snappy压缩或者无压缩两种）
+
+
+
+SST的逻辑结构:
+
+存在于上图对应的物理data区中。
+
+![image-20220705145424073](RocksDB.assets/image-20220705145424073.png)
+
+//也就是说：每个SST文件，前面的若干块存K-V数据，后面跟着Filter block，Meta block，Meta block Index，Index block,和尾部块Footer
+
+- data block，kv 数据对
+- index block，data block 索引
+- filter block，布隆过滤器
+- meta index blocck，filter block 索引
+- footer，整个 block 的索引信息
+
+
+
+### Data block
+
+![image-20220705145957085](RocksDB.assets/image-20220705145957085.png)
+
+每个Data block存放若干个条目entry（一个条目=一对K-V）
+
+![image-20220705150225677](RocksDB.assets/image-20220705150225677.png)
+
+entry中key的存储采用了前缀共享进行压缩					//参见`\table\block_builder`
+
+
+
+一个 entry 的字段：
+
+- 和前一个 entry 共享 key 长度
+- 不共享 key 长度
+- value 长度
+- 不共享 key 内容
+- value 内容
+
+
+
+
+
+### Index block ：
+
+第一个字段的Key要求大于等于Data block_i中的最大Key，小于等于block_i+1中的最小Key；
+
+第二个字段是块的首地址；第三个字段是块大小。
+
+可以在读取SST时快速定位到Key
+
+![image-20220705152333120](RocksDB.assets/image-20220705152333120.png)
+
+
+
+
+
+### Filter block
+
+> 布隆过滤器：判断一定不存在或可能存在。
+>
+> https://zhuanlan.zhihu.com/p/348332384
+>
+> https://blog.csdn.net/qq_41125219/article/details/119982158
+
+![image-20220705152635408](RocksDB.assets/image-20220705152635408.png)
+
+`/table/Filter.h`
+
+- FilterBlockBuilder
+- FilterBlockReader
+
+
+
+
+
+
+
+`/db/db_impl.cc`
+
+- env_对接操作系统的接口
+- internal_comparator_, 用来比较不同key的大小
+- internal_filter_policy_, 可自定义BloomFilter
+- options_, 将调用者传入的options再用一个函数调整下, 可见Google程序员也不是尽善尽美的... 库的作者要帮忙去除错误参数和优化...
+- db_lock_, 文件锁
+- shutting_down_, 基于memory barrier的原子指针
+- bg_cv_, 多线程的条件
+- mem_ = memtable, imm = immemtable
+- tmp_batch_, 所有Put都是以batch写入, 这里建立个临时的
+- manual_compaction_, 内部开发者调用时的魔法参数, 可以不用理会//?
+
+
+
+从open开始，看db_impl.cc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Snapshot
+
+snapshot是一个unsinged long long (SequenceNumber)
+
+具体实现是在 **[leveldb::SnapshotImpl](https://github.com/google/leveldb/blob/1.22/db/snapshot.h#L17-L37)** ，只读取小于等于 sequence_number_ 的数据。
+
+## Version
+
+`db/version_set.h`
+
+version包括：
+
+  FileMetaData* seek_file;
+
+  int seek_file_level;
+
+
+
+### version_set
+
+一个双向链表
+
+```c++
+  Env* const env_;
+  const std::string dbname_;
+  const Options* const options_;
+  TableCache* const table_cache_;
+  const InternalKeyComparator icmp_;
+  uint64_t next_file_number_;
+  uint64_t manifest_file_number_;
+  uint64_t last_sequence_;
+  uint64_t log_number_;
+  uint64_t prev_log_number_;  // 0 or backing store for memtable being compacted
+
+
+  WritableFile* descriptor_file_;//manifest文件的写描述符
+  log::Writer* descriptor_log_;//manifest文件的日志包装形式
+  Version dummy_versions_;  //versions双向链表head
+  Version* current_;        // == dummy_versions_.prev_，当前最新的version
+  //每层都有一个compact pointer用于指示下次从哪里开始compact,以用于实现循环compact
+  std::string compact_pointer_[config::kNumLevels];
+```
+
+### version_set::get
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Mutex
+
+`port/port_stdcxx.h`
+
+
+
+
+
+
+
+
+
+
+
+## db/db_impl：
+
+DBImpl::DBImpl(const Options& *raw_options*, const std::string& *dbname*)
+
+- env_	include/leveldb/env.h	
+
+  Env是leveldb imp 用来访问操作系统功能的接口，如文件系统等。 调用者可能希望在打开数据库时提供一个自定义的Env对象以获得精细的控制；例如，限制文件系统的操作。所有的Env实现对于来自多个线程的并发访问是安全的，无需任何外部同步。
+
+- internal_comparator_		key的比较器
+
+- internal_filter_policy_     布隆过滤器自定义过滤策略(dbformat.h中的InternalFilterPolicy类)
+
+- options_   将调用者传入的options再用一个SanitizeOptions净化函数调整下
+
+  - owns_info_log_
+  - owns_cache_
+
+- dbname_    *dbname*
+
+以上内容在db建立以后都是const
+
+
+
+- table_cache_   /db/tablecache.h : 
+
+  返回一个指定文件号的迭代器（相应的文件长度必须正好是 "file_size" 字节）。
+
+- db_lock_(nullptr)  
+
+  文件锁         锁定持久的DB状态。 如果成功获得，则为非空。
+
+- shutting_down_(false)               
+
+  基于memory barrier的原子指针 ？？？ 
+
+- background_work_finished_signal_    = &mutex_
+
+- mem_:         /db/memtable.h
+
+- imm_:          写满的memtable，GUARDED_BY(mutex_)
+
+- has_imm_:    给背景线程判断是否有 imm (原子bool)
+
+- logfile_：  
+
+  /include/leveldb/env.h      
+
+  WritableFile 一个用于顺序写入的文件的抽象。
+
+- logfile_number_：
+
+  uint64_t型，GUARDED_BY(mutex_）
+
+- log_(nullptr)：
+
+  /db/log_writer.h     Writer 
+
+  创建一个写入器，将数据追加到 "*dest"(WritableFile)
+
+  
+
+- seed_(0)       用于取样？？？
+
+- tmp_batch_   new WriteBatch
+
+- background_compaction_scheduled_ 
+
+  是否有  background compaction 安排,或正在运行
+
+- versions_        new VersionSet
+
+
+### Open操作
+
+```c++
+DB::~DB() = default;
+
+Status DB::Open(const Options& options, const std::string& dbname, DB** dbptr) {
+  *dbptr = nullptr;
+
+  DBImpl* impl = new DBImpl(options, dbname);
+  impl->mutex_.Lock();                            //?恢复数据,上锁,禁用可能的后台任务
+  VersionEdit edit;
+  // Recover handles create_if_missing, error_if_exists
+  bool save_manifest = false;
+  Status s = impl->Recover(&edit, &save_manifest);//?读取log恢复状态
+  if (s.ok() && impl->mem_ == nullptr) {
+    // Create new log and a corresponding memtable.
+    uint64_t new_log_number = impl->versions_->NewFileNumber();
+    WritableFile* lfile;
+    s = options.env->NewWritableFile(LogFileName(dbname, new_log_number),
+                                     &lfile);     //?创建新的日志文件
+    if (s.ok()) {                                 //?准备新的log file和memTable
+      edit.SetLogNumber(new_log_number);
+      impl->logfile_ = lfile;
+      impl->logfile_number_ = new_log_number;
+      impl->log_ = new log::Writer(lfile);
+      impl->mem_ = new MemTable(impl->internal_comparator_);
+      impl->mem_->Ref();                          //?memtable的指针++
+    }
+  }
+  if (s.ok() && save_manifest) {
+    edit.SetPrevLogNumber(0);  // No older logs needed after recovery.
+    edit.SetLogNumber(impl->logfile_number_);
+    s = impl->versions_->LogAndApply(&edit, &impl->mutex_);
+  }
+  if (s.ok()) {                                   //!
+    impl->RemoveObsoleteFiles();                  //?清理无用的文件夹
+    impl->MaybeScheduleCompaction();              //?有写入可能会Compaction
+  }
+  impl->mutex_.Unlock();
+  if (s.ok()) {
+    assert(impl->mem_ != nullptr);
+    *dbptr = impl;
+  } else {
+    delete impl;
+  }
+  return s;
+}	
+```
+
+
+
+### Get操作
+
+```c++
+Status DBImpl::Get(const ReadOptions& options, const Slice& key,
+                   std::string* value) {
+  Status s;
+  MutexLock l(&mutex_);                  
+  SequenceNumber snapshot;                //? 怎么是个usigned long long 
+  if (options.snapshot != nullptr) {
+    snapshot =
+        static_cast<const SnapshotImpl*>(options.snapshot)->sequence_number();
+  } else {
+    snapshot = versions_->LastSequence();
+  }
+
+  MemTable* mem = mem_;
+  MemTable* imm = imm_;
+  Version* current = versions_->current();
+  mem->Ref();
+  if (imm != nullptr) imm->Ref();
+  current->Ref();
+
+  bool have_stat_update = false;
+  Version::GetStats stats;
+```
+
+以上代码在锁的保护下完成了两件事:
+
+1. 生成一个SequenceNumber作为标记, 后续不管线程会不会被切出去, 结果都要相当于在这个时间点瞬间完成  //?
+2. memtable, immemtable, Version, 由于采用了引用计数, 这里Ref()一下 //Ref(){ ref++ }
+
+建立了快照，开始读，可以暂时把锁释放：
+
+```c++
+  {//建立了快照,开始读,把锁释放
+    mutex_.Unlock();
+    // First look in the memtable, then in the immutable memtable (if any).
+    LookupKey lkey(key, snapshot);//!key->lkey 加工,比如计算size利于比较 
+    if (mem->Get(lkey, value, &s)) {//先查memtable
+      // Done
+    } else if (imm != nullptr && imm->Get(lkey, value, &s)) {//再查immtable
+      // Done
+    } else {//mem，imm都没查到，调用Version::Get查
+      s = current->Get(options, lkey, value, &stats);
+      have_stat_update = true;
+    }
+    mutex_.Lock();
+  }
+
+  if (have_stat_update && current->UpdateStats(stats)) {
+    MaybeScheduleCompaction();
+  }
+  mem->Unref();
+  if (imm != nullptr) imm->Unref();
+  current->Unref();
+  return s;
+}
+```
+
+
+
+#### LookupKey
+
+`db/dbformat.h`
+
+一个特别的技巧。对key加工
+
+**LookupKey的格式:**
+
+lkey = 长度(varint) + key + SequenceNumber + type 
+
+官方注释里管 SequenceNumber + type 叫tag:
+
+```
+  // We construct a char array of the form:
+  //    klength  varint32               <-- start_
+  //    userkey  char[klength]          <-- kstart_
+  //    tag      uint64
+  //                                    <-- end_
+  // The array is a suitable MemTable key.
+  // The suffix starting with "userkey" can be used as an InternalKey.
+```
+
+
+
+```c++
+LookupKey::LookupKey(const Slice& user_key, SequenceNumber s) {
+  size_t usize = user_key.size();
+  size_t needed = usize + 13;  // A conservative estimate    
+  //+13: 5Byte(varint最糟糕情况要多花1Byte) + 8Byte(Tag)
+  char* dst;
+  //在栈上先分配一个200长度的数组, 如果运行时发现长度不够用再从堆上new一个, 可以极大避免内存分配
+  if (needed <= sizeof(space_)) {
+    dst = space_;
+  } else {
+    dst = new char[needed];
+  }
+  //LookupKey格式 = 长度(varint结构压缩) + key + {SequenceNumber + type}(Tag)
+  dst = EncodeVarint32(dst, usize + 8);                     //+8是算上了后续Tag字段的长度
+  kstart_ = dst;
+  std::memcpy(dst, user_key.data(), usize);                 
+  dst += usize;
+  EncodeFixed64(dst, PackSequenceAndType(s, kValueTypeForSeek));
+  dst += 8;
+  end_ = dst;
+}
+```
+
+
+
+#### 在SSTable中查K-V
+
+详见`db/version_set.cc`
+
+```c++
+Status Version::Get(const ReadOptions& options, const LookupKey& k,
+                    std::string* value, GetStats* stats) {
+  stats->seek_file = nullptr;
+  stats->seek_file_level = -1;//?
+
+  struct State {
+    Saver saver;
+    GetStats* stats;
+    const ReadOptions* options;
+    Slice ikey;
+    FileMetaData* last_file_read;
+    int last_file_read_level;
+
+    VersionSet* vset;
+    Status s;
+    bool found;
+        static bool Match(void* arg, int level, FileMetaData* f) {...
+    };
+  //把各种参数组织成state,赋值：
+  State state;
+  state.found = false;
+  state.stats = stats;
+  state.last_file_read = nullptr;
+  state.last_file_read_level = -1;
+
+  state.options = &options;
+  state.ikey = k.internal_key();
+  state.vset = vset_;
+
+  state.saver.state = kNotFound;
+  state.saver.ucmp = vset_->icmp_.user_comparator();
+  state.saver.user_key = k.user_key();
+  state.saver.value = value;
+  //把参数都组成State传给查找函数
+  ForEachOverlapping(state.saver.user_key, state.ikey, &state, &State::Match);
+
+  return state.found ? state.s : Status::NotFound(Slice());
+}
+```
+
+**ForEachOverlapping**
+
+`db/version_set.cc`
+
+对于Level-0，遍历，找出所有可能包含lkey的SST。再循环作Match（State::Match 会调用CacheTab::GET 并把最终Value存入Saver)
+
+对于其他Level，调用FindFile二分查找定位到SST，再Match。
+
+> 关于bool型：如果没查到，do nothing ；这样真的安全吗？为什么不 State.found = false 一下。
+
+
+
+```c++
+void Version::ForEachOverlapping(Slice user_key, Slice internal_key, void* arg,
+                                 bool (*func)(void*, int, FileMetaData*)) {
+  const Comparator* ucmp = vset_->icmp_.user_comparator();
+  //?把参数组织成state传给了arg，为什么还从外部的vset_获取?
+  
+  // Search level-0 in order from newest to oldest.
+  // 查level0
+  //level0中每个SST的范围可能是相交的,遍历level0所有SST,凡是smallest<user_key()<largest统统追加到vertor tmp
+  std::vector<FileMetaData*> tmp;
+  tmp.reserve(files_[0].size());
+  for (uint32_t i = 0; i < files_[0].size(); i++) {
+    FileMetaData* f = files_[0][i];
+    if (ucmp->Compare(user_key, f->smallest.user_key()) >= 0 &&
+        ucmp->Compare(user_key, f->largest.user_key()) <= 0) {
+      tmp.push_back(f);
+    }
+  }
+  //tmp中的SST按新旧排序 Match了就退出
+  if (!tmp.empty()) {
+    std::sort(tmp.begin(), tmp.end(), NewestFirst);
+    for (uint32_t i = 0; i < tmp.size(); i++) {
+      if (!(*func)(arg, 0, tmp[i])) {
+        return;
+      }
+    }
+  }
+
+  // Search other levels.
+  // 其他levels有序,可二分查找.
+  for (int level = 1; level < config::kNumLevels; level++) {
+    size_t num_files = files_[level].size();
+    if (num_files == 0) continue;
+
+    // Binary search to find earliest index whose largest key >= internal_key.
+    uint32_t index = FindFile(vset_->icmp_, files_[level], internal_key);
+    if (index < num_files) {
+      FileMetaData* f = files_[level][index];
+      if (ucmp->Compare(user_key, f->smallest.user_key()) < 0) {
+        // All of "f" is past any data for user_key
+      } else {
+        if (!(*func)(arg, level, f)) {
+          return;
+        }
+      }
+    }
+  }
+}
+```
+
+所以，定位到Table（ smallest< key <largeset）以后，最终是怎么Get到具体的value的？
+
+通过State结构内的Match，调用TableCache::Get
+
+`db/table_cache.cc`
+
+- TableCache :: Get //TableCache的对外接口
+  - FindTable
+    - 主体是\*handle = cache_->Lookup(key);          
+    - 如果CacheMiss     先NewRandomAccessFile open文件，再cache_->Insert插入Cache，返回*handle
+    - Lookup和Insert操作是在`/util/cache.cc`实现的。并且涉及hash函数
+  - InternalGet
+    - 
+
+
+
+涉及到Cache的设计，转去看Cache
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 写入磁盘
+
+Immutable MemTable ->sst 具体如何持久化
+
+- 写入 Immutable MemTable 之后开启 minor compact，写入 L0 层，并开启异步删 log
+- 便利 skiplist 过程中发现删除标记的 key，则直接跳过
+- 如果 L0 文件超过 4 个，触发 major compact（异步）
+- major compact 从当前层选出一块 sst 合并到下一层，如果下一层满了，则重复执行操作，直到写入最后一层
+
+Log：最大 4MB (可配置), 会写入 Level 0；
+
+Level 0：最多 4 个 SST 文件；
+
+Level 1：总大小不超过 10MB；
+
+Level 2：总大小不超过 100MB；
+
+Level 3+：总大小不超过上一个 Level ×10 的大小
+
+比如：0 ↠ 4 SST, 1 ↠ 10M, 2 ↠ 100M, 3 ↠ 1G, 4 ↠ 10G, 5 ↠ 100G, 6 ↠ 1T, 7 ↠ 10T
+
+## 读取操作
+
+读取操作相比写入要简单一点，过程如下
+
+- 读 MemTable 和 Immutable MemTable，如果找到则返回
+
+- 读 cache（如果有），找到则返回
+
+- 读 manifest，大致找到 key 在哪一层
+
+- 遍历每一层的 sst，读 filter block、index block，判断是否存在当前 sst 中，如果找到则返回，否则读下一层
+
+  
+
+### reinterpret_cast 转换
+
+通过重新解释底层位模式在类型间转换。
+
+
+
+
+
+# 先天缺陷
+
+## 读写放大
+
+**SSD中闪存特性**
+
+GC垃圾回收// Garbage Collection
+
+​		操作系统当删除一个数据时，不会立即删除，而是做一个删除标记。当机械硬盘要写入新数据时可以直接覆盖那些已经被标记“删”标签的数据；而固态硬盘不行，只能先擦除旧的数据才能写入新数据，而NAND闪存工作原理是以4K页（page）为一个单元写入的，但擦除只能以块block（64个page）为单位，如果一个块block上有32个page有效数据和32个被标记“删”标签的无效数据，那要在这个块block上重新写入数据，那必须要擦除整个块block，那还有一半有效数据怎么办了？那只有把那32page的有效数据就要搬到另一个有空位置的块block中，这就是GC垃圾回收技术。“搬迁”过程中，多的写入次数叫写放大。
+
+
+
+**RAID中的Read-Modify-Write造成的写放大**
+
+RAID中更新一个块，需要额外读原始块、校验块，额外写校验块，所以多了两个读，一个写。
+
+根据异或特性：新校验块=新数据块 ^ 旧校验块 ^ 旧数据块。
+
+**写放大（Write amplification）**
+
+假设`Li`的大小是`Li-1`的10倍。当把`Li-1`中的一个文件合并到`Li`中时，最坏情况下，LevelDB 需要从`Li`中读取10个文件，归并排序后再将他们写回到`Li`中去。这个时候的写放大是10。
+
+对于一个很大的数据集，源源不断生成的 SST 文件可能会导致 L0-L6 中相邻层之间，不断发生合并操作，这个时候的写放大就是50（`L1-L6`中每一层是10）。
+
+
+
+**读放大（Read amplification）**
+
+读放大主要来源于多层查找、SSTable元数据两方面。
+
+1. **多层查找**
+
+查找一个Key-Value时，LevelDB 可能需要在多个层中去查找。最坏情况下，LevelDB 在`L0`中需要查找8个文件，在`L1-L6` 每层中需要查找1个文件，共计14个文件。
+
+**2. SSTable元数据**
+
+在SSTable 文件中查找一个Key-Value时，LevelDB 需要读取该文件的多个元数据块。所以实际读取的数据量应该是：`index block + bloom-filter blocks + data block`。
+
+例如，当查找 1KB 的Key-Value时，LevelDB 需要读取 16KB 的 index block，4KB的 bloom-filter block 和 4KB 的 data block，总共 24 KB 的数据。最差的情况下，需要读取 14 个 SSTable 文件，所以这个时候的读放大就是 `24*14=336`。更小的 Key-Value 会带来更高的读放大。
+
+
+
+
+
+
+
+
+
+
+
+# 其他
+
+## 多线程
+
+见os.md
+
+
+
+## 静态检查工具
+
+`\port\thread_annotations.h`			来自Clang thread safety annotations
+
+​		线程安全注解的基本思路是，通过代码注解（annotations ）告诉编译器哪些成员变量和成员函数是受哪个 mutex 保护，这样如果忘记了加锁，编译器会给警告。
+
+
+
+
+
+
+
+
+
+
+
+[C/C++ Thread Safety Analysis](https://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/42958.pdf)
+
+## [Murmur Hash](https://zh.m.wikipedia.org/zh-hans/Murmur%E5%93%88%E5%B8%8C)
+
+
+
+LevelDB中的hash函数：
+
+```
+
+```
+
+
+$$
+\begin{align*}
+	&param:  w=(uint32\_t)data; \quad h=hash(return)\\
+	&\\
+	&h=(h+w)\cdot m\\
+	&h=h\oplus h>>16 \\
+\end{align*}
+$$
+
+
+
+$$
+
+$$
+
+
+
+## [skiplist跳表](https://blog.csdn.net/bamboo_cqh/article/details/122686629)
+
+查一个链表，逐个比较。时间复杂度为**O(n)**
+
+![跳表—1普通的链表](RocksDB.assets/20200427221324575.png)
+
+每相邻两节点间加一个指针。
+
+![跳表—2](RocksDB.assets/20200427221348478.png)
+
+例如，要插入23。
+
+![跳表-在双层链表查找23](RocksDB.assets/20200427221407406.png)
+
+三层链表
+
+![跳表-3层链表](RocksDB.assets/20200427221554998.png)
+
+上层的个数是下层的一半，查找过程就非常类似于一个二分查找，使得查找的时间复杂度可以降低到**O(log n)**。
+
+但是，这种方法在插入数据的时候有很大的问题。**新插入一个节点之后，就会打乱上下相邻两层链表上节点个数严格的2:1的对应关系。如果要维持这种对应关系，就必须把新插入的节点后面的所有节点（也包括新插入的节点）重新进行调整，这会让时间复杂度重新退化成O(n)**。删除数据也有同样的问题。//类似于二叉搜索树依次插入一个递增序列，就退化成了链表。例如插入23后，要重新判断他们的层级关系，才能继续保持O(log n)。
+
+为了避免这个问题：skiplist为每个节点随机出一个level（层数）
+
+![跳表-一个插入实例](RocksDB.assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hlbGxvd29ybGRfcHR0,size_16,color_FFFFFF,t_70.png)
+
+再次查找23：
+
+![跳表-真正的查找23](RocksDB.assets/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hlbGxvd29ybGRfcHR0,size_16,color_FFFFFF,t_70-16566429604576.png)
+
+## Varint 结构
+
+一种压缩方法
+
+把数字放到字符数组，思想就是把小数字用尽量少的字节来表示，每个字节只使用其中的7位，最高位用来表示是否还有剩余的数字，0代表没有，1代表有。
+
+```c++
+char* EncodeVarint32(char* dst, uint32_t v) {
+  // Operate on characters as unsigneds
+  uint8_t* ptr = reinterpret_cast<uint8_t*>(dst);
+  static const int B = 128;
+  if (v < (1 << 7)) {
+    *(ptr++) = v;
+  } else if (v < (1 << 14)) {
+    *(ptr++) = v | B;
+    *(ptr++) = v >> 7;
+  } else if (v < (1 << 21)) {
+    *(ptr++) = v | B;
+    *(ptr++) = (v >> 7) | B;
+    *(ptr++) = v >> 14;
+  } else if (v < (1 << 28)) {
+    *(ptr++) = v | B;
+    *(ptr++) = (v >> 7) | B;
+    *(ptr++) = (v >> 14) | B;
+    *(ptr++) = v >> 21;
+  } else {
+    *(ptr++) = v | B;
+    *(ptr++) = (v >> 7) | B;
+    *(ptr++) = (v >> 14) | B;
+    *(ptr++) = (v >> 21) | B;
+    *(ptr++) = v >> 28;
+  }
+  return reinterpret_cast<char*>(ptr);
+}
+
+```
+
+
+
+> “计算机科学中所有问题的解决方案就是一个间接层”
+
+# 

@@ -1,0 +1,2001 @@
+# The next 50 years
+
+The next 50 Years in Database Indexing or: The Case for Automatically Generated Index Structures
+
+[SIMD](https://zhuanlan.zhihu.com/p/416172020) : Single Instruction Multiple Data 同时处理一组操作数。
+
+插值查找？ interpolation
+
+预测查找？ prediction
+
+
+
+## Abstract
+
+传统索引结构的三种维度：
+
+
+
+We propose a generic indexing framework that can mimic many existing index structures along those dimensions. 一个通用的索引框架，可以模拟上述三种维度。
+
+搞一个a generic genetic index generation algorithm.自动组装和变异出新的索引数据结构（‘breed’ new index structure ‘species’）
+
+## Intro
+
+- Problem1：索引被视作统一实体
+
+  本文认为Index分为，logical和physical两种。
+
+- Problem2：解决类似的问题，采用了两种完全不同的方法
+
+  指的是设计索引结构Index structure和查询计划query plan的方法。索引结构的设计太死板。为什么不能像查询一样，从逻辑和物理运算中自动组装出一个复杂的索引解决方案呢。
+
+- 问题总结：
+
+  1. 如何将最重要的索引结构概括成通用的概念索引框架。
+  2. 如何使用1来自动生成框架。
+
+- Contributions
+  1. 一个通用索引框架，明确区分逻辑，物理索引。（受到逻辑运算、物理运算的启发）
+  2. 一个通用算法，自动生成索引配置
+  3. 广泛实验：
+
+## 通用逻辑索引框架
+
+教科书总是把物理实现，和逻辑功能同时介绍。违反了索引结构对于数据的独立性。
+$$
+\begin{align*}
+定义1：&概型[R]:\{[A_1:D_1,...A_n:D_n]\}，[R]有属性A_i和对应的D_i（D_i是不确定的一维域）\\
+&函数P:[R]\rightarrow\{true,false\}\\\\
+
+&\sigma_p(R):在概型[R]上作p查询,得到的结果 \sigma_p(R)\subseteq R.\\\\
+
+
+&\sigma_{l\leq A_i\leq h}(R): [l:h]的区间查询.\\
+&if\enspace l==h,则是点查.\\
+
+\end{align*}
+$$
+
+### 2.1逻辑节点和逻辑索引
+
+$$
+\begin{align*}
+定义2.1：&逻辑节点(p,RI,DT),其中\\
+&p:划分函数[R]\rightarrow D\\
+&RI(routing\enspace information): 路由信息函数D\rightarrow\mathcal{P}(N)(点集N的幂集)\\
+&\quad也就是说D中每一个元素都映射到N的子集;\\
+&\quad也就是说函数p的outcome可以对应其他节点,记作nodes(RI)\\
+&DT = data，是在关系概型[R]下的一个元组的集合 \\
+&\\
+\end{align*}
+$$
+
+用上述定义，实现多种结构(逻辑设计)，举例：
+
+1. 实现一个B-tree with ISAM
+
+   **[ISAM](https://baike.baidu.com/item/ISAM)**, Indexed Sequential Access Method	索引顺序访问
+
+   ![image-20220721171714758](Paper.assets/image-20220721171714758.png)
+
+2. [RMI](https://zhuanlan.zhihu.com/p/415918824)：[0:12]压缩成[0:4]
+
+   (Recursive-model-Index)递归模型索引，跟机器学习有关
+
+   ![image-20220721175227515](Paper.assets/image-20220721175227515.png)
+
+3. Extendible hashing
+
+   ![image-20220721225247784](Paper.assets/image-20220721225247784.png)
+   
+   >Extendible hashing动态的哈希表
+   
+   不太懂。这个local depth是干嘛的?
+   
+4. [radix tree](https://ivanzz1001.github.io/records/post/data-structure/2018/11/18/ds-radix-tree)
+
+![image-20220721225133024](Paper.assets/image-20220721225133024.png)
+
+
+
+**完全逻辑索引 a complete logical index**
+
+当LN的节点中的所有路由信息都指向LN中的节点，称为完全逻辑索引。
+
+这说明：a logical index is-a graph of logical nodes ！
+
+**Running Example：**
+
+![image-20220722015800213](Paper.assets/image-20220722015800213.png)
+
+示范：他提出的模型可以对传统索引结构进行任意混合（hybrid）
+
+### 2.2逻辑查询
+
+$$
+\begin{align*}
+定义2.3：RQ:
+\
+\end{align*}
+$$
+
+逻辑索引的正确性
+$$
+\begin{align*}
+定义2.4：:
+\end{align*}
+$$
+在low到high之间的任意查询，都正确，则逻辑索引正确。
+
+注：本文所有内容都是在DAG（无环有向图）基础上讨论。
+
+
+## 通用物理索引框架
+
+对于每个逻辑节点，我们最终都要指定如何实现。
+
+making a physical decision：
+
+- search algo
+- data layout
+- 嵌套，委托这些决策。
+
+任何一个节点，如果被有效地指定了，就叫物理节点。
+
+### 指定搜索算法
+
+定义了搜索算法，它是用来搜索，RI或者DT中的K-V pair的；一旦找到了符合条件的key就会立刻停止；
+
+1. scan	对所有条目进行线性搜索。
+2. binS    二分
+3. intS     [插值查找](https://zhuanlan.zhihu.com/p/133535431) 
+4. expS    指数查找
+5. hashS  
+6. linregS
+7. hybridS   
+
+> 有的不太懂
+
+### 指定数据布局
+
+选定数据布局,来组织RI，和DT的数据。
+
+1. col vs row：k-v对采用行或列布局。
+2. func：用函数确定RI，（DT）//这里假定DT是一个实际存在的集合，但是实际上也可能被建模成映射
+3. unsorted vs sorted：可选是否按key排序
+4. comp：压缩情况
+5. hybridDL：也可以是混合式的data layout
+
+###  按照嵌套的索引来指定
+
+> ？？
+
+
+
+## 遗传索引生成
+
+介绍遗传算法，能够自动生成索引
+
+最大的问题是搜索空间??
+
+### Core Algo
+
+```c++
+//GENE遗传搜索算法
+
+/*初始化种群；
+DS=DataSet
+S_init是初始化的大小 S=size
+*/
+InitPopulation(DS, S_init)			 
+for i in s_init						 
+	π=buildAndPopulateRandomIndex(DS)
+	c=∏U{π}		
+	//π是一个physical index,并入到population中
+return ∏
+
+//竞争选择；
+TournamentSelection(∏,S_T,W)
+    T = sample_subset(∏,S_T) //以S_T大小从中选取样本
+    π_min = min{f(π,W)}      
+//π是物理索引，W是查询的工作量，f是计算适应度，π_min是最优个体（耗时最少？）  
+	~t = median_fitness(T)
+    return(π_min,~t)
+        
+//遗传搜索(main)；
+GeneticSearch(g_max,S_init,S_max,S_∏,S_T,S_ch,DS,MD,ND,W)
+    ∏ = InitPopulation(S_init,DS)
+    for(i=0;i<g_max;i++){                           //g_max是世代数,S_max是突变创建和评估的次数
+        (π_min, ˜t ) = TournamentSelection(∏,S_T,W)//物种选择
+        for(j=0;j<S_max;j++){
+            m = draw_mutation(MD)    //从MD(突变的概率分布)中绘制出一个m(突变)
+            n = draw_node(ND(π_min,m)//从节点分布中绘制一个用于该突变m的起始节点n
+            ph = draw_phys(PD(m,n))	 //从物理分布中得到一个以n为起点的突变m的物理实现ph
+            π_mut = m(π_min,n,ph)    //得到实际的突变 π_min -> π_mut
+            if(f(π_mut,W)<=~t){      //如果突变体优于种群平均值 
+                if(|∏|>=S_∏)
+                	∏=∏\max{f(π,W)} //如果超出了最大容量,淘汰掉最差的
+                ∏=∏∪{π_mut}
+            }              
+        }
+    }
+    π_min=min{f(π,)}
+    return π_min
+```
+
+
+
+![image-20220728151132570](Paper.assets/image-20220728151132570.png)
+
+
+
+### 初始化种群
+
+可以改变初始大小$S_{init}$，这基本上决定了初始索引集的多样性
+
+要自行决定如何建立DataSet的初始物理索引，有以下选项
+
+1. 从一个单一的不含data的物理节点开始变异。成本太高，舍弃。
+2. 一个单一的包含所有data的物理节点。数据布局、搜索算法随机选定，或手工指定一个。
+3. 使用自底向上的批量加载，不同的是，对于所有节点，搜索算法和数据布局都是随机选取的。（内节点排除了hash型，因为基数划分不支持），这样做生成的树在逻辑上类似于标准B树，但物理节点差别很大。
+4. 给定现有的非常领先的手工索引结构
+
+这里没有考虑这些工作为GENE带来的负载，我们使用它更像是作为一个提纯精炼器（一个细化工具）：从1~4的过程中，给定的初始条件越好，我们越希望只发生小突变。
+
+但实际上，即使给定一个具体的物理实现，（因为有选择各个突变的自由度），仍有可能作出一些意想不到的转变。
+
+### 突变和概率分布
+
+介绍一组合适的突变集并示范如何在算法中应用。
+
+**Mutation：**突变是一个函数，Index->Index，输出修正后的Index。
+这个Index既可以逻辑的，也可以是物理的。受到了重写规则（rewrite rules）的启发：突变中，只保证查询结果的正确。（只考虑树结构中的突变）
+
+**Mutation distribution：**
+
+MD：突变的概率分布，可以为不同的突变分配不同的概率，可以指定优先某种突变
+
+ND(π_min，m）：确定突变的节点
+
+PD（m，N）：怎样物理实现这个节点的突变。（对于不匹配的数据布局和搜索算法，比如二分查找+unsorted data，在该分布中将概率设为0）
+
+**一些基本的突变：**目标是通过一组最小的突变集，来创建各种各样的索引。
+
+1. 改变Data Layout
+2. 改变搜索方法
+3. 水平合并同级节点
+4. 将一个子节点水平拆分为k个节点
+5. 垂直合并同级节点
+6. 将子节点垂直拆分为k个节点
+
+> 垂直,同级?
+
+### 适应度函数
+
+它是丈量优化程度的指标。
+
+我们已经确定优化索引结构，是要在运行时，给定工作量的情况下进行优化。 （包括点，或查询范围之类）
+
+他的实际情况取决于你的优化目标，比如查询时间，占用内存，能效。甚至可以正则化，例如对于索引的复杂度可以设置一个惩罚值...这些需求都可以建模。
+
+## 相关工作
+
+**手工索引**
+
+基于B树的变种和优化，基于基数树的，基于哈希表的工作都已经做的很好了。
+
+**学习型索引**
+
+节点内的布局，搜索算法是固定的，目的是学习CDF（累积分布函数）//物理结构仍是手工确定的。这是在手工构建的结构中，学习权重。而本文是在优化整个索引结构。
+
+**Periodic Tables and Data Calculator**
+
+[25] [Design Continuums and the Path Toward Self-Designing Key-Value Stores that Know and Learn](http://cidrdb.org/cidr2019/papers/p143-idreos-cidr19.pdf)
+
+[27] [The Periodic Table of Data Structures](http://sites.computer.org/debull/A18sept/p64.pdf)
+
+[28] [Learning Data Structure Alchemy](http://sites.computer.org/debull/A19june/p47.pdf)
+
+[29] [The Data Calculator : Data Structure Design and Cost Synthesis from First Principles and Learned Cost Models](https://dl.acm.org/doi/pdf/10.1145/3183713.3199671)
+
+这些工作也实现了混合设计，但这仍是帮助工程师寻找更优索引结构的推理判断工具。我们的工作关注：
+
+1. 全自动索引构建
+2. 逻辑和物理索引组件的清晰分离
+3. 在实际系统中对索引结构的全面建模开销太大，无法训练模型，只能选择遗传优化
+4. 优化时间不那么关键，（与查询时创建索引实例不同），所以说应该尽量通过（fitness function）实际观察运行时的测量值，而不是成本模型的定义。
+
+>所以说，什么时候“自动优化索引”？
+
+**通用框架**
+
+GIST XXL
+
+这些框架希望把不同的索引结构归纳为一个通用的软件框架，这反过来允许架构师实现通用的索引算法，专用索引也可以更容易地调整以适应通用算法。
+
+这些工作是面向对象层面的，而本篇的工作是概念级的论证。
+
+通过类比分离出逻辑关系运算，不急于立即物理实现。(ONC, vectorization,SIMD, whatever)
+
+**DQO**
+
+最近，我们提出了[DQO](https://www.cidrdb.org/cidr2020/papers/p3-dittrich-cidr20.pdf)，把operator分解成更小的组件，以进行传统的查询优化。但那篇文章没有详细说明如何在索引环境中应用这种想法。它既没有详细说明如何分割传统运算符，也没有详细说明如何将其转化为自动创建索引的优化问题。We fill the gap
+
+**Index Selection**
+
+与我们的方法完全不同：目标是确定一组合适的属性集合
+
+**Adaptive Indexing**
+
+Index Selection是NP难的问题，不再考虑二元决策，而是让索引随时间越来越细粒化。计划在未来用我们的逻辑节点来模拟这些技术
+
+**Genetic Algorithms**
+
+在查询优化中很奏效，但这是首次被用于索引创建。
+
+**Decoupling Logical and Physical Indexes**
+
+与之前的工作不同在于：在树种进行分区
+
+在结构索引领域，[1,9,41]引入了使用图分区在关系模式中对元组进行co-partition(or聚类)的思想。这些图分区可以辅助进行结构查询（仅使用外键索引可能很难计算）。本文关注创建单独的物理索引，图的co-partition可能是未来的一个方向。
+
+## Section 6 实验评估
+
+**环境：**1900X，32GB，on Linux
+
+C++ and compiled with Clang 8.0.1, -O3.
+
+All experiments are run single-threaded and in main-memory.
+
+**Dataset：**data.key  64bit    data.offset  64bit
+
+![image-20220727165751429](Paper.assets/image-20220727165751429.png)
+
+$uni_{dense}$ [0,n) (size=n)
+
+$books$  $osm$ 代表复杂分布的真实数据
+
+根据所需大小，均匀绘制无重复元素
+
+**Workload：**
+
+![image-20220727172453834](Paper.assets/image-20220727172453834.png)
+
+三类：点查，范围查询，二者混合。
+
+所有的负载都是只读的（无insert，delete，update语句），但框架是支持插入和删除的，update不会改变索引结构，所以也易于集成进框架中。
+
+Point (data，idx_min，idx_max）表示在子域[idx_min，idx_max）中等概率选择索引，进行点查。
+
+Range_sel (data，idx_min，idx_max) 表示在子域[idx_min，idx_max）中等概（不越界地）选择下界，上界是根据数据集大小和sel设置的。
+
+（如果不指定域，就默认为整个DataSet）
+
+Mix（data，P，R）P，R分别是设置好的点查和范围查询负载。
+
+注：Workloads可能重复。
+
+搜索算法与数据布局：
+
+scan, binS, intS, expS, and hashS
+
+![image-20220727173937837](Paper.assets/image-20220727173937837.png)
+
+### Hyperparameter Tuning
+
+使用100K的$uni_{dense}$对下面五个参数进行调整：
+
+1. 突变代数 S_maxc {10,50}
+2. 种群人口上限S_∏ $\in${50,200,1000}
+3. 竞争时的采样率 S_T  $\in${10%，50%，100% of  population size}
+4. 初始种群大小 $\in${10,50}
+5. 人口插入标准：不取竞争期间采样的子集的中值，定义了一个百分数q$\in${0%，50%，100%}，表示“要优于种群中比例为q的个体，该突变体才能加入种群”
+
+![image-20220728150223339](Paper.assets/image-20220728150223339.png)
+
+$S_{max} = 10, S_∏= 50, S_T= 25, S_{init} = 10 , q= 50%.$
+
+### Rediscover
+
+证明该遗传算法能再现教科书中各种基本索引结构的性能。
+
+**数据集：**uni~dense~、 books of sizes 100K,1M,10M,100M
+
+**三种工作负载：**  
+
+	Point(uni~dense~)
+	
+	Range$_{0.001}$ (uni~dense~)
+	
+	Mix(uni~dense~, P, R)   // 80% point and 20% range queries
+
+**Baseline：** 
+
+- 点查：simple hash table——单点内哈希表。
+- 范围查询和混合查询：B-tree-like structure——具有100个完全填充的叶节点，每个叶子包含1000个元素，并且内节点扇出为10个元素。每个节点都是数据布局都是sorted_col，搜索算法都是binS
+
+**配置GENE：**每个节点最多包含100，000键值对或子分区。初始种群中，采用与上述相同的树结构，但数据布局和搜索算法都是随机的。每个实验执行8000世代。每当找到一个更好的结果，就用与更大的数据集（必要时增加叶结点容量），然后再用完全相同的工作量进行评估。
+
+![image-20220728163020968](Paper.assets/image-20220728163020968.png)
+
+GENE可以迅速达到baseline，因为通过突变可以很容易在一开始时改善那些低效率的节点。达到baseline后，GENE的改善很小。GENE寻找到的索引结构往往和baseline非常相似。
+
+**对于稠密集uni~dense~，**
+
+GENE总是返回单节点。仅有点查时返回的是含所有条目的hash node；范围查询和混合查询，返回的都是sorted_col+intS。
+
+**对于books，**
+
+点查返回的树有68节点，66个叶子结点。除了一个叶结点通过树节点连接root外，其余都是直接连在root上的子节点。48个节点是hash(unordered_map)布局，其余是sorted_col布局，或树(map)布局。在non-hash 节点中，除3个使用expS指数搜索外，其余都是二分搜索；
+
+范围查询返回44个节点的树，共三层，多数叶结点在第二层，sorted_col布局，主要搜索算法是binS，2个intS，2个expS；混合查询与范围查询类似。
+
+GENE的执行时间很大程度上取决于DataSet和WorkLoads，最快的执行：uni~dense~ + 点查，找到最后一个改进的时间< 3min。而同一个数据集上的范围查询，需要122min
+
+扩大数据集会进一步影响运行时，最高执行时间是books上的范围查询，30h
+
+### 优化vs启发式索引
+
+与三种具体类型的索引进行对比。（混合查询）
+
+![image-20220728175934874](Paper.assets/image-20220728175934874.png)
+
+![image-20220728180000202](Paper.assets/image-20220728180000202.png)
+
+
+
+
+
+![image-20220728181839095](Paper.assets/image-20220728181839095.png)
+
+
+
+
+
+# Data Calculator
+
+Data Calculator：Data Structure Design and Cost Synthesis from First Principles and Learned Cost Models(SIGMOD’18).
+
+Stratos Idreos, Kostas Zoumpatianos, Brian Hentschel, Michael S. Kester, Demi Guo
+
+## Abstract
+
+提出一个设计引擎——Data Calculator，能进行交互式的半自动的数据结构设计。
+1.原语primitives的集合：能描述结构中的数据布局、定位其他节点的方式。可以用来综合、描述各种可能的数据结构设计。
+2 a learned cost models. (来自各种硬件、数据配置，数据访问原语）用来预先估算性能表现（在实际实施之前）。并且能合成全新设计，自动完成部分设计，检测出次优设计选择。
+
+> Let us calculate. —Gottfried Leibniz
+
+## 从手工设计到交互式设计
+
+- 数据结构很重要
+
+- 广阔、复杂的设计空间
+
+- Problem：数据结构的设计是一个缓慢的进程
+
+  数据结构的设计和实现的周期太长，这个过程中，硬件和工作负载可能又发生了变化，需要缩短实现周期。
+
+  不能任意迭代：因为很多数据服务是7*24小时在线。我们可以通过工具预测确定最有用的更改，如今这种决策往往基于专家的建议，而这种专家供不应求。
+
+- Vision Step 1：一个数据结构设计范式。它是几种基本元素的组合。类比于元素周期表。
+
+  ![image-20220810072726703](Paper.assets/image-20220810072726703.png)
+
+  
+
+
+
+> 他的动机很明确：在同样的内存开销下提升读性能，目前LSM-tree有用做文件系统的元数据存储引擎、关系型数据库存储引擎等等，所以提升读性能很重要；提升LSM-TREE读性能的论文目前还不是很多，所以我觉得有空间
+
+
+
+
+
+# Magic mirror
+
+
+
+# Wisckey
+
+[Wisckey](https://www.usenix.org/system/files/conference/fast16/fast16-papers-lu.pdf)
+
+https://zhuanlan.zhihu.com/p/389397486
+
+# AC-Key
+
+[AC-Key：Adaptive Caching for LSM-based Key-Value Stores](https://www.usenix.org/system/files/atc20-wu-fenggang.pdf)
+
+# RobinHood
+
+[RobinHood: Tail Latency Aware Caching - Dynamic Reallocation from Cache-Rich to Cache-Poor](https://www.usenix.org/system/files/osdi18-berger.pdf)
+
+# Breaking Down MemoryWalls
+
+[Breaking Down MemoryWalls: Adaptive Memory Management
+in LSM-based Storage Systems](https://vldb.org/pvldb/vol14/p241-luo.pdf)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Leaper
+
+[Leaper: A Learned Prefetcher for Cache Invalidation in
+LSMtree based Storage Engines](http://www.vldb.org/pvldb/vol13/p1976-yang.pdf)
+
+## Abstract
+
+后台进行的compaction和flush操作，导致缓存失效。
+
+Leaper：一个插件，通过预测热数据，预取到Cache中。减少70%缓存失效，和99%峰值延迟
+
+## 1.Introduction
+
+各种LSM-tree把写性能做的很好。但是写入时后台的compaction和flush操作会导致Cache Miss（而且Compaction有时不止一次）。传统的基于频率的缓存策略不适用。由于缓存命中率太低，导致**延迟峰值**，称为**缓存失效**。
+
+而且，错峰的Compaction调度并不能在高压力下维持高性能，因为累积了太多的Level要做。会导致LSM-tree性能严重下降。（比如：持续的范围删除操作会对范围查询产生致命影响）
+
+
+
+过去的缓存失效问题：[11, 1, 37]。
+
+通过放宽已排序的数据的布局[15]减少Compaction频率
+
+或者维护紧实前后记录之间的映射[1, 40].
+
+但是：这些工作代价大，而且要对原有LSM-tree实现作改变
+
+
+
+用机器学习来识别数据访问的热范围，然后再与记录块（record block)相交来确定是否Prefetch to Cache。这个识别范围独立于背景线程，可以跨越多个Compaction和flush持续进行。天然支持点查和范围查。
+
+
+
+为了减少线下训练和在线推理的开销，优化： 
+
+locking mechanism
+
+two-phase prefetcher
+
+
+
+- 阐述缓存失效，并基于机器学习预抓取解决了这个问题
+- 一个低开销的ML解决方案
+- 遥遥领先~
+
+## 2.缓存失效问题
+
+### 2.1基于LSM-tree的存储引擎
+
+### 2.2缓存失效问题
+
+
+
+一些数学定义
+
+
+
+现有工作：SM-tree[15]（Stepped-Merge）记录不完全排序以减少compaction的次数，但是显著降低读性能，范围查询和更新时
+
+ LSbM [40]结合了SM-tree[15]和bLSM[37]。致力于在压缩时维护Cache和磁盘之间的reference。但是增加了压缩时的复负担和存储开销。
+
+Incremental Warmup Algorithm [1]增量预热算法：它将新压缩的块移动到块缓存中（键范围与缓存中的块重叠的）。两个缺点：首先，它假定如果新压缩的块与块缓存中的任何块重叠，则它们将被频繁访问。
+其次，缓存中的块可能会与多个新压缩的块重叠，因此它可能会将不经常请求的块预取到块缓存中。
+
+## 3.设计概述
+
+### 3.1设计原理
+
+抽象成一个二元分类问题：给定一条记录在最近x *t分钟内被访问，预测该记录在接下来的t分钟内是否被访问，其中t、x和t表示统计时间间隔、间隔数和预测持续时间。
+
+？
+
+由于以下原因，这种预测方法可以解决缓存失效问题
+
+- 首先，理论上它比LRU获得了更高的缓存命中率，因为它可以检测到更多的热记录[3]。
+- 其次，预测方法跟踪的每个记录的访问频率不受紧凑的干扰，因为它独立于存储结构。
+- 第三，预测对缓存中记录的访问自然是一个二进制分类问题，因为我们只需要对记录的第一次访问来消除潜在的缓存遗漏。
+
+
+
+### 3.2系统概述
+
+具体来说，我们在key区间水平进行预测，目标是在预测开销和准确性之间达到平衡。在预测了热范围后，我们将它们与块边界相交，以选择应该预取到缓存中的记录块。
+
+![image-20221107021049972](Paper.assets/image-20221107021049972.png)
+
+如图示，Leaper可以以插件形式加入LSM-tree
+
+
+
+Learner：负责在不同的时间间隔尺度进行预测
+
+Collector：统计访问数据，生成特征化数据。	Collector是多线程的，引入lock mechanisms（锁机制）避免写冲突；引入一种采样策略减少它的开销；
+
+Prefetcher：推理，如果与预测区间相交，则填充到缓存中。随着flush和compaction被存储引擎内部触发而伴随执行。
+
+对于flush，预取器直接预测flush中涉及的键范围的未来访问。
+
+对于compaction，通过两段机制来预测参与压缩的检范围的未来访问。
+
+## 4.离线分析
+
+### 4.1Key Range选择
+
+减少系统开销，以确保在线组件可行。
+
+？Key范围的好处：
+
+- 首先，键范围有助于减少在线训练和在线推理的开销。
+- 其次，键范围与底层lsm树中块的布局一致（无论该键是主键还是从键？）
+- 第三，容易收集范围查询访问频率的信息
+
+键范围越小，要收集的统计信息越多，预测可能更向精准，但线上开销会更大。
+
+初始化一个键区间（实验中初始大小为10），对于每个键区间用0/1表示是否被访问（预测即将被访问）。N个区间，就对应一个N维向量。对于每一个时间间隔都有这样一个向量，就扩展成一个矩阵。
+
+> 举例：a vector of 4 bits （0,1,1,1）
+>
+> 如果区间大小扩大一倍会变成（1，1），即相邻两个作异或
+
+上述例子中，区间范围增大时，只要矢量(或矩阵)中零的比例减小，意味着发生信息丢失。
+
+**Def1：L->L0的有效扩张**
+
+$Z(L)/Z(L_0) > \alpha$ 																									其中，Z（）表示0在向量、矩阵中的比例。阿尔法是一个阈值。
+
+​	扩张区间大小直至非有效扩张。在我们的例子中，是阈值
+设置为0.6，并且nal键范围大小扩展为10,000。
+
+通过如上算法，Leaper选择合适的Key范围将Key进行分组。
+
+### 4.2特征
+
+访问的Key和时间戳
+
+**读/写到达率** 
+
+读(或写)到达率是指连续时隙中读(或写)的数量。
+
+读取到达率是模型捕获访问模式的最重要特性，因为它可以反映应用程序级别的用户行为。
+
+图4(b)告诉我们，对于某些键范围，写到达率与读到达率共享类似的访问模式。（比如与在电子商务场景中，受欢迎的商品同时具有频繁的浏览和订单。）
+
+因此，有必要将写入到达率添加到特性中。
+在我们的实现中，我们使用6个时隙(在第7节中解释)来收集到达率。
+因此，对于读到达率和写到达率，总共有12个特性
+
+**预测时间戳**
+
+观察工作负载，发现访问时间呈现周期性规律。
+
+在实验中，使用了3个特征(即一天中的小时、分钟和秒)
+
+**前兆到达率**  ?
+
+两个Key有关联（a是b的前驱），b的到达率会受a影响，例如，在电子商务工作负载中，用户购买钢琴后购买钢琴架的概率增加；我们要捕捉这种跨越Key区间的关系
+
+可以将不同时间的到达率组合成一个向量， 计算向量之间的余弦值，如果足够相似就作为前导。将与target区间最为相似的γ个区间的到达率情况加入到特征中。（实验中被设置为3）
+
+
+
+### 4.3 Model
+
+GDBT（Gradient Boosting Decision Tree）梯度提升决策树
+
+弱预测模型（决策树），高效准确，可解释性
+
+对于每个特征，GDBT需要扫描所有的数据实例以评估所有可能的分裂点的信息增益。因此GBDT的复杂度和特征、数据实例的数量成正比。
+
+选用LightGBM，最新最牛的GDBT。
+
+分类模型的输入是一个18维的特征向量(即6个读到达率、6个写到达率、3个时间戳特征和3个前驱到达率)。输出是一位二进制，表示下一个时段是否会被访问。
+
+损失函数：平方损失，对数损失
+
+> scikit-learn[30]中的GridSearchCV函数 ???
+
+我们利用scikit-learn[30]中的GridSearchCV函数在测试集上搜索最优参数。
+
+主要参数：num_leaves，learning_rate， bagging_fraction，feature_fraction（帮助防止过拟合）
+
+>K-fold交叉验证
+
+K-fold交叉验证有助于确定最优参数：
+
+num_leaves，learning_rate， bagging_fraction，feature_fraction = （31，0.5，0.8，0.9）
+
+
+
+## 5.在线处理
+
+### 5.1统计信息的收集
+
+Key ranges counter：收集器维护一个全局计数器。多线程收集，会发生写冲突，锁的两个优化策略：双重检查[36]，Lazy初始化
+
+>Double-checked locking[36]
+
+双重检查锁定通过在获取锁之前检查条件来减少获取锁的开销；
+
+其次，直接使用原子操作而不是全局互斥锁。
+
+抽样：双重检查，和延迟初始化保证了第一次访问一定被记录，后续的以概率P被记录。
+
+预估访问次数：
+
+![image-20221108170401903](Paper.assets/image-20221108170401903.png)
+
+其中$S_i$是收集值，
+
+因为第一次访问必被收集，所以要“-1，+1”。
+
+抽样过程服从二项分布，$S_i \sim B(N_i-1,~P)$  ；当N足够大，近似成正态分布，采样误差
+
+> 正态分布抽样误差
+
+
+
+### 5.2推理
+
+推理过程：使用特征化数据（collector）和模型（learner）把数据分为冷热两部分。
+
+在Leaper中，我们使用Treelite[6]作为推理实现，以进一步减少推理开销。
+
+> Treelite啥东西？？
+
+- 针对特定模型，特定平台的编译优化
+- 使用动态链接库，无需重新编译推理代码，而是替换learner生成的动态库来更新训练过的模型
+- 支持多种模型。如梯度增强树（Gradient Boosted Trees）和随机森林（Random Forests）具体实现：XGBoost, LightGBM, Scikit-Learn等。
+
+
+
+### 5.3交集检查
+
+我们在预测的热键范围，和目标块（flush和compaction要涉及的）之间查重：binary search 和 sort-merge 两种方法。
+
+基于预取器在何时得到目标快的key范围进行选择：如果我们在flush或压缩结束时得到它，就会调用sort-merge；如果在执行中得到，就binary search，
+
+
+
+没太看懂
+
+## 6.压缩优化
+
+### 6.1
+
+提出多步预测和两步预取，源于两个需求：需要分两个阶段来处理移动块对应的缓存条目（压缩过程中和压缩后），以减少Cache Miss，（不能没等压缩完就从Cache中剔除了）；因为每次Compaction的时间长度不通，两步预测需要多次结合。
+
+
+
+多步预测帮助Leaper以新粒度的方式预测未来对键范围的访问。使用两阶段预取器来区分压缩过程中的访问和压缩后的访问。
+
+第一阶段（驱逐阶段）Leaper预测整个压缩操作过程中的访问；第二阶段（预取阶段）Leaper预测压缩过后估计时间段内的访问数量
+
+两段预取器与LRUCache有两种合作方式：
+
+1. Leaper只驱逐无效块（被预测为冷数据）
+2. 由于预取的块的大小相对于总缓存大小来说是相对较小的(例如，在现实应用中通常是几十GB)，这些块不应该被LRU驱逐，也不应该打破LRU的安排，只要它们很快被访问。
+
+
+
+![image-20221108222907641](Paper.assets/image-20221108222907641.png)
+
+T1是压缩持续的时间，T2是恢复时间
+
+理论上狭缝时间t（slotted time）是二者的最大公约数与gcd，但实际上T2远小于T1，因此t近似等于T2
+
+每个狭缝时间都对应着一个模型？？？
+
+### 6.2
+
+
+
+## 7.实验
+
+### 7.1配置
+
+至强8163*2 96线程
+
+512G 2666 DRAM 
+
+Leaper on X-Engine with MySQL 5.7
+
+Baseline：Incremental Warmup，如果新压缩的块和Cache中的某块有重叠（即最近被访问过）//就是X-Engine原本的策略
+
+负载：SysBench生成的负载+天猫,钉钉的真实负载
+
+DataSet：前三天数据作为训练集，后一天的作为测试集
+
+评估指标：准确率Precision	 召回率Recall 	AUC
+
+Precision	 =    真真/ 预测为真		//预测为正确的数据中，真实值为正确的比例（预测为真时的准确度）
+
+Recall = 真真/假假   // recall即为在所有的真实值为正确的数据中，分类器能找到多少。（正样本的召回率）
+
+Accuracy：(TP+TN)÷(TP+NP+TN+FN)，分类器对整体的判断能力，即正确预测的比例
+
+> ### 分类的重要评估指标——AUC
+>
+> https://blog.csdn.net/Ezra521/article/details/117733777
+>
+> AUC是roc曲线下与坐标轴围成的面积**（receiver operating characteristic curve）**接收者操作特征曲线
+>
+> ![image-20221109160102130](Paper.assets/image-20221109160102130.png)
+>
+> 
+>
+> 例如，$TP_{rate}$指所有真实类别为1的样本中，预测为1的比例
+>
+> $FP_{rate}$的意义是所有真实类别为0的样本中，预测为1的比例。
+>
+> ROC: TP-FP 也就是真真-假真
+>
+> 如果ROC为y=x，则说明无论真实值为0还是1，预测出来为0/1的概率是相等的，说明毫无区分能力。               
+>
+> 一个抛硬币的分类器是我们能想象的最差的情况，因此一般来说我们认为AUC的最小值为0.5（当然也存在预测相反这种极端的情况，AUC小于0.5，这种情况相当于分类器**总是**把对的说成错的，错的认为是对的，那么只要把预测类别取反，便得到了一个AUC大于0.5的分类器）
+>
+> 我们希望分类器达到的效果是：y	>	x
+>
+> ![image-20221109161415736](Paper.assets/image-20221109161415736.png)
+>
+> **![image-20221109161725814](Paper.assets/image-20221109161725814.png)**
+>
+> 
+
+
+
+
+
+### 7.2离线评估
+
+（对比各个方案的冷热数据分类情况）
+
+![image-20221109152458439](Paper.assets/image-20221109152458439.png)
+
+这图的坐标从0.8起emm这是可以的么？？
+
+观察到选定的特征不能总是区分正常输入和异常噪声。
+
+尽管抽样率为0.01，存在采样误差，但是基本没影响。因为模型是二元分类，而且延迟初始化和双重检查锁在Collector中保证了0/1属性。影响微不足道。
+
+### 7.3 线上性能
+
+首先，测试合成负载下Leaper的影响， 关掉compaction
+
+## 其他
+
+
+
+
+
+
+
+
+
+# AutoMAP
+
+AutoMAP: Diagnose Your Microservice-based Web Applications
+Automatically
+
+WWW 2020
+
+异常检测，在系统中定位故障
+
+## Abstract
+
+复杂和动态的微服务结构让应用诊断极其困难。
+
+提出异常行为图（anomaly behavior graph）的概念；定义了两个运算，一个近似函数。
+
+设计了一个启发式调查算法，用前向，自我，后向自我随机游走，来确定产生错误的根服务。
+
+效果良好。
+
+简单部署在任意微服务架构的系统中，无需系统知识。
+
+支持引入各种专家知识（新的参数？）来提高精度。
+
+## 1 Introduction
+
+微服务架构促进了抽象和模块化，但是！随着服务及其依赖的拓展和重构，定位源异常更加困难，挑战主要来自以下三个方面：
+
+**Dynamic application structure**
+
+原有的静态方案排障方法，如thresholding schemes（阈值化方案）可能无法获得可靠的模型（在这种频繁变化的情况下）。所以，最近的研究大多从系统结构出发，再诊断异常。
+
+但是，这里的结构（例如网络拓扑或服务调用依赖关系）通常要通过监视各个组件得到历史数据，再提取出结构（例如日志文件，审核事件，网络数据包）；这样做费时费力，而且对于某些老旧系统，开发一个中央组件来收集数据和生成结构，甚至是不现实的。
+
+**Indirect anomaly propagation**间接异常传播
+
+随着微服务架构中组件粒度变小，服务可能驻留在不同的主机或容器中。它们的调用过程可能是直接调用的同步过程，也可以是通过消息代理或发布/订阅组件的异步过程。因此异常传播不再受调用限制。
+
+![image-20230110163235808](Paper.assets/image-20230110163235808.png)
+
+解释：图中红色是异常的源服务，它影响到了同一主机下的服务（黄色），从而影响了Web应用。但其实这个红色服务根本没被调用。
+
+因此即使知道了服务的调用依赖也不够用，仍需要一个更加动态全面的诊断机制。
+
+**Multiple types of metric.**
+
+基于单一指标的算法可能不足以描述不同服务中出现的异常；异步调用过程使得单一度量不能直接反应传播依赖性；缺乏一个自动化机制根据服务的特点选择适当的度量。
+
+
+
+ 目标是：开发一个自动化诊断工具，包含以下能力：
+
+- 自动生成异常拓扑，（不需要任何先验知识）
+- 基于多种度量描述服务异常
+- 选择适当的度量推断根本原因
+
+
+
+## 2 Related work
+
+**传统的监测数值是否达到阈值进行异常检测：**
+
+一个很老的网络异常检测
+
+[A survey of fault localization techniques in computer networks](https://reader.elsevier.com/reader/sd/pii/S0167642304000772?token=4C88ACA8012CDEB0C61352F2288037059B0A85A92D3AD8C3E1A02E04B949DA06D7A8307B7D1134488B5F67A096892889&originRegion=eu-west-1&originCreation=20230112090356)
+
+[Detecting Transient Bottlenecks in n-Tier Applications through Fine-Grained Analysis](https://csc.lsu.edu/~qywang/papers/ICDCS13Wang.pdf)
+
+但是在微服务架构中，很难找到一个适用于各种异常的阈值
+
+invariant graph：[Efficient and Scalable Algorithms for Inferring Likely Invariants in Distributed Systems](https://d1wqtxts1xzle7.cloudfront.net/90761056/jiang-tkde-07-libre.pdf?1662569129=&response-content-disposition=inline%3B+filename%3DEfficient_and_Scalable_Algorithms_for_In.pdf&Expires=1673678369&Signature=fc6RwRKOu6lqoskO7u~Lrxo4-uPgR2FcNyHjhOkVrldEtD76HLIadKxm3Ga1~NWyKGcY9e2qjaAj5WNYuwJStIPumtjZmxkDBNN6T8dmlcaaq-SaD5TzkB63FA6a--PGnuIwngJc~fWQYmYeoKicMDn9w3T8mSjIfJfiyRuZOqbHEusBrT-KouA~vN-R1v6l9mbQh6A6uRhAxXSjFyzSOszNIgQD8V8yhxr849j6Kp66IWed6caFAxovvu01ziEvJiYapXU6HjU2r-Y-3c-TQSez9fgz9eShGA2eL3-20YvgS1mb-bZNFuzx7WL0pEyEXPrIIQSvKSpYtuGG3P3cuQ__&Key-Pair-Id=APKAJLOHF5GGSLRBV4ZA)
+
+描述异常传播拓扑。静态网络结构中的链接代表因果关系的一部分 ，但微服务架构部中的实际关系更具动态性
+
+**新的应用机器学习的 **：
+
+MonitorRank：[Root Cause Detection in a Service-Oriented Architecture](http://i.stanford.edu/~mykim/pub/SIGMETRICS13-Monitoring.pdf)
+
+实现一个实时收集系统和异常检测框架，基于游走策略的无监督启发式故障诊断方法
+
+
+
+CloudRanger：[CloudRanger: Root Cause Identification for Cloud Native Systems](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8411065)
+
+提出一种动态因果关系分析方法来构造应用程序之间的影响图，而不需要给定拓扑。
+提出了一种基于二阶随机游走来识别罪魁祸首的服务
+
+Microscope：[Microscope: Pinpoint Performance Issues with Causal Graphs in Micro-service Environments](https://link.springer.com/chapter/10.1007/978-3-030-03596-9_1)
+
+CloudRanger，Microscope，在未预知拓扑结构的情况下进行诊断
+
+**另一个问题，选择合适的诊断计量（metric）类型**
+
+NetMedic（针对小型企业网络故障 ，生成传播依赖关系图 ）
+
+MS-Rank（基于历史诊断记录，动态度量选择）
+
+## 3 Problem Statement
+
+### 3.1问题定义
+
+把微服务WEB应用看作黑箱，只知道各种类型的监控指标，不清楚各服务功能和调用拓扑结构
+
+### 3.2AutoMap
+
+- 选择采样间隔参数在原始度量上（raw metrics）
+- 构建异常行为图
+- 提取配置文件（profile）通过"+""-"
+- 在图上执行启发式根因检测算法
+- 验证结果，计算准确度
+- 更新权重矩阵（metric-weight matrix），重复上述步骤
+
+
+
+## 4 Metrics
+
+共考虑7种指标
+
+![image-20230117175145828](Paper.assets/image-20230117175145828.png)
+
+
+
+时间间隔的选取：
+
+（按照调用次数加权平均）
+
+![image-20230119012550741](Paper.assets/image-20230119012550741.png)
+
+
+
+## 5 行为图
+
+SRE（站点可靠性工程师）往往不会分析整个WEB应用的拓扑结构，而是根据异常类型，靠直觉、经验排障。他们观察指标，选择最可疑的服务。工程师直觉经验包含两方面：历史诊断经验和各个服务的特点。
+
+
+
+
+
+#### 5.1行为图构建 
+
+- 全连接图，边的权重全为1
+- 对于每一个指标 $M_k$ ，检查两点 $(i,j)$ 间的条件独立性，若独立，$W_{i,j,k}=0$
+- 检查每个边，若任意指标k的对应的W均为0，移除边
+- 把无向图定向为行为图
+
+
+
+𝑆(𝑣𝑖, 𝑣𝑗, 𝑘)表示条件集
+
+细说第四步：V型结构定向 i j l
+
+根据三个rule对应处理不同的情况，对边进行定向 。
+
+对于每个指标分别计算，得到权重矩阵
+
+
+
+
+
+#### 5.2加运算和服务归档
+
+使用行为图分析服务类型：但云平台提供的服务太多，根据他们的特点分类是一个很有挑战性的工作。
+
+一个比较直接的办法：使用历史观测数据。生成多个行为图，再合并。
+
+对不同的行为图进行加运算（+）
+
+![image-20230126021631248](Paper.assets/image-20230126021631248.png)
+
+
+
+**service profile的生成**
+
+把服务分为五类：Representational,Computing, Networking, Storage, Environmental
+
+比如说对于表征性的服务（展示界面），我们更在意它的延迟。
+
+
+
+![image-20230119042605500](Paper.assets/image-20230119042605500.png)
+
+
+
+
+
+
+
+#### 5.3减运算和异常归档
+
+真实情况下，只有少数的服务涉及异常传播。原始构造的行为图可能包含冗余服务，要移除这些冗余关系。使行为图更接近对于异常的描述。
+
+**减法运算**
+
+![image-20230126153852987](Paper.assets/image-20230126153852987.png)
+
+**anomaly profile**
+
+![image-20230126161757266](Paper.assets/image-20230126161757266.png)
+
+## 6自动根因检测
+
+### 6.1参数权重学习
+
+**Service Correlation**
+
+计算服务之间的相关性：
+
+![image-20230126163636247](Paper.assets/image-20230126163636247.png)
+
+相关系数 = 协方差/（标准差*标准差）
+
+
+
+**Result Precision**
+
+ 给定异常行为图G A 
+
+AutoMap在历史记录中搜索与G A相似的top-k个候选图，对每个指标分别计算相关系数
+
+![image-20230127092140939](Paper.assets/image-20230127092140939.png)
+
+profile similarity:
+
+在选相似的行为图的时候，定义了一个相似函数计算分数
+
+其中一步：根据其主导指标（max）进行归类（RCNSE）涉及点相似的计算。
+
+
+
+### 6.3一个根因检测的例子 
+
+![image-20230127101447797](Paper.assets/image-20230127101447797.png)
+
+### 6.4随机游走根因检测算法
+
+- **正向转移（Forward Transition）**
+  一般情况，对于异常行为图的一个访问按照概率$p_{i,j}$进行。
+- **自向转移（Self Transition）**
+  自身转移会鼓励访问者在其当前访问的服务上停留更长的时间，以防止访问者中没有一个与邻居的相关性很高。
+- **反向转移（Backward Transition）**
+  另一种情况，当访问者正在访问相关分数较低的特定服务时，如果其所有邻近服务与给定异常的相关性都较低，则可能找不到任何离开的途径。因此使用反向转移跳出。
+
+给定一个异常行为图，根因的探寻通过随机游走算法，从前端应用节点$V_{fe}$开始，计算正向,反向,自身的转移概率，并随机选择其中之一。   AutoMap记录每个服务被访问了多少次，并输出结果降序的列表，以此作为可能根因的排序。
+
+## 7实验
+
+模拟集：16个微服务。每轮随机选择一个服务，关闭容器或攻击。
+
+![image-20230127103217814](Paper.assets/image-20230127103217814.png)
+
+
+
+真实数据集：共有1732个微服务API，20个事件，每个事件从异常发生前后各一小时中收集了大约1500万个指标。
+
+随轮次的增加，准确率变化。
+
+![image-20230127111155267](Paper.assets/image-20230127111155267.png)
+
+
+
+
+
+
+
+# **TLDFP**
+
+Minority Disk Failure Prediction Based on Transfer Learning in Large Data Centers of
+Heterogeneous Disk Systems
+
+**IEEE**
+
+## 背景 
+
+大型数据中心的存储系统通常建立在数千甚至数百万个磁盘上，磁盘故障时有发生。磁盘故障可能导致严重的数据丢失，从而导致系统不可用甚至灾难性后果。
+
+#### **少数磁盘**
+
+在大规模的存储系统场景中，随着时间的推移，大量的新磁盘逐渐进入存储系统，替换出故障磁盘，导致存储系统由来自不同供应商的异构磁盘和来自同一供应商的不同型号的磁盘组成。
+
+称这些相对较少量的磁盘为少数磁盘。
+
+传统机器学习方法需要大量的训练数据以达到良好预测性能，不适用于含有上述异构少数磁盘的存储系统。
+
+（在后续的例子中，少数磁盘占25%，超过50种型号）
+
+#### **效益**
+
+相比于被动的容错机制（Erasure Code (EC)，RAID），主动预测磁盘故障也可以保证可靠性和可用性。
+
+ 因此，成功的预测可以降低丢失数据的风险，降低数据恢复成本。
+
+
+
+目标：通过迁移学习，从可用的多数磁盘数据集，预测少数磁盘故障。
+
+**文章回答四个问题：**
+
+- 什么是少数磁盘 
+- 为什么用迁移学习
+- 如何预测
+- 什么时候预测
+
+## SMART 数据集的收集
+
+#### SMART
+
+硬盘厂商固件内的信息。
+
+硬件自己有一个阈值检测。
+
+failure detection rate (FDR)： 3-10% 
+
+false alarm rate (FAR)：0.1%
+
+500万个硬盘，以一小时为时间间隔，一天有200G，假设寿命为5年，共350T。而且每个小时都要汇集每台服务器的smart信息到一起。
+
+实现了一个数据收集框架：
+
+![image-20230127152159052](Paper.assets/image-20230127152159052.png)
+
+## 相关工作
+
+略
+
+## 初步试验和动机 
+
+#### 3.1  Minority Disk Datasets
+
+根据初步试验，当某种型号磁盘的数量少于1500个时，传统的ML算法无法提供令人满意的性能(过拟合)，因此将其定义为**少数磁盘**。按照这个定义，对数据进行分类。
+
+![image-20230127153950334](Paper.assets/image-20230127153950334.png)
+
+
+
+在少数磁盘上(7:3)，试用几种传统方法，效果很差。
+
+![image-20230127154039669](Paper.assets/image-20230127154039669.png)
+
+
+
+PDFs是概率密度统计量
+
+GKDE高斯核密度估计
+
+四个厂商不同型的号硬盘某SMART属性值的分布具有相似性，称之为协变量偏移。（covariate shift）
+
+![image-20230127175311182](Paper.assets/image-20230127175311182.png)
+
+考虑上述规律，我们可以用数量充足的某型号硬盘数据，建立一个预测模型来预测数据不充足的其它型号的硬盘。
+
+## TLDFP
+
+迁移学习算法TrAdaBoost
+
+![image-20230127170214745](Paper.assets/image-20230127170214745.png)
+
+
+
+其中源域包含完全标记的多数盘数据集，和少部分少数盘标记数据集；目标域是少数盘剩余的未标记的数据。
+
+### TrAdaBoost
+
+算法的核心是源域中被错误分类的多数磁盘型号A将获得更小的权重，而被错误分类的少数磁盘型号B将获得更大的权重。
+
+![image-20230127183532672](Paper.assets/image-20230127183532672.png)
+
+## 何时能使用TLDFP？
+
+Kullback Leibler Divergence(**KLD**)，它表示两个随机变量分布之间的差异。
+
+KLD值越大，两个分布之间的差异越大。两个分布之间的知识转移就越困难。
+
+
+
+得出推断：一种磁盘型号与另一种磁盘型号之间的KLD值越大，TLDFP越难传递经验。
+
+
+
+
+
+## 实验 
+
+数据中心的真实数据集。训练集中Good ： Failed = 3:1
+
+因为具体目标是提前14天预测失效，取出故障前连续 14天的采样。
+
+
+
+与4种传统ML算法相比，使用基于TLDFP的4种模型对FDR、FAR、F-Score和AUC-ROC的结果进行了比较，如下。显然基于TLDFP的模型效果有显著提升。
+
+![image-20230127184327196](Paper.assets/image-20230127184327196.png)
+
+F-Sorce =FDR+Precision
+
+
+
+
+
+
+
+
+
+
+
+---
+
+
+
+# Lifelong Disk Failure Prediction via GAN-based Anomaly Detection
+
+## 背景 
+
+数据中心硬件更换的78%是因为硬盘故障。随数据量爆炸增长，磁盘故障是一种常态。
+<br/> 
+相比于被动的容错机制，主动预测磁盘故障也可以保证可靠性和可用性。		
+
+成功的预测可以降低丢失数据的风险，降低数据恢复成本。
+<br/> 
+
+
+---
+
+a Semi-supervised method for lifelong
+disk failure Prediction via Adversarial training, SPA
+
+解决问题:
+
+- gan-based的异常检测来处理数据不平衡问题，冷启动问题
+- SMART -> 2D img
+- 通过微调处理模型老化
+
+
+
+---
+
+### SMART->2D IMG
+
+增加一个维度——时间
+一个例子：上方故障盘，下方是正常盘，颜色深浅代表[0,1];
+可以观察到故障盘属性值随时间的变化。但健康盘保持稳定。（部分属性？）
+![image-20230306232201520](Paper.assets/image-20230306232201520.png)
+反应了时序特征的的重要性。
+
+
+---
+
+### 数据处理
+
+- 选取12个SMART属性(RF)
+- SMART -> 2D img
+- 归一化
+  <!--
+  Diff 两时间点属性差
+  Sigema 时间段内的方差
+  Bin 时间段内的和
+  -->
+
+---
+
+### 基于gan的磁盘故障训练预测过程
+
+**encoder-decoder-encoder**结构的G-Net
+![image-20230306231229373](Paper.assets/image-20230306231229373.png)
+同时学习“原图->重建图”和“原图的编码->重建图的编码”两个映射关系。
+用于推断的不是原图和重建图的差距，而是计算z'和z的差异。（使用编码损失进行推断：
+
+---
+
+### 推理阶段
+
+</br>
+网络收敛以后，计算所有健康样本的编码损失，取最大值作为判别阈值。推断时，给定一张图片，计算损失值，若小于这个阈值即为健康样本；反之则为异常样本。
+</br></br>
+
+这种方法使得模型对图片中的微小变化不敏感，减少了噪声的影响
+
+
+
+---
+
+- 模型老化问题——fine-tuning，同时利用老数据和新数据。（批样本更新）
+- 样本标记：自动在线标记
+
+---
+
+
+### ALGO
+
+- 如果磁盘异常：删除
+
+- 否则
+
+  - 若队列已满，将老样本出列存入集合S
+
+  - 未满，样本依次入列
+
+  - 当S满时，将其转化为2D图像特征S’中
+
+    并用S‘微调旧模型，S置空
+
+  预测时，将X输入模型得到预测结果——状态y’，若为1，触发警告
+
+---
+
+## 实验 
+
+<br/>
+真实数据集，Backblaze
+
+从中选出了两个型号(构成一多一少两个数据集分别测试)
+<br/> 
+指标：FDR（真阳/阳性），FAR（假阳/阴性）
+
+---
+
+相较于三种监督学习方法的优势：
+![w:500 h:600 image-20230307015411339](Paper.assets/image-20230307015411339.png)
+
+---
+
+验证模型更新的有效性：
+
+![w:890 h:600image-20230307015303514](Paper.assets/image-20230307015303514.png)
+
+
+
+
+
+
+
+
+
+**齐夫定律**可以表述为：在[自然语言](http://zh.wikipedia.org/wiki/自然语言)的[语料库](http://zh.wikipedia.org/wiki/語料庫)里，一个单词出现的频率与它在频率表里的排名成[反比](http://zh.wikipedia.org/wiki/反比)。所以，频率最高的单词出现的频率大约是出现频率第二位的单词的2倍
+
+# GL-Cache
+
+## 1.Introduction
+
+一些LRU变体：[41,43,69,76,85]
+
+结合频率和最近性：[4, 15, 26, 28, 56, 92];
+
+频率和对象大小：[17,20]
+
+learned caches：
+
+- object-level learning,
+- learning-from-distribution
+- learning-from-simple-experts
+
+对象级学习——LRB：利用对象特征预测下次访问的时间，并以此为依据逐出。
+
+从数据分布学习——LHD：用寿命和大小算命中密度，淘汰密度最低的。
+
+“learningfrom-simple-experts”——LeCaR，Cacheus
+
+组级别学习面临的问题：
+
+1. 如何对对象分组，有效淘汰
+2. 如何衡量对象组的有用性（用来作为淘汰依据）
+3. 如何在线学习并预测对象组的有用性
+
+GL-Cache：
+
+- 使用"write time"将对象聚类成组，基于merge的淘汰来剔除最没用的组
+
+- 引入组实用性函数来给组排序。（能达到和对象级学习近似的淘汰效率）
+
+- 两级淘汰：先在重量级的组级别学习识别要淘汰的组；再用轻量级对象指标从要淘汰的组中保留有用的对象。
+
+  
+
+## 2.背景和动机
+
+Cache: 命中率——淘汰算法；吞吐量——资源利用
+
+传统方法:LRU LFU的变体，基于少量特征作淘汰决定。不同的工作负载下，各个特征的重要性可能不同，甚至，同工作不同大小的Cache下，特征重要性也不同。
+
+三种学习型Cache的优缺点
+
+...
+
+## 3.GL-Cache
+
+#### 3.1 
+
+总览：
+
+![image-20230317184218527](Paper.assets/image-20230317184218527.png)
+
+#### 3.2
+
+相比于其他方法：
+
+- 分组均摊了开销。
+
+- 分组会积累更多信号？
+
+  Cache遵循Zipf分布（类似28定律），多数对象很少被访问。
+  
+  以组为单位，请求更多，信息更多，易于学习和预测。
+
+#### 3.3 对象组
+
+对象不能随意换组。
+
+在进入Cache时，就应该决定好分组。根据简单的静态特征：时间，id，类型，大小等。本文主要关注写时间：
+
+按照写时间分组后，与随机分组作对比，每组内对象的重用时间间隔更相似。以及一些其他特征也有相似性。
+
+按写时间分组后，一些组的平均重用时间明显比其他高。（10倍以上）这些组就是很好的淘汰候选项。
+
+根据以上两条观察，按写时间分组时可行的。
+
+（按写时间分组也更适配日志结构来实现）
+
+#### 3.4 Utility of object groups
+
+当对象的大小不均等时，找到最佳替换对象是NP-Hard，所以找到最佳组也是NP-Hard，以下是经验性的性质：
+
+- 由较大的对象组成的组应该有较低的实用性
+- 距离下次访问的时间间隔长的有较低的实用性
+- 如果每组只有一个对象，应该退化为Belady. //?
+- 在有限时间内的计算结果，应尽可能接近利用所有未来信息的计算结果（理想结果）。换句话说：遥远的将来才被请求，甚至不会被请求的对象的对象对实用性的贡献较少
+
+实用性的定义：
+
+T表示到下次访问的时间间隔，s表示大小。
+
+![image-20230318154209347](Paper.assets/image-20230318154209347.png)
+
+
+
+#### 3.5 
+
+选定了7个特征
+
+GBM
+
+**训练**
+
+使得对象组的U值L2loss最小。
+
+对Cache中的对象组采样，复制其特征到内存区域。当其中一个对象被访问时，用时间间隔（从采样到访问）计算U值加到该组的U值中，标记该对象（保证它只被计算一次)
+
+//用这样的时间间隔计算的U比真实值大
+
+//要是期间又被访问了，时间间隔不就变了吗??
+
+一个样本组可能在被训练前就剔除了，GL—Cache保留“ghost entries”来弥补Utility计算中未考虑到的因素。对“ghost entry”的访问将更新U值。
+
+每天从0开始，重新训练
+
+**推理**
+
+需要淘汰时，对所有的组进行预测，排序。一次排序结果用作多次淘汰，减少推理频率。
+
+#### 3.6 对象组的逐出
+
+选出最没用的组后，再把它与$N_{merge}-1$个与它写入时间最相近的组合并，然后再从中保留出一部分可能仍有用的对象（基于age and size），形成新的组（这也是唯一可能的换组情况），其他的对象剔除。
+
+注：merge中的其他N-1个组都是基于写时间相近选择的，而不是U值rank，因为必须要保证新生成的组内，对象的写入时间相近。
+
+#### 3.7 参数
+
+组的大小$S_{group}$
+
+合并个数$N_{merge}$
+
+一次推理对应的逐出组数 $F_{eviction}$
+
+## 4.Evaluation
+
+#### Prototype system
+
+基于Segcache
+
+XGBoost库，参数默认。
+
+GL-Cache：组大小1 MB，每次驱逐时合并五个组，驱逐
+每组推理后的5%后重新推理。
+
+#### Micro-implementation
+
+基于一个Cache模拟库，做“storage-oblivious”的实现，只操作元数据。
+
+GL-Cache-S: Sgroup = 60 objects, Nmerge = 2 groups,	Feviction = 0.02.  
+
+GL-Cache-T: Sgroup = 200 objects, Nmerge = 5 groups,	 Feviction = 0.1
+
+**Workloads **
+
+![image-20230318171348073](Paper.assets/image-20230318171348073.png)
+
+**指标:**
+
+命中率增量: $(HR_{alg}−HR_{FIFO})/HR_{FIFO}$
+
+相对吞吐量:$R_{alg}/R_{FIFO}$
+
+
+
+首先，对比了Oracle的对象淘汰实现和组淘汰实现（与GL-Cache类似）证明组淘汰不会成为效率瓶颈  //???
+
+![image-20230318172140108](Paper.assets/image-20230318172140108.png)
+
+#### Cache效率
+
+原型，CloudPhysics，命中率和吞吐量的对比
+
+![image-20230318175407808](Paper.assets/image-20230318175407808.png)
+
+微实现，CloudPhysics and MSR，观察相对于FIFO的命中率变化
+
+![image-20230318180016546](Paper.assets/image-20230318180016546.png)
+
+
+
+
+
+微实现，相对吞吐量的对比
+
+![image-20230318181449162](Paper.assets/image-20230318181449162.png)
+
+（在缓存上的机器学习也会引入一些存储开销）
+
+
+
+
+
+分析XGBootst中特征的重要性，总体看，频率和寿命权重较高
+
+
+
+![image-20230318184041180](Paper.assets/image-20230318184041180.png)
+
+
+在GL-Cache中，特性的选择和使用不仅适应工作负载
+也适应不同的配置，如缓存大小。
+
+#### 4.6 Sensitivity analysis
+
+分析三个参数对GL-Cache的影响情况。也讨论了训练频率，样本数
+
+对比E,T两组参数的效果，说明GL-Cache鲁棒性较强。用户也可以自己微调做Trade-off。
+
+
+
+## Conclusion
+
+组级学习很好地适应了工作负载和Cache大小，均摊了开销。
+
+在小开销下做出了更好的逐出决策。
+
+与其他学习型Cache相比，在保持高命中率的同时，显著提高了吞吐量。
+
+
+
+
+
+
+
+
+
+# λ-IO
+
+λ-IO : A Unified IO Stack for Computational Storage ，清华大学
+
+Abstract：一个通用的IO-Stack来管理主机、设备的存、算资源。相较于Linux-IO
+
+## 1Introduction
+
+数据密集型应用增加，计算型存储设备出现。将计算下放给设备，in-storage computing (ISC)
+
+但是，无脑将计算任务推给设备并不总是最优的，由于应用的特征不同，设备和主机的负载情况也不同。如何构建一个统一IO来管理资源？有三个关键问题：
+
+- Interface
+- Runtime：传统IO只有Cache，文件系统，驱动。需要一个统一编码，一次编译就可以在其它架构执行。比如ePBF
+- Scheduling
+
+λ-IO key designs
+λ-extension: 用以支持ISC。提供拓展接口，使得应用可以提交λ请求来在读写期间调用计算逻辑。
+
+λ-Runtime:  sPBF，ePBF的拓展，支持指针访问和变长循环。静态验证->动态验证 
+
+动态请求调度：用模型计算执行时间，分给更快的一方
+
+## 2 背景&动机
+
+IO stack仍具有优势：使用习惯，兼容性强；功能强，完善的文件系统，Page Cache；应用间共享，易管理。
+
+### ePBF
+
+起源：网络数据包的筛选，PBF程序在内核中先筛选好包，再传给用户空间来减少开销。tcpdump就是在PBF框架下实现的。
+
+ePBF的出现能支持更多的功能、事件，多用于做追踪。
+
+Just-In-Time(JIT) 让PBF指令直接转为机器指令执行
+
+但是，不能访问任意地址，不允许变长循环...
+
+ //https://www.jianshu.com/p/47475ffe8b50
+
+## 3 Design
+
+- λ-IO APIs, 
+- λ runtime (λ-kernel runtime and λ-device runtime),
+- request dispatcher
+
+#### API
+
+在open、close、read、write基础上，新增λload，λwrite，λread。参数λ_id表示函数编号
+
+### 跨平台的λ Runtime
+
+对于计算，要在不同平台存储和执行相同的λ functions
+
+对于数据，函数执行时要访问一致的数据
+
+#### Computation: Extending eBPF to sBPF
+
+继承eBPF的格式，拓展了verifier and JITer
+
+key idea：引入动态验证，检查指针访问和循环。
+
+**对于指针访问**：sBPF动态检查使用的指针是否在[input,input+length_i) || [output,output+length_i)。（因为length_i是应用传入的，所以要调用内核安全验证。）
+
+并未引入eBPF中的helper functions来检查指针，因为调用开销大。
+
+（针对input，output指针，其它依然是静态检查）
+
+**对于变长循环**：静态检查时允许变长循环。但sBPF JITer设计了一个跳回指令计数器，用阈值的方式在程序执行时限制循环时跳回的次数，保证了程序能在有界时间内完成。
+
+这样做，拓展了eBPF的功能，但没有降低安全性。
+
+#### Data: Consistent File Access
+
+**λ-kernel runtime**
+
+VFS，kernel_mmap
+
+**λ-device runtime**
+
+设备不知道主机端语义。主机端提取元数据并推送给设备。使用Linux已提供的FIEMAP和FIBMAP接口
+
+一次λ读：λ-IO获取元数据，推送extent给设备，设备加载数据到自己的一个buffer，把这个buffer地址给λ function来执行。
+
+**一致性**
+
+λ-IO 维护主机端的数据一致性。在设备中执行请求时，文件上锁。另外，λ-IO 维护主机端的页面缓存，在向设备分配λ读请求前，λ-IO先刷新重叠范围内的脏页缓存，保证给设备看最新的版本；在向设备分配λ写请求前，使主机端的页面缓存无效。
+
+提出λ-kernel不是为了性能更优，而是为了统一主机与设备的接口，并且λ-IO能更好地利用vanilla Linux IO stack的兼容性，功能，共享等优势。λ-IO对程序员更友好，大量的应用都遵循POSIX
+
+
+
+### 动态调度
+
+定义：数据大小D，计算后数据大小变为 $\alpha D$
+
+几个带宽：存储介质和设备之间的带宽 $B_s$ 
+
+设备和主机$B_d$ 
+
+主机计算速度$B_h$ 
+
+设备计算速度$\beta B_h$
+
+可能有多个请求同时执行，每个请求对应一组参数。
+
+一次λ读请求，在host/device的运行时间
+
+![image-20230326130541396](Paper.assets/image-20230326130541396.png)
+
+进一步考虑主机的Cache率c
+
+![image-20230326130758320](Paper.assets/image-20230326130758320.png)
+
+
+
+将上述表达式中的七个参数分成两组：
+
+1，D，c
+
+D = length_i
+
+认为 c = n * PAGE_SIZE/ length_i
+
+2，其他需要分析的变量
+
+对于每个(file_path, λ_id)都有一组参数值。
+
+周期性分析部分请求，对于每一个(file_path, l_id)， λ-IO设定一个模拟周期(例如每n个请求一个周期)。对于周期中前k个（分析周期）请求，测量取平均作为估计值。周期中后续请求按照估计时间进行调度。新的周期重新分析。
+
+
+
+## 4实现
+
+host：在Linux内核新增模块，创建procfs接收λ扩展调用。修改eBPF verifier和x86 JITer.
+
+device：Daisy OpenSSD（PCIe口），OpenExpress（NVMe controller）
+
+彻底重构了NVMe固件，修改eBPF验证器和ARM eBPF JITer 内核，并在它们之上构造λ device runtime。
+
+## 5评估
+
+工作负载：5个应用
+
+![image-20230326133227650](Paper.assets/image-20230326133227650.png)
+
+// 移植开销，INSIDER? 
+
+六种IO模式：
+
+- B：buffer  IO，pread/pwrite （I+M）
+- I：O_DIRECT，绕过了内核的页面缓存
+- M：Mmap
+- λ-IO kernel：全在kernel执行
+- λ-IO device
+- λ-IO
+
+单一任务测试，并把执行时间分为三个部分
+
+![image-20230326134440184](Paper.assets/image-20230326134440184.png)
+
+多任务测试，每次两个任务，5个任务两两组合，测算加速比。
+
+分析数据集大小的影响（相对于Cache大小）
+
+warmup带来的影响
+
+调度分析时，用到的两个周期值的影响
+
+Buffer大小，线程数的影响
+
+分析sBPF相对于eBPF带来的开销
+
+测试了一个Spark SQL实例。
+
+
+
+
+
+# Johnny Cache
+
+
+
+Johnny Cache: the End of DRAM Cache Conflicts (in Tiered Main Memory Systems)
+
+https://github.com/BLepers/JohnnyCache.
+
+---
+
+分层的硬件方法理论上应当比软件管理方法提供更好的性能，然而，缓存冲突
+
+我们将探索两种技术。
+
+- 静态：在页面分配时避免页面之间的冲突。
+- 动态：依靠监视内存访问来区分热页和冷页。
+
+我们已经在Intel Optane机器的Linux内核中实现了这些技术，该机器的系统称为Johnny Cache (JC)。 
+
+本文的一个令人惊讶的结论是，缓存可以通过在页面分配时最小化冲突来提供接近最优的性能，而不需要任何访问监控或动态页面重新映射。
+
+## 1 Intro
+
+
+
+**分层内存系统**
+
+使用DRAM + （慢速、大容量设备）结合扩展内存。
+
+现有方法：软件上，使用守护进程的方式监控数据访问，把热数据迁移到DRAM；
+
+硬件上，在分层存储系统中使用DRAM作为位于CPU和较慢层之间的“L4”缓存。
+
+//软件方法即让PMEM和DRAM平级， 硬件方法即让PMEM和DRAM垂直分层
+
+但是，分层系统的硬件实现效率低下，因为硬件缺乏应用程序需求的高级视图；而且缓存策略必须保持简单才能在硬件中实现。
+
+“在早期的硬件实现的系统中观察到的性能较差是由于Linux的页面分配策略导致的缓存冲突”
+
+Linux页面分配不考虑页面内的物理位置，DRAM Cache空间较大，但页面总是被映射到部分位置。
+
+> 生日悖论
+>
+> 在不少于23 个人中至少有两人生日相同的概率大于50%
+>
+> ![image-20231213223955109](Paper.assets/image-20231213223955109.png)
+
+
+
+静态策略：每次分配新页面时，选择被映射最少的物理槽。
+
+动态策略：考虑页面被访问的频率，区分冷热页面。将新页面分配到访问最低的缓存槽。检测到冲突时进行重新映射以应对工作负载的变化。（意外的，观察到：在一些工作 负载中静态策略已经有很好的效果了，动态负载带来的改进被它本身的开销抵消了。）
+
+---
+
+与软件迁移的方法对比：都监控了访问信息，但动态策略旨在减少冲突，而软件迁移是为了把热页面从低速介质迁移到高速介质。
+
+实现了内核级的静态、动态策略，记为JC-stati，JC-dyn。
+
+部署：JC部署在分层的 DRAM + PMEM上；比较对象：Linux、HeMem（软件页面迁移策略最新实现）
+
+- OS的页面分配算法的微小改动使硬件更高效
+- 把冲突避免作为页面管理的第一原则
+- 设计实现了优于页面迁移方案的系统
+
+## 2 分层存储系统
+
+分析现有的软件、硬件实现的分层存储系统
+
+### 2.1 软件实现
+
+守护进程记录访问频率，定期把热数据搬到DRAM中。
+
+更关注区分冷热数据集。
+
+问题：
+
+数据迁移的代价相对较高，因为迁移只能以页面（page）的粒度进行，通常是4KB或2MB。
+
+每次迁移都需要修改页面表（page table）、修改内核虚拟内存区域（VMA）的元数据，并清除TLB（Translation Lookaside Buffer，地址转换缓冲器）。这是因为在迁移过程中，涉及到地址映射的变化，需要更新这些映射关系。
+
+延迟，因为在迁移期间，为了保证数据的一致性，必须将正在迁移的页面设置为写保护状态。
+
+### 2.2 硬件实现
+
+以Intel  MEM MODE为例进行分析。
+
+当DRAM MISS，从PMEM抓取一个W，并复制到DRAM Cache、CPU Cache。但X对应的缓存槽位被X占据了，此时：
+
+若X clean（开销为一次PMEM读，最好情况）
+
+若X dirty，写回X（开销为一次PMEM写+PMEM读）
+
+另外，CPU cache可能会逐出Y，若Y脏，写回DRAM，可能还会再从DRAM中逐出一个Z，又写回PMEM。（最差情况，如图）
+
+![image-20231208114545975](./Paper.assets/image-20231208114545975.png)
+
+因此，当频繁访问的数据与高速缓存中的数据发生冲突时，上述模式的性能会变差。
+
+不过，如果冲突可以避免，那么内存模式就能提供比软件迁移更多的优势。
+
+首先，缓存避免了代价高昂的整页迁移和虚拟内存操作。其次，高速缓存在CacheLine级别上运行，而软件迁移只能在页面粒度上迁移数据。因此，如果热数据和冷数据被缓存在同一页面中，缓存可以避免浪费 DRAM 空间。最后，缓存是同步的：热数据在首次访问时命中 DRAM 。
+
+### 2.3 对比
+
+![image-20231208134851830](./Paper.assets/image-20231208134851830.png)
+
+## 3 Design
+
+他的设计是基于这样的一个观念：只要Cache中冲突少，就是高效的。
+
+硬件以Cache line为单位，但是内核只能按页粒度分配数据，因此我们的策略尽量减少页之间的冲突。
+
+静态策略：最小化映射到相同DRAM缓存位置的已分配页面的数量。
+
+动态策略:   动态策略对内存访问进行采样，以计算每个页面和每个缓存位置的热度。当分配一个新页时，内核将其映射到最冷的可用位置。
+
+冲突避免守护进程监视同一缓存位置的热页之间的冲突。当映射到相同DRAM缓存位置的两个页面都被频繁访问时，其中一个页面将被重新映射到不同的缓存位置。
+
+因为事实上一个负载的hot page没那么多，我们希望让新来的hot page去和cold page 竞争同一个地址。
+
+//并没有具体解释其中的逻辑，作者说是直觉
+
+---
+
+例如，文本中提到了一个应用程序，它分配的数据大小是可用DRAM大小的两倍，其中有5%是热点数据。静态策略确保**每个缓存位置只映射两个页面。**这使得热点页面有95%的概率与冷页面（不频繁访问的页面）竞争缓存位置，而只有5%的概率与另一个热点页面竞争。这样，大多数热点页面与冷页面“配对”，因此它们不太可能频繁被驱逐出DRAM缓存。
+
+## 4 Implementation
+
+https://github.com/BLepers/JohnnyCache.
+
+内核实现（hook到内核初始化函数、页面初始化、缺页处理、unmap处理）
+
+>Linux的页面分配
+
+在Linux中，页面分配是通过内核的页面分配器来管理的。Linux内核使用众多的内存管理策略，其中一些主要的包括：
+
+1. **First Fit（首次适应）：**
+   - 首次适应是一种简单的页面分配策略，内存管理器会在可用内存块中选择第一个足够大的块。这样可以快速找到满足要求的内存块，但可能导致碎片化问题。
+2. **Next Fit（下次适应）：**
+   - 下次适应是首次适应的一种改进，它从上次分配的位置开始搜索下一个足够大的内存块。这有助于减少碎片化。
+3. **Best Fit（最佳适应）：**
+   - 最佳适应会在所有可用内存块中选择最小的那个足够大的块。这样可以最大限度地减少碎片，但可能导致搜索开销较大。
+4. **Buddy System（伙伴系统）：**
+   - Linux使用伙伴系统作为内存分配的主要策略，特别是在页帧的分配上。伙伴系统将内存分割成2的幂次方大小的块，并按照块的大小进行组织。当需要分配内存时，系统会在合适的块大小中查找并分配。
+5. **SLAB Allocator：**
+   - SLAB分配器是Linux中一种用于管理内核对象缓存的高效分配策略。它通过预先分配一些对象并将它们存储在SLAB（一块连续的内存）中，从而避免了频繁的分配和释放造成的开销。
+6. **CMA（Contiguous Memory Allocator）：**
+   - CMA是一种在物理内存上分配连续块的策略，用于满足某些硬件或驱动程序的需求。CMA通常用于设备DMA（直接内存访问）等场景。
+
+Linux的页面分配策略会根据具体的需求和场景进行调整和优化。这些策略的选择通常取决于内核版本、硬件架构以及系统配置。
+
+---
+
+cache capacity：Cache能存的最大页面数
+
+bin：每个page对应的cache中的索引位置(page frame num)
+
+heat：页面的热度
+
+由于lazy的内存分配机制，我们把页面分配策略的实现hook到page fault上。
+
+框架维护一个包含可用页面的bin的列表，并按热度排序，每次page fault返回热度最低的。
+
+（元数据开销）将元数据保存在内存中的开销很小(对于具有128GB DRAM和1TB PMEM的系统，开销小于50MB)。
+
+（内核级别实现的好处）与线程或应用程序的概念无关。策略试图最小化整个机器上的冲突，并且不会对缓存进行分区(与页面着色方法不同)。这种方法的一个主要好处是，冲突在全局范围内被最小化。例如，冲突避免守护进程会重新映射热冲突页面，即使它们属于不同的应用程序。
+
+### Static policy
+
+
+
