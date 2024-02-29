@@ -1288,6 +1288,27 @@ char* EncodeVarint32(char* dst, uint32_t v) {
 
 
 
-> “计算机科学中所有问题的解决方案就是一个间接层”
+“计算机科学中所有问题的解决方案就是一个间接层”
 
-# 
+
+
+
+
+
+
+# Bitcask
+
+论文原文:
+
+https://riak.com/assets/bitcask-intro.pdf
+
+博客
+
+https://cloud.tencent.com/developer/article/2321151?areaId=106001
+
+https://mp.weixin.qq.com/s/s8s6VtqwdyjthR6EtuhnUA
+
+
+
+
+
