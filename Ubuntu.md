@@ -2,7 +2,7 @@
 
 多线程与多进程等。
 
-## 调试及性能分析工具：
+# 调试及性能分析工具：
 
 学习使用coredump
 
@@ -53,7 +53,7 @@ Understanding Cache Memories，
 
 # GDB
 
-## 一些命令
+### 一些命令
 
 [^]: https://blog.csdn.net/zdy0_2004/article/details/80102076
 
@@ -409,7 +409,7 @@ cmake ..
 ```bash
 #第一次
 #配置用户
-git config user.name pingyong-647.c
+git config user.name lzq
 git config user.email 1021578619@qq.com
 #远程仓库以前已经认证过了
 git remote add https://github.com/pingyong-647/code
@@ -423,6 +423,16 @@ git push -u origin master (master:master,同名省略)
 ```
 
 [^2021年12月22日10:34:30]: 所以说加不加-u有什么区别?>
+
+2024年3月7日16:48:45: 
+
+### token
+
+github强制使用token了
+
+```bash
+git remote set-url origin https://<your_token>@github.com/<USERNAME>/<REPO>.git
+```
 
 
 
@@ -770,11 +780,57 @@ docker run -it  --privileged --entrypoint bash alphamj/os-contest:v7.6
 
 
 
+# 编程环境
+
+### Go
+
+Goenv： home/lzq/sdk/go
+
+GoPATH ： home/lzq/Go
+
+Go的下载目录放在HOME下了
+
+### conda
+
+home/miniconda3
+
+https://blog.csdn.net/weixin_44119391/article/details/128577681
 
 
-# 服务器部署
 
-#### Nginx 
+下载地址：https://repo.anaconda.com/archive/
+
+
+
+conda也在home下，直接运行sh
+
+### 配置pytorch
+
+
+
+### 连接不上dl.google.com
+
+测速网站，找个好IP
+
+https://tool.chinaz.com/speedtest/dl.google.com
+
+修改/etc/hosts，例如
+
+```
+220.181.174.97 dl.google.com
+```
+
+
+
+```
+20.205.243.166 github.com
+```
+
+
+
+
+
+# Nginx 配置
 
  成本低廉内存消耗少配置文件非常简单
 
@@ -782,15 +838,11 @@ docker run -it  --privileged --entrypoint bash alphamj/os-contest:v7.6
 
 
 
+# 
 
+# 装机配置
 
-
-
-
-
-
-
-# 重新装机
+## win+U双系统安装
 
 用`rufus-3.17.exe`和`Ubuntu20.04`镜像制作系统盘BIOS F12
 
@@ -800,7 +852,171 @@ lzq 		1209
 
 root	   1209
 
+### 时间不同步？
+
+[^csdn]:  https://blog.csdn.net/yuan_chen_/article/details/104454820?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_paycolumn_v3&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_paycolumn_v3&utm_relevant_index=1
+
+​		计算机上安装Ubuntu 和Win10双系统后，会出现时间不同步现象，原因是Ununtu会认为Bios硬件时间是UTC时间（Universal Time Coordinated，北京时间比UTC时间早八个小时）进而修改Bios时间，Win10认为Bios硬件时间是本地时间（北京时间），从而双系统切换后时间不同步。
+
+​		简单的解决方案是，修改Win10对BIos硬件时间的对待方式，让Win10把硬件时间当做UTC，方案如下：以管理员权限开启CMD（命令提示符），然后输入：
+
+```cmd
+Reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsUniversal /t REG_DWORD /d 1
+```
+
+接下来重启计算机即可。
+
+### 连接不上dl.google.com
+
+测速网站，找个好IP
+
+https://tool.chinaz.com/speedtest/dl.google.com
+
+修改/etc/hosts，例如
+
+```
+220.181.174.97 dl.google.com
+```
+
+
+
+```
+20.205.243.166 github.com
+```
+
+
+
+### 美化桌面
+
+https://zhuanlan.zhihu.com/p/176977192?ivk_sa=1024320u
+
+```bash
+sudo apt install gnome-tweaks chrome-gnome-shell
+```
+
+gnome 插件[extensions.gnome.org](https://link.zhihu.com/?target=https%3A//extensions.gnome.org)
+
+搜索并下载
+
+- user themes
+- dash to dock
+
+dash to dock 卸载设置完就卸载掉
+
+如果出现两个dock的bug就卸载系统dock
+
+```
+sudo apt-get remove gnome-shell-extension-ubuntu-dock
+```
+
+### 
+
+- 主题包：WhiteSur Gtk Theme
+
+- - [https://www.gnome-look.org/p/1403328/](https://link.zhihu.com/?target=https%3A//www.gnome-look.org/p/1403328/)
+
+- Icons 图标：WhiteSur icon theme
+
+- - [https://www.pling.com/p/1405756/](https://link.zhihu.com/?target=https%3A//www.pling.com/p/1405756/)
+
+```
+sudo apt install plank
+```
+
+### 美化引导界面——grub
+
+https://www.gnome-look.org/browse/cat/109/order/latest/
+
+找个主题，直接在Download里解压了。./install.sh直接安装好了
+
+https://blog.csdn.net/u011054333/article/details/53314504/
+
+## 双系统设备问题
+
+### 滚轮速度
+
+1.安装：
+
+```
+sudo apt-get install imwheel
+```
+
+2.设置滚动速度：sudo vim ~/.imwheelrc, 然后添加配置内容：
+
+```bash
+".*"
+None,      Up,   Button4, 3
+None,      Down, Button5, 3
+Control_L, Up,   Control_L|Button4
+Control_L, Down, Control_L|Button5
+Shift_L,   Up,   Shift_L|Button4
+Shift_L,   Down, Shift_L|Button5
+```
+
+前两行就分别对应上滚和下滚的速度（行数），把数值5设置为合适的值。
+
+3.启动imwheel
+
+        直接在终端输入命令imwheel即可，如果本来已经运行，修改数值后可以先执行killall imwheel，然后就可以立即生效。
+
+发现鼠标侧键实效了，不用了。
+
+​                
+
+### 开机键盘失灵
+
+https://blog.csdn.net/qq_40716069/article/details/128046176
+
+vim /etc/default/grub
+
+```
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash i8042.dumbkbd"
+```
+
+sudo update-grub
+
+### 开机自动挂载Windows磁盘
+
+https://zhuanlan.zhihu.com/p/523426604
+
+查看所有磁盘
+
+```
+df -h
+```
+
+查看磁盘ID
+
+```console
+sudo blkid
+```
+
+UUID=EA4AB9BE4AB98839C
+
+UUID=68C62C1DC62BE9D0
+
+vim /etc/fstab
+
+```
+# my Windows-C
+UUID=EA4AB9BE4AB98839   /media/lzq/Windows-SSD  ntfs    defaults        0       2
+# my Windows-D
+UUID=68C62C1DC62BE9D0  /media/lzq/Data  ntfs    defaults        0       2
+```
+
+#### 自动挂载设备为只读模式(Read-Only)的解决方案
+
+ntfsfix /dev/nvme0n1p3
+
+然后再重新挂载一下就好了
+
+
+
+
+
 ## **科学上网**
+
+
 
 #### Q2ray：
 
@@ -842,19 +1058,7 @@ wget -O config.yaml 订阅地址
 
 
 
-## 时间不同步？
 
-[^csdn]:  https://blog.csdn.net/yuan_chen_/article/details/104454820?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_paycolumn_v3&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_paycolumn_v3&utm_relevant_index=1
-
-​		计算机上安装Ubuntu 和Win10双系统后，会出现时间不同步现象，原因是Ununtu会认为Bios硬件时间是UTC时间（Universal Time Coordinated，北京时间比UTC时间早八个小时）进而修改Bios时间，Win10认为Bios硬件时间是本地时间（北京时间），从而双系统切换后时间不同步。
-
-​		简单的解决方案是，修改Win10对BIos硬件时间的对待方式，让Win10把硬件时间当做UTC，方案如下：以管理员权限开启CMD（命令提示符），然后输入：
-
-```cmd
-Reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsUniversal /t REG_DWORD /d 1
-```
-
-接下来重启计算机即可。
 
 ## 更新软件源
 
@@ -893,66 +1097,7 @@ deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted 
 sudo apt-get update
 ```
 
-## 设置sudo密码
 
-```bash
-sudo passwd 	
-```
-
-
-
-## 其他一些折腾
-
-### 美化桌面
-
-https://zhuanlan.zhihu.com/p/176977192?ivk_sa=1024320u
-
-
-
-
-
-```bash
-sudo apt install gnome-tweaks chrome-gnome-shell
-```
-
-gnome 插件[extensions.gnome.org](https://link.zhihu.com/?target=https%3A//extensions.gnome.org)
-
-搜索并下载
-
-- user themes
-- dash to dock
-
-dash to dock 卸载设置完就卸载掉
-
-如果出现两个dock的bug就卸载系统dock
-
-```
-sudo apt-get remove gnome-shell-extension-ubuntu-dock
-```
-
-### 
-
-- 主题包：WhiteSur Gtk Theme
-
-- - [https://www.gnome-look.org/p/1403328/](https://link.zhihu.com/?target=https%3A//www.gnome-look.org/p/1403328/)
-
-- Icons 图标：WhiteSur icon theme
-
-- - [https://www.pling.com/p/1405756/](https://link.zhihu.com/?target=https%3A//www.pling.com/p/1405756/)
-
-```
-sudo apt install plank
-```
-
-### 美化引导界面——grub
-
-https://www.gnome-look.org/browse/cat/109/order/latest/
-
-找个主题，直接在Download里解压了。./install.sh直接安装好了
-
-
-
-https://blog.csdn.net/u011054333/article/details/53314504/
 
 
 ## oh-my-zsh
@@ -1131,140 +1276,55 @@ source $ZSH/oh-my-zsh.sh
 
 我发现文档里多了powershell/moudle/PSReadline 1.2.0的安装包, 按照这个路径重新操作了一遍
 
-## 滚轮速度
 
-1.安装：
 
-```
-sudo apt-get install imwheel
-```
+## 用户管理
 
-2.设置滚动速度：sudo vim ~/.imwheelrc, 然后添加配置内容：
+创建用户
+
+...
+
+### 设置sudo密码
 
 ```bash
-".*"
-None,      Up,   Button4, 3
-None,      Down, Button5, 3
-Control_L, Up,   Control_L|Button4
-Control_L, Down, Control_L|Button5
-Shift_L,   Up,   Shift_L|Button4
-Shift_L,   Down, Shift_L|Button5
+sudo passwd 	
 ```
 
-前两行就分别对应上滚和下滚的速度（行数），把数值5设置为合适的值。
+### 用户执行不了sudo
 
-3.启动imwheel
-
-        直接在终端输入命令imwheel即可，如果本来已经运行，修改数值后可以先执行killall imwheel，然后就可以立即生效。
-
-发现鼠标侧键实效了，不用了。
-
-​                
-
-## 开机键盘失灵
-
-https://blog.csdn.net/qq_40716069/article/details/128046176
-
-vim /etc/default/grub
+>lzq is not in the sudoers file.  This incident will be reported.
 
 ```
-GRUB_CMDLINE_LINUX_DEFAULT="quiet splash i8042.dumbkbd"
-```
-
-sudo update-grub
-
-## 开机自动挂载Windows磁盘
-
-https://zhuanlan.zhihu.com/p/523426604
-
-查看所有磁盘
-
-```
-df -h
-```
-
-查看磁盘ID
-
-```console
-sudo blkid
-```
-
-UUID=EA4AB9BE4AB98839C
-
-UUID=68C62C1DC62BE9D0
-
-vim /etc/fstab
-
-```
-# my Windows-C
-UUID=EA4AB9BE4AB98839   /media/lzq/Windows-SSD  ntfs    defaults        0       2
-# my Windows-D
-UUID=68C62C1DC62BE9D0  /media/lzq/Data  ntfs    defaults        0       2
-```
-
-#### 自动挂载设备为只读模式(Read-Only)的解决方案
-
-ntfsfix /dev/nvme0n1p3
-
-然后再重新挂载一下就好了
-
-## ENV
-
-### Go
-
-Goenv： home/lzq/sdk/go
-
-GoPATH ： home/lzq/Go
-
-Go的下载目录放在HOME下了
-
-### conda
-
-home/miniconda3
-
-https://blog.csdn.net/weixin_44119391/article/details/128577681
-
-
-
-下载地址：https://repo.anaconda.com/archive/
-
-
-
-conda也在home下，直接运行sh
-
-
-
-### pytorch
-
-
-
-
-
-
-
-# 连接不上dl.google.com
-
-
-
-测速网站，找个好IP
-
-https://tool.chinaz.com/speedtest/dl.google.com
-
-修改/etc/hosts：
-
-```
-220.181.174.97 dl.google.com
+sudo usermod -aG sudo lzq
 ```
 
 
 
+## SSH
+
+SCP拒绝
+
+>scp Permission denied, please try again.
+
+解决办法，修改/etc/[ssh](https://so.csdn.net/so/search?q=ssh&spm=1001.2101.3001.7020)/sshd_config
+
 ```
-20.205.243.166 github.com
+# Authentication:
+
+LoginGraceTime 120
+PermitRootLogin yes  #修改这一行为yes
+StrictModes yes
 ```
 
+systemctl restart ssh.service
 
 
-# 关于安装包：
+
+scp -r -P 45033 ./rocksdb lzq@222.20.97.186:/home/lzq/
+
+
+
+## 关于安装包管理
 
 qemu-misc
 
@@ -1305,7 +1365,7 @@ DEB包 （例:包名=>redis）
 
 
 
-# 一些命令
+# 观察命令
 
 
 

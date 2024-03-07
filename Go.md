@@ -125,9 +125,64 @@ return nil, errors.New("m needs 2^n")
 
 在Go语言中，函数可以返回多个值。如果某个函数需要返回错误信息，通常会将其作为最后一个返回值。调用方可以通过检查返回值中的错误对象来确定函数是否执行成功。如果没有发生错误，则错误对象为nil；否则，错误对象将包含相关的错误信息。
 
+
+
+## func
+
+包级方法，（普通的函数）
+
+```Go
+func NewDBFile(path string) (*DBFile, error) {
+    // ...
+}
+```
+
+因为它不属于任何特定类型。它可以直接在包中调用。
+
+
+
+带接受器的方法
+
+func后面加括号，`df DBFile` 部分称为接收器。它指定了该方法可以作用于 `DBFile` 类型的实例。
+
+```Go
+type DBFile struct {
+    // ...
+}
+
+func (df DBFile) Read(offset int64) (*Entry, error) {
+    // ...
+}
+
+func (df DBFile) Write(e *Entry) error {
+    // ...
+}func (df DBFile) Read(offset int64) (*Entry, error) {
+    // ...
+}
+```
+
+**何时使用带接收器的方法和包级方法**
+
+通常，当方法需要访问接收器类型的状态或字段时，应使用带接收器的方法。例如，`Read` 方法需要访问 `DBFile` 实例的 `Offset` 字段。
+
+当方法不需要访问接收器类型的状态或字段时，可以使用包级方法。例如，`NewDBFile` 方法不需要访问 `DBFile` 实例的任何状态或字段。
+
+**注意：**
+
+- 带接收器的方法和包级方法都可以是并发安全的或非并发安全的。
+- 带接收器的方法可以通过指针接收器或值接收器定义。
+
 # 网盘
 
 github项目地址https://github.com/GetcharZp/cloud-disk
 
 博客：https://blog.csdn.net/weixin_43734095/article/details/124927942
+
+# miniDB
+
+调用libzbd.a
+
+```go
+import "C"
+```
 
