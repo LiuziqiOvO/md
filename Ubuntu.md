@@ -431,7 +431,7 @@ git push -u origin master (master:master,同名省略)
 github强制使用token了
 
 ```bash
-git remote set-url origin https://token@github.com/...git
+git remote set-url origin https://token@github.com/username/project.git
 
 ```
 
