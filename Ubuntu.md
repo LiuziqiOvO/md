@@ -431,12 +431,15 @@ git push -u origin master (master:master,同名省略)
 github强制使用token了
 
 ```bash
-git remote set-url origin https://<your_token>@github.com/<USERNAME>/<REPO>.git
+git remote set-url origin https://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@github.com/LiuziqiOvO/md.git
+
 ```
 
 
 
-> push操作经常超时
+#### push操作经常超时
+
+
 
 ```bash
 git config --global http.proxy http://127.0.0.1:1080  
