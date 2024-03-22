@@ -20,13 +20,41 @@
 
 
 
-
-
-## 环境配置和一些问题
+### 环境配置和一些问题
 
 Go有两个环境变量，一个是编译器本身，另一个用来存包和项目啥的。
 
+## Go的结构和要素
 
+### 包
+
+你必须在源文件中非注释的第一行指明这个文件属于哪个包。即使你只使用 main 包也不必把所有的代码都写在一个巨大的文件里：你可以用一些较小的文件，并且在每个文件非注释的第一行都使用 `package main` 来指明这些文件都属于 `main` 包。
+
+如果你打算编译包名不是为 main 的源文件，如 `pack1`，编译后产生的对象文件将会是 `pack1.a` 而不是可执行程序。另外要注意的是，所有的包名都应该使用小写字母。
+
+**标准库**：
+一般情况下，标准包会存放在 `$GOROOT/pkg/$GOOS_$GOARCH/` 目录下。
+
+
+
+**如果对一个包进行更改或重新编译，所有引用了这个包的客户端程序都必须全部重新编译。**
+
+Go 中的包模型采用了显式依赖关系的机制来达到快速编译的目的，编译器会从后缀名为 `.o` 的对象文件（需要且只需要这个文件）中提取传递依赖类型的信息。
+
+如果 `A.go` 依赖 `B.go`，而 `B.go` 又依赖 `C.go`：
+
+- 编译 `C.go`, `B.go`, 然后是 `A.go`.
+- 为了编译 `A.go`, 编译器读取的是 `B.o` 而不是 `C.o`.
+
+这种机制对于编译大型的项目时可以显著地提升编译速度。
+
+
+
+### 
+
+
+
+### Gin
 
 ### go-zero
 
@@ -61,6 +89,28 @@ GO111MODULE环境变量用于开启或关闭Go语言中的模块支特，它有o
 模块支持，go忽略$GOPATH文件夹，只根据go.mod下载依赖。
 3.GO111MODULE=auto
 在$GOPATH/src外层且根目录有go.mod文件时，开启模块支持；否者无模块支持。
+
+
+
+
+
+### 调试
+
+应用程序的开发过程中调试是必不可少的一个环节，因此有一个好的调试器是非常重要的，可惜的是，Go 在这方面的发展还不是很完善。目前可用的调试器是 gdb，最新版均以内置在集成开发环境 LiteIDE 和 GoClipse 中，但是该调试器的调试方式并不灵活且操作难度较大。
+
+如果你不想使用调试器，你可以按照下面的一些有用的方法来达到基本调试的目的：
+
+1. 在合适的位置使用打印语句输出相关变量的值（`print`/`println` 和 `fmt.Print`/`fmt.Println`/`fmt.Printf`）。
+2. 在 `fmt.Printf` 中使用下面的说明符来打印有关变量的相关信息：
+   - `%+v` 打印包括字段在内的实例的完整信息
+   - `%#v` 打印包括字段和限定类型名称在内的实例的完整信息
+   - `%T` 打印某个类型的完整说明
+3. 使用 `panic()` 语句（[第 13.2 节](https://github.com/unknwon/the-way-to-go_ZH_CN/blob/master/eBook/13.2.md)）来获取栈跟踪信息（直到 `panic()` 时所有被调用函数的列表）。
+4. 使用关键字 `defer` 来跟踪代码执行过程（[第 6.4 节](https://github.com/unknwon/the-way-to-go_ZH_CN/blob/master/eBook/06.4.md)）。
+
+
+
+
 
 ## 常量变量
 
@@ -127,6 +177,93 @@ return nil, errors.New("m needs 2^n")
 
 
 
+## 数组
+
+```Go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	//一维数组
+	var arr_1 [5] int
+	fmt.Println(arr_1)
+
+	var arr_2 =  [5] int {1, 2, 3, 4, 5}
+	fmt.Println(arr_2)
+
+	arr_3 := [5] int {1, 2, 3, 4, 5}
+	fmt.Println(arr_3)
+
+	arr_4 := [...] int {1, 2, 3, 4, 5, 6}
+	fmt.Println(arr_4)
+
+	arr_5 := [5] int {0:3, 1:5, 4:6}
+	fmt.Println(arr_5)
+
+	//二维数组
+	var arr_6 = [3][5] int {{1, 2, 3, 4, 5}, {9, 8, 7, 6, 5}, {3, 4, 5, 6, 7}}
+	fmt.Println(arr_6)
+
+	arr_7 :=  [3][5] int {{1, 2, 3, 4, 5}, {9, 8, 7, 6, 5}, {3, 4, 5, 6, 7}}
+	fmt.Println(arr_7)
+
+	arr_8 :=  [...][5] int {{1, 2, 3, 4, 5}, {9, 8, 7, 6, 5}, {0:3, 1:5, 4:6}}
+	fmt.Println(arr_8)
+}
+```
+
+数组是值类型问题，在函数中传递的时候是传递的值，如果传递数组很大，这对内存是很大开销。
+
+## 切片
+
+切片是一种动态数组，比数组操作灵活，长度不是固定的，可以进行追加和删除。
+
+`len()` 和 `cap()` 返回结果可相同和不同。
+
+```Go
+//demo_7.go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var sli_1 [] int      //nil 切片
+	fmt.Printf("len=%d cap=%d slice=%v\n",len(sli_1),cap(sli_1),sli_1)
+
+	var sli_2 = [] int {} //空切片
+	fmt.Printf("len=%d cap=%d slice=%v\n",len(sli_1),cap(sli_2),sli_2)
+
+	var sli_3 = [] int {1, 2, 3, 4, 5}
+	fmt.Printf("len=%d cap=%d slice=%v\n",len(sli_3),cap(sli_3),sli_3)
+
+	sli_4 := [] int {1, 2, 3, 4, 5}
+	fmt.Printf("len=%d cap=%d slice=%v\n",len(sli_4),cap(sli_4),sli_4)
+
+	var sli_5 [] int = make([] int, 5, 8)
+	fmt.Printf("len=%d cap=%d slice=%v\n",len(sli_5),cap(sli_5),sli_5)
+
+	sli_6 := make([] int, 5, 9)
+	fmt.Printf("len=%d cap=%d slice=%v\n",len(sli_6),cap(sli_6),sli_6)
+}
+```
+
+
+
+
+
+## Struct结构体
+
+
+
+## nil
+
+
+
 ## func
 
 包级方法，（普通的函数）
@@ -138,8 +275,6 @@ func NewDBFile(path string) (*DBFile, error) {
 ```
 
 因为它不属于任何特定类型。它可以直接在包中调用。
-
-
 
 带接受器的方法
 
@@ -177,6 +312,18 @@ func (df DBFile) Write(e *Entry) error {
 github项目地址https://github.com/GetcharZp/cloud-disk
 
 博客：https://blog.csdn.net/weixin_43734095/article/details/124927942
+
+
+
+
+
+
+
+
+
+
+
+
 
 # miniDB
 

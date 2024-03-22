@@ -1428,6 +1428,47 @@ https://www.notion.so/znsssd/Disk-2b750be455a2459bb346556567b2553a
 
 
 
+# ZoneKV
+
+ZoneKV: A Space-Efficient Key-Value Store for ZNS SSDs
+
+作者包括Mingchen Lu、Peiquan Jin、Xiaoliang Wang、Yongping Luo和Kuankuan Guo，来自中国科学技术大学和字节跳动公司。文章发表在IEEE Xplore上，主要介绍了一种针对ZNS（Zoned Namespace）SSDs的新的空间高效键值存储系统ZoneKV。
+
+## 0 摘要
+
+- 提出了ZoneKV，一种针对ZNS SSDs的空间高效键值存储系统。
+- 观察到现有的RocksDB适配到ZNS SSDs会导致区域碎片化和空间放大问题。
+- 因此，我们提出了一个基于生命周期的区域存储模型和特定级别的区域分配算法，将生命周期相似的SSTables存储在同一区域。
+- 在真实的ZNS SSD上评估了ZoneKV，结果显示ZoneKV能够减少高达60%的空间放大，并保持比RocksDB和ZenFS更高的吞吐量。
+
+## 1 引言
+
+- ZNS SSDs是一种新型SSD，采用新的NVMe存储接口。它们将逻辑块地址（LBA）划分为多个相同大小的区域，每个区域只能顺序写入并在重置后再次使用。这种强制性的顺序写入允许ZNS SSDs进行更粗粒度的地址转换，而不影响性能。ZNS SSDs将垃圾回收和数据放置的功能留给主机侧，这使得用户可以设计出有效技术来利用ZNS SSDs的优势，例如新的索引和缓冲区管理器。
+- 讨论了ZNS SSDs与LSM-tree（Log-Structured Merge-tree）的契合性，以及ZenFS如何使RocksDB适应ZNS SSDs。
+
+## 2 相关工作
+
+- 讨论了传统SSDs的局限性，以及ZNS SSDs如何作为一种改进的开放通道SSDs。
+- 传统SSDs对主机来说是透明的，因此主机无法执行应用感知的数据放置或其他操作来减少写放大和空间放大。ZNS SSDs可以看作是开放通道SSDs的改进版本。ZNS SSDs支持完整的存储堆栈，包括底层的块驱动程序到上层的文件系统。ZNS SSDs不执行设备侧的垃圾回收，意味着主机必须执行主机级别的垃圾回收。
+- 介绍了ZNS SSDs的相关研究，包括ZNS+接口和其他针对ZNS SSDs的压缩方法。
+
+### 3 ZoneKV的设计
+
+- 分析了现有方法的局限性，提出了ZoneKV的主要思想。
+- 描述了ZoneKV的架构和关键技术，包括基于生命周期的区域存储和特定级别的区域分配。
+
+## 4 性能评估
+
+- 描述了实验设置、写入性能、更新性能、读取性能、混合读写性能和多线程性能的测试。
+- 展示了ZoneKV在各种工作负载和设置下的性能，特别是在减少空间放大和保持高吞吐量方面优于RocksDB和ZenFS。
+
+## 5 总结
+
+- 主要贡献，包括基于生命周期的区域存储和特定级别的区域分配，这些设计可以降低使用区域的数量并减少LSM-tree在ZNS SSDs上的空间放大。
+- 强调了ZoneKV在多线程环境中的稳定和高性能。
+
+
+
 
 
 
