@@ -1428,34 +1428,156 @@ https://www.notion.so/znsssd/Disk-2b750be455a2459bb346556567b2553a
 
 
 
+
+
+# kangaroo：SSD as cache
+
+## 0 Ab
+
+合并日志结构化缓存和组相联缓存来克服这些限制，旨在降低DRAM和闪存写入的开销。
+    - 系统由两个主要部分组成：**KLog**（一个小型的日志结构化闪存缓存）和**KSet**（一个大型的组相联闪存缓存）。
+    - **KLog**作为一个暂存区，使得对象写入到**KSet**更加高效。它只使用少量的闪存（约5%）并且只需要最小的DRAM来索引其全部容量。
+    - **KSet**在闪存页面中存储对象，并使用布隆过滤器（Bloom filter）有效地跟踪集合成员身份。
+    - Kangaroo引入了**门槛准入策略**，允许它在减少写入的同时逐出对象。它确保将对象移动到KSet的写放大明显低于组相联缓存。
+
+3. **操作流程**:
+   - **查找操作**：Kangaroo通过首先检查DRAM缓存，然后检查KLog的索引，最后检查KSet的布隆过滤器来执行查找。
+   - **插入操作**：对象首先被插入到DRAM缓存。从DRAM缓存逐出的对象要么被丢弃，要么被添加到KLog的索引和闪存日志中。从KLog逐出的对象要么被丢弃，要么被插入到KSet中。
+
+4. **创新和优化**:
+   - Kangaroo引入了创新技术来最小化写放大，通过同时将多个对象从KLog移动到KSet。
+   - 系统设计在允许的写速率、DRAM大小和闪存大小的范围内是帕累托最优的，表现出比以前的设计更好的性能和更低的成本。
+   - 它还提供了进一步的优化，以减少DRAM开销和缺失率，提高了缓存过程的整体效率。
+
+总而言之，Kangaroo有效地解决了在闪存上有效缓存数十亿个小型对象的关键问题，提出了一个强大的解决方案，最小化了DRAM和闪存写入的开销。这一创新对于大规模系统（如社交媒体和物联网服务）特别有益，其中高效的缓存对于性能和成本效益至关重要【https://www.cs.cmu.edu/~csd-phd-blog/2022/kangaroo/】【7†source】【8†source】【9†source】。
+
+## 0 Ab
+
+合并日志结构化缓存和组相联缓存来克服这些限制，旨在降低DRAM和闪存写入的开销。
+    - 系统由两个主要部分组成：**KLog**（一个小型的日志结构化闪存缓存）和**KSet**（一个大型的组相联闪存缓存）。
+    - **KLog**作为一个暂存区，使得对象写入到**KSet**更加高效。它只使用少量的闪存（约5%）并且只需要最小的DRAM来索引其全部容量。
+    - **KSet**在闪存页面中存储对象，并使用布隆过滤器（Bloom filter）有效地跟踪集合成员身份。
+    - Kangaroo引入了**门槛准入策略**，允许它在减少写入的同时逐出对象。它确保将对象移动到KSet的写放大明显低于组相联缓存。
+
+3. **操作流程**:
+   - **查找操作**：Kangaroo通过首先检查DRAM缓存，然后检查KLog的索引，最后检查KSet的布隆过滤器来执行查找。
+   - **插入操作**：对象首先被插入到DRAM缓存。从DRAM缓存逐出的对象要么被丢弃，要么被添加到KLog的索引和闪存日志中。从KLog逐出的对象要么被丢弃，要么被插入到KSet中。
+
+4. **创新和优化**:
+   - Kangaroo引入了创新技术来最小化写放大，通过同时将多个对象从KLog移动到KSet。
+   - 系统设计在允许的写速率、DRAM大小和闪存大小的范围内是帕累托最优的，表现出比以前的设计更好的性能和更低的成本。
+   - 它还提供了进一步的优化，以减少DRAM开销和缺失率，提高了缓存过程的整体效率。
+
+总而言之，Kangaroo有效地解决了在闪存上有效缓存数十亿个小型对象的关键问题，提出了一个强大的解决方案，最小化了DRAM和闪存写入的开销。这一创新对于大规模系统（如社交媒体和物联网服务）特别有益，其中高效的缓存对于性能和成本效益至关重要【https://www.cs.cmu.edu/~csd-phd-blog/2022/kangaroo/】【7†source】【8†source】【9†source】。
+
+
+
+
+
 # ZoneKV
 
-ZoneKV: A Space-Efficient Key-Value Store for ZNS SSDs
+ZoneKV: A Space-Efficient Key-Value Store for ZNS SSDs，DAC23
 
-作者包括Mingchen Lu、Peiquan Jin、Xiaoliang Wang、Yongping Luo和Kuankuan Guo，来自中国科学技术大学和字节跳动公司。文章发表在IEEE Xplore上，主要介绍了一种针对ZNS（Zoned Namespace）SSDs的新的空间高效键值存储系统ZoneKV。
+来自中国科学技术大学和字节跳动公司。文章发表在IEEE Xplore上，主要介绍了一种针对ZNS（Zoned Namespace）SSDs的新的空间高效键值存储系统ZoneKV。 
+
+
+
+https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10247926
 
 ## 0 摘要
 
 - 提出了ZoneKV，一种针对ZNS SSDs的空间高效键值存储系统。
 - 观察到现有的RocksDB适配到ZNS SSDs会导致区域碎片化和空间放大问题。
 - 因此，我们提出了一个基于生命周期的区域存储模型和特定级别的区域分配算法，将生命周期相似的SSTables存储在同一区域。
-- 在真实的ZNS SSD上评估了ZoneKV，结果显示ZoneKV能够减少高达60%的空间放大，并保持比RocksDB和ZenFS更高的吞吐量。
+- 在真实的ZNS SSD上评估了ZoneKV，结果显示ZoneKV能够减少高达60%的空间放大，并保持比RocksDB with ZenFS更高的吞吐量。
 
 ## 1 引言
 
-- ZNS SSDs是一种新型SSD，采用新的NVMe存储接口。它们将逻辑块地址（LBA）划分为多个相同大小的区域，每个区域只能顺序写入并在重置后再次使用。这种强制性的顺序写入允许ZNS SSDs进行更粗粒度的地址转换，而不影响性能。ZNS SSDs将垃圾回收和数据放置的功能留给主机侧，这使得用户可以设计出有效技术来利用ZNS SSDs的优势，例如新的索引和缓冲区管理器。
-- 讨论了ZNS SSDs与LSM-tree（Log-Structured Merge-tree）的契合性，以及ZenFS如何使RocksDB适应ZNS SSDs。
+- ZNS SSDs：是一种新型SSD，采用新的NVMe存储接口。它们将逻辑块地址（LBA）划分为多个相同大小的区域，每个区域只能顺序写入并在重置后再次使用。这种强制性的顺序写入允许ZNS SSDs进行更粗粒度的地址转换。此外ZNS SSDs将垃圾回收和数据放置的功能留给主机侧，这使得用户可以设计出有效技术来利用ZNS SSDs的优势，例如新的索引和缓冲区管理器。
+
+- ZNS SSDs与LSM-tree（Log-Structured Merge-tree）的契合性： LSM-tree将随机写入转换为顺序写入，大大提高了写入性能。它已被用于许多键值存储中，例如 BigTable、LevelDB 和 RocksDB。
+
+  基于LSM树的键值存储的内存组件，由MemTable和Immutable MemTable组成。 MemTable以仅追加模式存储最新的键值。当达到存储阈值时，Memtable 将转换为只读的 Immutable MemTable。基于LSM树的键值存储的磁盘或SSD部分由多个级别组成，每个级别由多个排序字符串表（SSTables）组成。每个级别都有大小限制，并且大小限制呈指数增长。当级别超过其大小限制时，将触发压缩操作，通过将 L i 中的 SSTable 合并到 Li +1 来将数据下推。
+
+- ZenFS如何使RocksDB适应ZNS SSDs： ZenFS是西部数据公司开发的存储后端模块。它可以为新生成的 SSTable 分配区域，并从包含无效数据的区域回收可用空间。 ZenFS 采用经验方法（？）将 SSTable 放入区域中，由于区域中的 SSTable 可能具有不同的生命周期，因此区域内会产生许多无效数据。
+
+  例如，当选择$L_2$中的SSTable来执行压缩，并且$L_3$ 中的所有SSTable都应该存储在$Zone_1$ 中，压缩后新生成的SSTable可以被写入到不同的Zone，例如$Zone_2$ 。因此，ZenFS 将生成包含具有不同生命周期的 SSTable的区域。这样一来，zone中的无效数据就不会被及时回收，增加了LSM-tree的空间放大。
+
+  （图片来自ZenFS的Readme）
+
+  
+
+  <img src="https://user-images.githubusercontent.com/447288/84152469-fa3d6300-aa64-11ea-87c4-8a6653bb9d22.png" alt="zenfs stack" style="zoom:30%;" />
+
+为了解决上述问题，在本文中，我们提出了一种用于 ZNS SSD 的新的节省空间的键值存储，称为 ZoneKV。 ZoneKV采用基于生命周期的区域存储模型和特定级别的区域分配算法，使每个区域中的SSTable具有相似的生命周期，从而比ZenFS具有更低的空间放大、更好的空间效率和更高的时间性能。简而言之，我们在本文中做出了以下贡献。
+
+1. 为了解决ZNS SSD上LSM-tree的空间放大问题，ZoneKV提出了一种基于生命周期的区域存储模型，在一个区域中维护具有相似生命周期的SSTable，以减少空间放大并提高空间效率。
+2. ZoneKV提出了一种特定于级别的区域分配算法来组织ZNS SSD中LSM树的级别。特别是，ZoneKV 将 L 0 和 L 1 放在一个区域中，因为这两个级别中的 SSTable 具有相似的生命周期。另外，ZoneKV将L i ( i ≥ 2)中的所有SSTable水平划分为切片，不同的切片存储在不同的zone中，使得每个zone的SSTable具有相同的生命周期。
+3. 我们将 ZoneKV 与 RocksDB [12] 以及真实 ZNS SSD 上最先进的系统 ZenFS [1] 进行比较。与RocksDB相比，ZoneKV可以减轻约50%-60%的空间放大，与ZenFS相比，这一改进约为40%-50%。此外，ZoneKV 实现了最高的吞吐量。
 
 ## 2 相关工作
 
-- 讨论了传统SSDs的局限性，以及ZNS SSDs如何作为一种改进的开放通道SSDs。
-- 传统SSDs对主机来说是透明的，因此主机无法执行应用感知的数据放置或其他操作来减少写放大和空间放大。ZNS SSDs可以看作是开放通道SSDs的改进版本。ZNS SSDs支持完整的存储堆栈，包括底层的块驱动程序到上层的文件系统。ZNS SSDs不执行设备侧的垃圾回收，意味着主机必须执行主机级别的垃圾回收。
-- 介绍了ZNS SSDs的相关研究，包括ZNS+接口和其他针对ZNS SSDs的压缩方法。
+讨论了传统SSDs的局限性，ZNS SSDs可以作为一种改进的开放通道SSDs。
 
-### 3 ZoneKV的设计
+ZNS SSDs支持完整的存储堆栈，包括底层的块驱动程序到上层的文件系统。ZNS SSDs不执行设备侧的垃圾回收，意味着主机必须执行主机级别的垃圾回收。
+
+为了尽量减少主机级的GC开销，最近的研究提出了一种新的ZNS接口ZNS+，以支持存储内部的区域压缩。专注于ZNS SSD上压缩的其他方法包括CAZA[16]和LL-压缩[17]。然而，这两种方法都会使得压缩后的SSTables散布在不同的区域中，从概念上讲，由同一压缩操作产生的SSTables应该具有相同的生命周期[5]。将它们放置在不同的区域中，对空间效率不友好。
+
+到目前为止，据我们所知，ZenFS 是唯一将 RocksDB 适配到 ZNS SSD 的键值存储。但ZenFS并没有充分考虑SSTables的生命周期，也没有完整的GC逻辑。因此，具有不同生命周期的SSTables可能会存储在同一区域中，导致严重的空间放大。在本文中，我们主要关注改进ZenFS，并将ZenFS视为主要竞争对手。与 ZenFS 不同，我们建议将具有相似生命周期的 SSTable 存储在同一区域内，以减少 LSM 树的空间放大。
+
+## 3 ZoneKV的设计
 
 - 分析了现有方法的局限性，提出了ZoneKV的主要思想。
 - 描述了ZoneKV的架构和关键技术，包括基于生命周期的区域存储和特定级别的区域分配。
+
+### 3.1 现有方法的局限性
+
+将RocksDB移植到ZNS SSD的基本方法是让RocksDB将SSTable存储到特定的区域，这是通过文件操作接口来实现的。虽然这种简单的实现可以支持 ZNS SSD 上的读/写操作，但它的空间利用率不高。这是因为 SSTable 随机分散在区域之间。由于每个zone中的SSTable可能有不同的生命周期，例如，一些SSTable经常更新，而另一些则从不更新，(?)
+
+> 我们可以推断每个zone中会有很多无效数据，因为那些声明周期短的数据早就失效了，但ZNS SSD必须重置才能释放这些空间。
+
+因此，如果所有SSTables都是随机存储在区域中的，那么每个区域中将会产生越来越多的无效数据，这会导致空间放大率高和空间浪费。
+
+ZenFS  提出了一种改进的方法来在区域中存储SSTables。它为每个活跃区域维护最长的生命周期；如果新生成的SSTable的生命周期比活跃区域中的最长生命周期短，那么SSTable将被放入该区域中。与原始的RocksDB相比，ZenFS可以减少空间放大，但具有不同生命周期的SSTables可能仍然分布在同一个区域中。请注意，具有不同生命周期的SSTables具有不同的更新频率。因此，一个区域内的某些SSTables可能已经被更新，而其他SSTables则没有，这浪费了区域容量，且空间效率不高。
+
+> ??说的好像SST会被就地更新一样,这个"更新指的是啥"
+
+### 3.2  ZoneKV 的思想
+
+在本文中，我们将 SSTable 的生命周期定义为它的创建时间和失效时间之间的间隔。假设 SSTable 在 t 1 创建，并在 t 2 压缩或更新；其生命周期定义为 | t 2 − t 1 | 。目标：将所有具有相似生命周期的 SSTable 存储到同一区域中。
+
+获取 SSTable 的准确生命周期并不是一件容易的事。例如，当我们需要将 SSTable 写入 LSM 树中的某个级别时，我们只知道 SSTable 的创建时间。在 SSTable 被更新或压缩之前，我们不会知道它的失效时间。
+
+我们不会显式维护每个 SSTable 的生命周期信息。相反，我们使用级别编号作为生命周期的指标。
+
+**L0、L1：**RocksDB对L0**采用分层**（tiering compaction）压缩，这将使L0 中的所有SSTable失效，并将它们与L 1 中的SSTable合并，并产生新的SSTable，最终写入L 1 。因此，我们可以推断 L 0 中的所有 SSTable 具有相同的生命周期。另一方面，由于 L0 中 SSTable 的键范围重叠，因此在对 L0 进行分层压缩时，更有可能读取 L 1 中的所有 SSTable 并与 L 0 合并。因此，L1 中的几乎所有 SSTable 都会因 L 0 中触发的分层压缩而失效，这意味着 L 1 中的所有 SSTable 与 L 0 中的 SSTable 具有相似的生命周期。
+
+**L>=2：**
+
+此外，对于 L 2 和 L 3 等较低级别，RocksDB 使用 Leveling Compaction [12]，以循环方式选择 L i ( i ≥ 2) 中的一个 SSTable，并将该 SSTable 与 L_i +1中所有重叠的 SSTable 合并 。为此，我们可以看到具有小键的 SSTable 将首先被选择作为受害者进行压缩，这意味着它们具有相似的生命周期。因此，我们对 L i ( i ≥ 2) 中的 SSTables 进行水平分区，并将每个分区放在不同的区域中。
+
+小结:
+
+**（1）基于生命周期的Zone Storage**。 ZoneKV建议在一个区域中维护具有相似寿命的SSTable，以减少空间放大并提高空间效率。 ZoneKV 不会显式维护每个 SSTable 的生命周期信息，而是使用每个 SSTable 的级别编号来隐式推断生命周期。这样的设计可以避免内存使用并维护生命周期信息的成本。
+
+​    **(2)** **特定级别的区域分配。**首先，ZoneKV 建议将 L 0 和 L 1 放在一个区域中，因为这两个级别中的 SSTable 具有相似的生命周期。其次，ZoneKV将L i ( i ≥ 2)中的所有SSTable水平划分为切片，每个切片存储在一个zone中。
+
+### 3.3 ZoneKV的架构
+
+![image-20240325182729200](ZNS.assets/image-20240325182729200.png)
+
+与 RocksDB 一样，ZoneKV 也包含内存组件和持久组件（即 ZNS SSD）。内存组件的作用与RocksDB相同，ZoneKV的独特设计侧重于持久化组件，它由两个方面组成。
+
+- 首先，当SSTables写入特定级别时(无论是刷新操作或压缩操作)，ZoneKV根据生命周期信息将SSTables写入特定区域（选择合适区域的算法将在第III-E节中讨论）
+- 其次，LSM树中的每个级别都存储在不同的区域中，以使每个区域包含具有相似生命周期的SSTable。
+
+如图1所示，ZoneKV将日志文件放在单独的区域中，因为日志以仅追加的方式写入并且从不更新；因此它们的寿命可以被认为是无限的。 
+
+ZoneKV的实现是基于RocksDB的。与ZenFS[1]一样，ZoneKV修改了RocksDB中FileSystemWrapper类的接口，并通过libzbd[1]直接与区域交互。传统的磁盘I/O堆栈需要内核文件系统、块层、I/O调度层、块设备驱动层等一系列I/O子系统才能到达磁盘。这些长链总是会降低数据存储效率，间接降低磁盘吞吐量并增加请求延迟。 ZoneKV 针对 ZNS 进行了优化通过直接在 ZNS SSD 上执行端到端数据放置并绕过巨大的 I/O 堆栈。
+
+### 3.4 基于时间的分区存储
+
+
 
 ## 4 性能评估
 

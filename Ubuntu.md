@@ -1246,7 +1246,11 @@ source $ZSH/oh-my-zsh.sh
 
 创建用户
 
-...
+```bash
+sudo adduser lzq
+```
+
+
 
 ### 设置sudo密码
 
