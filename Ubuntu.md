@@ -1266,7 +1266,13 @@ sudo passwd
 sudo usermod -aG sudo lzq
 ```
 
+其他相关:
 
+`users`
+
+`who `
+
+`ps -a` 
 
 ## SSH
 

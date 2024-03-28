@@ -1629,5 +1629,12 @@ ZoneKV并没有显式地维护每个SSTable的生命周期信息，而是使用S
 
 
 
+FAST'24 - ZNS：
+
+1. I/O Passthru: Upstreaming a flexible and efficient I/O Path in Linux
+2. RFUSE: Modernizing Userspace Filesystem Framework through Scalable Kernel-Userspace Communication
+3. MIDAS: Minimizing Write Amplification in Log-Structured Systems through Adaptive Group Number and Size Configuration 
+4. The Design and Implementation of a Capacity-Variant Storage System
+
 
 
