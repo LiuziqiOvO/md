@@ -1629,12 +1629,90 @@ ZoneKV并没有显式地维护每个SSTable的生命周期信息，而是使用S
 
 
 
-FAST'24 - ZNS：
+
+
+
+
+
+
+
+
+# CVSS
+
+The Design and Implementation of a Capacity-Variant Storage System
+
+https://www.usenix.org/conference/fast24/presentation/jiao
+
+我们介绍了一种针对基于闪存的固态硬盘（SSD）的容量可变存储系统（CVSS）的设计与实现。CVSS旨在通过允许存储容量随时间优雅减少，从而在整个SSD的生命周期内维持高性能，防止出现性能逐渐下降的症状。CVSS包含三个关键组件：
+
+- CV-SSD，一种最小化写入放大并随年龄增长优雅减少其导出容量的SSD；
+- CV-FS，一种用于弹性逻辑分区的日志结构文件系统
+- CV-manager，一种基于存储系统状态协调系统组件的用户级程序。
+
+我们通过合成和真实工作负载证明了CVSS的有效性，并展示了与固定容量存储系统相比，在延迟、吞吐量和寿命方面的显著改进。具体来说，在真实工作负载下，CVSS将延迟降低，吞吐量提高，并分别延长寿命8-53%，49-316%和268-327%。
+
+
+
+### 1. 引言
+
+> Fail-slow 问题
+
+近期，针对基于SSD的性能逐渐下降症状（fail-slow）获得了显著关注。在SSD中，这种退化通常是由于SSD内部逻辑尝试纠正错误所引起的。最近的研究表明，性能逐渐下降的驱动器可能会导致高达3.65倍的延迟峰值，并且由于闪存的可靠性随时间持续恶化，我们预计性能逐渐下降症状对整体系统性能的影响将会增加。
+
+
+
+### 2. 背景与动机
+
+详细介绍了CVSS的动机，解释了SSD中闪存错误和磨损趋势的增加。批判了当前固定容量存储系统模型加剧了与可靠性相关的性能下降问题，并回顾了以往尝试解决这些问题的努力。
+
+
+
+### 3. 容量变化的设计
+
+设计部分概述了一项高级原则，即放宽存储设备的固定容量抽象，允许在容量、性能和可靠性之间进行权衡。介绍了CVSS的三个关键组件：CV-FS支持弹性逻辑分区，CV-SSD通过映射出错误倾向的块来维护设备性能，CV-manager协调容量变化系统。
+
+### 4. 实现
+
+提供了实现CVSS的细节，包括对Linux内核的修改以支持容量变化，对F2FS的更改以解决容量变化触发的重映射问题，以及对FEMU（一个闪存模拟器）的增强以模拟CV-SSD的行为。这些修改旨在支持一个能够根据磨损和错误动态调整其存储容量的系统。
+
+
+
+**3 容量可变设计** 容量可变系统背后的高级设计原则在图3中有所说明。该系统放宽了存储设备的固定容量抽象，并使得在容量、性能和可靠性之间实现更好的权衡成为可能。传统的固定容量接口，其设计初衷是用于硬盘驱动器（HDD），假定所有存储组件要么同时工作要么同时失败。然而，这一假设对于SSD并不准确，因为闪存块是故障的基本单位，映射出失败、不良和老化块是FTL的责任。
+
+
+
+
+
+### 5. 容量变化的评估
+
+评估部分讨论了测试CVSS在各种工作负载下的实验设置、方法和结果。它证明了CVSS在降低延迟、提高吞吐量和延长SSD寿命方面的有效性，与传统的固定容量存储系统相比。
+
+
+
+### 6. 讨论与未来工作
+
+讨论部分涉及容量变化的不同用例，包括其在ZNS（区域命名空间）SSD和RAID系统中的应用。概述了CVSS在简化SSD设计、改善数据中心存储管理和延长桌面SSD使用寿命方面的潜在好处。
+
+
+
+### 7. 总结
+
+结论再次确认采用容量变化方法的优势，强调其在减轻固定容量SSD固有限制方面的作用，尤其是关于耐用性和随时间性能。容量变化系统被定位为固定容量SSD限制的一个实用解决方案，承诺将进行持续的优化和特性开发。
+
+
+
+# FAST'24 - ZNS：
 
 1. I/O Passthru: Upstreaming a flexible and efficient I/O Path in Linux
 2. RFUSE: Modernizing Userspace Filesystem Framework through Scalable Kernel-Userspace Communication
 3. MIDAS: Minimizing Write Amplification in Log-Structured Systems through Adaptive Group Number and Size Configuration 
 4. The Design and Implementation of a Capacity-Variant Storage System
+
+
+
+
+
+
 
 
 
