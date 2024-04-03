@@ -1478,7 +1478,9 @@ https://www.notion.so/znsssd/Disk-2b750be455a2459bb346556567b2553a
 
 ZoneKV: A Space-Efficient Key-Value Store for ZNS SSDs，DAC23
 
-来自中国科学技术大学和字节跳动公司。文章发表在IEEE Xplore上，主要介绍了一种针对ZNS（Zoned Namespace）SSDs的新的空间高效键值存储系统ZoneKV。 
+来自中国科学技术大学和字节跳动公司。
+
+按照LSM-Tree中每层的等级作为生命周期，调整区域放置。
 
 
 
@@ -1635,6 +1637,37 @@ ZoneKV并没有显式地维护每个SSTable的生命周期信息，而是使用S
 
 
 
+# WALTZ (开源)
+
+https://github.com/SNU-ARC/WALTZ
+
+
+
+
+
+
+
+
+
+
+
+
+
+# FAST'24 - ZNS：
+
+1. I/O Passthru: Upstreaming a flexible and efficient I/O Path in Linux
+2. RFUSE: Modernizing Userspace Filesystem Framework through Scalable Kernel-Userspace Communication
+3. MIDAS: Minimizing Write Amplification in Log-Structured Systems through Adaptive Group Number and Size Configuration 
+4. The Design and Implementation of a Capacity-Variant Storage System
+
+
+
+
+
+
+
+
+
 
 
 # CVSS
@@ -1701,12 +1734,7 @@ https://www.usenix.org/conference/fast24/presentation/jiao
 
 
 
-# FAST'24 - ZNS：
-
-1. I/O Passthru: Upstreaming a flexible and efficient I/O Path in Linux
-2. RFUSE: Modernizing Userspace Filesystem Framework through Scalable Kernel-Userspace Communication
-3. MIDAS: Minimizing Write Amplification in Log-Structured Systems through Adaptive Group Number and Size Configuration 
-4. The Design and Implementation of a Capacity-Variant Storage System
+4. 
 
 
 
