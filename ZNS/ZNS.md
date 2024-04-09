@@ -4,7 +4,7 @@ marp: true
 
 # ZNS+
 
-ZNS+: Advanced Zoned Namespace Interface for Supporting InStorage Zone Compaction(https://www.usenix.org/system/files/osdi21-han.pdf)
+ZNS+: Advanced Zoned Namespace Interface for Supporting InStorage Zone Compaction(https://www.usenix.org/system/files/osdi21-han.pdf
 
 https://blog.csdn.net/marlos/article/details/130234764
 
@@ -1666,10 +1666,6 @@ https://github.com/SNU-ARC/WALTZ
 
 
 
-
-
-
-
 # CVSS
 
 The Design and Implementation of a Capacity-Variant Storage System
@@ -1733,8 +1729,6 @@ https://www.usenix.org/conference/fast24/presentation/jiao
 结论再次确认采用容量变化方法的优势，强调其在减轻固定容量SSD固有限制方面的作用，尤其是关于耐用性和随时间性能。容量变化系统被定位为固定容量SSD限制的一个实用解决方案，承诺将进行持续的优化和特性开发。
 
 
-
-4. 
 
 
 
