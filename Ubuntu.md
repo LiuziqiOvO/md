@@ -1596,7 +1596,133 @@ linux输出结果太多了，怎么控制只显示输出结果的前10行
 
 
 
-# OS
+
+
+# Linux常用手段
+
+## 开机自启脚本&service
+
+开机自动挂载：`/etc/fstab`
+
+
+
+开机启动脚本：`/etc/rc.local`
+
+
+
+创建一个新的 systemd 服务文件, 例如 `/etc/systemd/system/***.service`。
+
+1. 在该文件中添加以下内容：
+
+```
+iniCopy code[Unit]
+Description=Configure Hugepages
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c "echo 5 > /sys/kernel/mm/hugepages/hugepages-1048576kB/nr_hugepages"
+
+[Install]
+WantedBy=multi-user.target
+```
+
+1. 重新加载 systemd 配置并启用服务：
+
+```
+bashCopy codesudo systemctl daemon-reload
+sudo systemctl enable hugepages.service
+sudo systemctl start hugepages.service
+```
+
+这样，在每次系统启动时，都会自动应用您的大页内存设置。
+
+## 配置HugePage
+
+```bash
+# 需要1G大小的 Huge Page 先来5个
+su root 
+echo 5 > /sys/kernel/mm/hugepages/hugepages-1048576kB/nr_hugepages
+
+```
+
+这个错误表明虽然您已经预留了大页内存，但系统中没有为这些大页大小挂载的 `hugetlbfs` 文件系统。`hugetlbfs` 是 Linux 下用于管理大页内存的一种特殊文件系统，能够提供对大页的直接访问。解决这个问题需要您手动挂载 `hugetlbfs`，以便系统和应用能够使用预留的大页。
+
+#### 1. 创建挂载点
+
+首先，您需要为每种大页大小创建一个挂载点。通常，这些挂载点位于 `/dev/hugepages` 或 `/mnt/huge`，但您可以根据需要选择不同的位置。例如，对于 2MB 和 1GB 大页：
+
+```bash
+sudo mkdir -p /dev/hugepages-2MB
+sudo mkdir -p /dev/hugepages-1GB
+```
+
+#### 2. 挂载 `hugetlbfs`
+
+然后，使用 `mount` 命令将 `hugetlbfs` 文件系统挂载到这些挂载点。为每种大页大小指定正确的 `pagesize`：
+
+```bash
+sudo mount -t hugetlbfs -o pagesize=2M hugetlbfs /dev/hugepages-2MB
+sudo mount -t hugetlbfs -o pagesize=1G hugetlbfs /dev/hugepages-1GB
+```
+
+#### 3. 验证挂载
+
+使用 `mount` 或 `df -h` 命令来确认 `hugetlbfs` 已经正确挂载：
+
+```bash
+mount | grep hugetlbfs
+```
+
+或者：
+
+```bash
+df -h | grep hugetlbfs
+```
+
+您应该能看到您的 `hugetlbfs` 挂载。
+
+#### 4. 持久化挂载配置(暂不)
+
+为了确保在系统重启后 `hugetlbfs` 挂载依然有效，您需要将挂载信息添加到 `/etc/fstab` 文件中。打开 `/etc/fstab` 文件并添加以下行：
+
+```fstab
+hugetlbfs /dev/hugepages-2MB hugetlbfs pagesize=2M 0 0
+hugetlbfs /dev/hugepages-1GB hugetlbfs pagesize=1G 0 0
+```
+
+保存文件并关闭编辑器。这将确保在每次系统启动时自动挂载 `hugetlbfs`。
+
+#### 注意
+
+确保您的系统和应用配置正确，并且它们能够访问和	使用新挂载的大页内存。如果您的应用特定地需要使用某种大小的大页，还需要检查应用的配置，确保它指向正确的大页内存和 `hugetlbfs` 挂载点。
+
+
+
+
+
+
+
+## 编写Shell
+
+在 Bash 脚本中，`>` 和 `2>` 是重定向操作符，而 `/dev/null` 是一个特殊的文件，表示空设备。这些组件一起使用，可以控制脚本命令的输出。具体来说：
+
+- **管道符 (`|`)**：用于将一个命令的输出作为另一个命令的输入。在您提供的脚本片段中没有直接使用管道符，但在 Bash 脚本中它是常见的数据流控制符。
+- **`>`**：用于将标准输出（stdout）重定向到一个文件或设备。在脚本中，如果一个命令后跟 `> /dev/null`，表示将该命令的输出重定向到 `/dev/null`，即忽略输出。
+- **`2>`**：用于将标准错误（stderr）重定向到一个文件或设备。与 `>` 类似，如果使用 `2> /dev/null`，表示将错误信息重定向到 `/dev/null`，即忽略错误信息。
+- **`/dev/null`**：是一个特殊的设备文件，通常被称为“空设备”。写入到 `/dev/null` 的任何内容都会被丢弃，读取 `/dev/null` 时会立即返回文件结束（EOF）。它通常用于丢弃不需要的输出。
+
+因此，当您看到 `> /dev/null 2> /dev/null` 这样的组合时，它的意思是：
+
+- `> /dev/null`：将命令的标准输出重定向到 `/dev/null`，即不显示命令的正常输出。
+- `2> /dev/null`：将命令的错误输出也重定向到 `/dev/null`，即不显示命令的错误信息。
+
+这种做法常用于那些您不关心其输出或错误信息的命令，或者当您想让脚本运行得更“安静”时。在您的脚本例子中，`$SPDK_DIR/setup.sh reset > /dev/null 2> /dev/null` 表示执行 SPDK 的 `setup.sh` 脚本的 `reset` 操作，但是忽略所有正常和错误的输出信息。
+
+
+
+
+
+# OS知识
 
 ## 扇区
 
