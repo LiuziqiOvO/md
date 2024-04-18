@@ -1470,6 +1470,22 @@ iowait这个指标有点说法。
 
 
 
+
+
+### 查看当前进程打开的文件
+
+```
+lsof -p [Process_ID]
+```
+
+
+
+```
+strace -f -e trace=file -p [Process_ID]
+```
+
+
+
 ## 查看目录创建时间
 
 ```bash

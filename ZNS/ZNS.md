@@ -1639,15 +1639,41 @@ ZoneKV并没有显式地维护每个SSTable的生命周期信息，而是使用S
 
 # WALTZ (开源)
 
-https://github.com/SNU-ARC/WALTZ
+https://github.com/SNU-ARC/WALTZ VLDB'23
+
+## 0 摘要
+
+WALTZ 是一种基于 LSM 树的键值存储，它利用 ZNS SSD 的区域追加命令来提供紧凑的尾部延迟。
+
+Lazy的元数据管理策略，允许在处理插入（put）查询时实现快速响应，减少在执行单个追加（append）命令时所需的锁定操作。不需要执行其他的同步操作来保证命令的执行。
+
+文章使用了包括不同读/写比例和键偏斜的微基准测试（db_bench）以及现实的社交图工作负载（Facebook的MixGraph）。我们的评估显示，对于db_bench和MixGraph，尾延迟分别减少了2.19倍和2.45倍，最大减少幅度达到3.02倍和4.73倍。另外，由于消除了批量组写操作的开销，WALTZ还将查询吞吐量（QPS）提高了最多11.7%。
 
 
 
+## 1 引言
+
+高并发的put导致WAL开销很大。
+
+> RocksDB batch-group
+
+于是，RocksDB 引入了一个称为 batch-group writes  的过程，该过程在具有待处理 put 请求的多个 worker 中动态选择一个 leader 线程，收集所有剩余的记录，并让 leader 代表其他 worker 立即写入它们。
+
+上述这种“bulk”写入是作为解决小规模写入效率低下的一个流行解决方案。通过合并多个小的写入请求，然后一次性批量写入，可以显著提高数据处理的速度。然而，这种技术可能对尾延迟问题没有改善，甚至可能加剧。因为在收集并批量写入这些记录的过程中，批处理中的所有记录共享写入时间，这可能会增加单个写入的等待时间，特别是当记录大小较大时。
+
+介绍ZNS的出现；介绍ZenFS。
+
+- 我们确定了批处理组写入的同步开销是随着工作线程数量增加而导致键值存储中尾部延迟松散的主要原因。
+- 我们是第一个提出利用 ZNS SSD 规范中新引入的追加命令来减少 WAL 记录的尾部延迟。
+- 我们还引入了区域替换、保留和延迟元数据管理技术来高效处理并行追加。
+- 我们使用真实的 ZNS SSD 设备作为后端存储在 RocksDB 上对 WALTZ 进行了原型设计，并使用 db_bench 微基准测试和 Facebook MixGraph 基准测试对其进行了评估。
+- 评估表明 WALTZ 在极大地降低尾部延迟方面是有效的，最多可降低 4.73 倍，同时略微提高查询吞吐量。
 
 
 
+## 2 背景
 
-
+简要介绍了LSM-Tree，写前日志，批量组写入
 
 
 
@@ -1659,6 +1685,16 @@ https://github.com/SNU-ARC/WALTZ
 2. RFUSE: Modernizing Userspace Filesystem Framework through Scalable Kernel-Userspace Communication
 3. MIDAS: Minimizing Write Amplification in Log-Structured Systems through Adaptive Group Number and Size Configuration 
 4. The Design and Implementation of a Capacity-Variant Storage System
+
+
+
+
+
+
+
+
+
+
 
 
 
