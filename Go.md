@@ -100,6 +100,10 @@ https://go-zero.dev/cn/docs/goctl/goctl
 
 
 
+
+
+# 
+
 ## 常量变量
 
 #### 变量声明
@@ -295,21 +299,28 @@ func (df DBFile) Write(e *Entry) error {
 - 带接收器的方法和包级方法都可以是并发安全的或非并发安全的。
 - 带接收器的方法可以通过指针接收器或值接收器定义。
 
+
+
+
+
+# 
+
+## GO项目布局
+
+GO没有规范项目，但是GO本身主要是GO编写的，可以参考。
+
+- cmd 可执行程序入口，只放一个main.go代码
+- internal 项目自己的包定义，不能被外部引用
+- common 可以共用的基本服务，自定义的框架，包含 net、job等子目录
+- etc 配置文件 config.yaml
+
+
+
 # 网盘
 
 github项目地址https://github.com/GetcharZp/cloud-disk
 
 博客：https://blog.csdn.net/weixin_43734095/article/details/124927942
-
-
-
-
-
-
-
-
-
-
 
 
 
