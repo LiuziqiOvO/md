@@ -692,6 +692,50 @@ plt.show()
 
 
 
+
+
+
+
+
+
+# 什么是ZERO - SHOT 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Python
 
 ## Pytorch
@@ -734,6 +778,12 @@ for label, img_dir in enumerate(img_dirs):
 >>> tuple(enumerate(seasons, start=1))
 ((1, 'Spring'), (2, 'Summer'), (3, 'Fall'), (4, 'Winter'))
 ```
+
+
+
+
+
+
 
 
 

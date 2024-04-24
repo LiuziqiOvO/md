@@ -98,12 +98,6 @@ https://go-zero.dev/cn/docs/goctl/goctl
 
 
 
-
-
-
-
-# 
-
 ## 常量变量
 
 #### 变量声明
@@ -248,11 +242,60 @@ func main() {
 
 
 
+## for循环
+
+#### 基于计数器的迭代
+
+```go\
+package main
+
+import "fmt"
+
+func main() {
+	for i := 0; i < 5; i++ {
+		fmt.Printf("This is the %d iteration\n", i)
+	}
+}
+```
+
+#### 基于条件判断的迭代
+
+也可以认为这是没有初始化语句和修饰语句的 for 结构，因此 `;;` 便是多余的了。
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var i int = 5 
+
+	for i >= 0 {
+		i = i - 1
+		fmt.Printf("The variable i is now: %d\n", i)
+	}
+}
+```
+
+#### 死循环
+
+一般情况下都会直接写 `for { }`。
+
+####  for-range 结构
+
+这是 Go 特有的一种的迭代结构，可以迭代任意一个集合。（包括数组、字符串和 `map`等）
+
+要注意的是，`val` 始终为集合中对应索引的值拷贝，因此它一般只具有只读性质，对它所做的任何修改都不会影响到集合中原有的值（**译者注：如果 `val` 为指针，则会产生指针的拷贝，依旧可以修改集合中的原值**）。
+
+
+
 ## Struct结构体
 
 
 
 ## nil
+
+
 
 
 
@@ -303,7 +346,35 @@ func (df DBFile) Write(e *Entry) error {
 
 
 
-# 
+## strings 和 strconv 包
+
+1. strings.HasPrefix(s, prefix string) bool 
+2. strings.HasSuffix(s, suffix string) bool
+3. strings.Contains(s, substr string) bool
+4. strings.Index(s, str string) int 
+5. 
+
+
+
+
+
+## 4.7.1 前缀和后缀
+
+
+
+`HasPrefix()` 判断字符串 `s` 是否以 `prefix` 开头：
+
+```go
+strings.HasPrefix(s, prefix string) bool
+```
+
+
+
+`HasSuffix()` 判断字符串 `s` 是否以 `suffix` 结尾：
+
+```go
+strings.HasSuffix(s, suffix string) bool
+```
 
 ## GO项目布局
 
