@@ -4,7 +4,7 @@
 
 原文：[The Log-Structured Merge-Tree (LSM-Tree)](https://www.cs.umb.edu/~poneil/lsmtree.pdf)
 
-![image-20221103182033321](RocksDB.assets/image-20221103182033321.png)
+![wisckey-lsm-tree.png](RocksDB.assets/IetKyMmGNQVrBsS.png)
 
 
 

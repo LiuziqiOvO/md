@@ -1,0 +1,164 @@
+<svg width="1657" height="1259" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" viewBox="0 0 1657 1259">
+<rect width="1657" height="1259" x="0" y="0" fill="none"></rect>
+<path d="M87.0313 1188.5L1590.72 1188.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<path d="M87.0313 906.5L1590.72 906.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<path d="M87.0313 624.5L1590.72 624.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<path d="M87.0313 342.5L1590.72 342.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<path d="M87.0313 60.5L1590.72 60.5" fill="transparent" stroke="#E0E6F1" class="zr0-cls-0"></path>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:20px;font-family:Microsoft YaHei;" xml:space="preserve" y="-10" transform="translate(87.0313 45)" fill="#000">吞吐量(K IOPS)</text>
+<path d="M87.0313 1188.5L1590.72 1188.5" fill="transparent" stroke="#6E7079" stroke-linecap="round" class="zr0-cls-0"></path>
+<text dominant-baseline="central" text-anchor="start" style="font-size:20px;font-family:Microsoft YaHei;" transform="translate(1605.72 1188.23)" fill="#000">Time</text>
+<path d="M87.5 1188.23L87.5 1193.23" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M187.5 1188.23L187.5 1193.23" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M287.5 1188.23L287.5 1193.23" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M388.5 1188.23L388.5 1193.23" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M488.5 1188.23L488.5 1193.23" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M588.5 1188.23L588.5 1193.23" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M688.5 1188.23L688.5 1193.23" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M789.5 1188.23L789.5 1193.23" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M889.5 1188.23L889.5 1193.23" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M989.5 1188.23L989.5 1193.23" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M1089.5 1188.23L1089.5 1193.23" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M1189.5 1188.23L1189.5 1193.23" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M1290.5 1188.23L1290.5 1193.23" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M1390.5 1188.23L1390.5 1193.23" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M1490.5 1188.23L1490.5 1193.23" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<path d="M1590.5 1188.23L1590.5 1193.23" fill="transparent" stroke="#6E7079" class="zr0-cls-0"></path>
+<text dominant-baseline="central" text-anchor="end" style="font-size:25px;font-family:Microsoft YaHei;" transform="translate(79.0313 1188.23)" fill="#000">0</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:25px;font-family:Microsoft YaHei;" transform="translate(79.0313 906.1725)" fill="#000">20</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:25px;font-family:Microsoft YaHei;" transform="translate(79.0313 624.115)" fill="#000">40</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:25px;font-family:Microsoft YaHei;" transform="translate(79.0313 342.0575)" fill="#000">60</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:25px;font-family:Microsoft YaHei;" transform="translate(79.0313 60)" fill="#000">80</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:25px;font-family:Microsoft YaHei;" y="12.5" transform="translate(588.2609 1196.23)" fill="#000">100</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:25px;font-family:Microsoft YaHei;" y="12.5" transform="translate(1089.4904 1196.23)" fill="#000">200</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:25px;font-family:Microsoft YaHei;" y="12.5" transform="translate(1590.72 1196.23)" fill="#000">300</text>
+<g clip-path="url(#zr0-c0)">
+<path d="M87.0313 652.3207L137.1543 1047.2013L187.2772 976.6869L237.4002 1047.2013L287.5231 1018.9955L337.6461 962.584L387.769 976.6869L437.892 1018.9955L488.015 1047.2013L538.1379 934.3782L588.2609 990.7897L638.3838 976.6869L688.5068 1033.0984L738.6298 962.584L788.7527 962.584L838.8757 1033.0984L888.9986 976.6869L939.1216 962.584L989.2445 1047.2013L1039.3674 920.2754L1089.4905 1033.0984L1139.6134 1047.2013L1189.7363 976.6869L1239.8593 1018.9955L1289.9823 976.6869L1340.1052 976.6869L1390.2281 990.7897L1440.3511 976.6869L1490.4741 934.3782L1540.597 1018.9955" fill="transparent" stroke="rgb(84,112,198)" stroke-width="2" stroke-linejoin="bevel" class="zr0-cls-2"></path>
+</g>
+<g clip-path="url(#zr0-c1)">
+<path d="M87.0313 128.822L137.1543 836.9274L187.2772 727.6301L237.4002 862.8766L287.5231 783.7595L337.6461 804.2087L387.769 702.386L437.892 932.968L488.015 874.582L538.1379 757.6693L588.2609 746.81L638.3838 806.3242L688.5068 911.9547L738.6298 805.9011L788.7527 711.8349L838.8757 841.4403L888.9986 786.298L939.1216 630.4613L989.2445 909.1341L1039.3674 684.7574L1089.4905 869.223L1139.6134 873.1718L1189.7363 702.668L1239.8593 788.6956L1289.9823 692.3729L1340.1052 700.1295L1390.2281 698.5782L1440.3511 671.0776L1490.4741 605.3582L1540.597 780.0928" fill="transparent" stroke="rgb(145,204,117)" stroke-width="2" stroke-linejoin="bevel" class="zr0-cls-2"></path>
+</g>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,87.0313,652.3207)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,137.1543,1047.2013)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,187.2772,976.6869)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,237.4002,1047.2013)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,287.5231,1018.9955)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,337.6461,962.584)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,387.769,976.6869)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,437.892,1018.9955)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,488.015,1047.2013)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,538.1379,934.3782)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,588.2609,990.7897)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,638.3838,976.6869)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,688.5068,1033.0984)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,738.6298,962.584)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,788.7527,962.584)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,838.8757,1033.0984)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,888.9986,976.6869)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,939.1216,962.584)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,989.2445,1047.2013)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1039.3674,920.2754)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1089.4905,1033.0984)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1139.6134,1047.2013)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1189.7363,976.6869)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1239.8593,1018.9955)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1289.9823,976.6869)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1340.1052,976.6869)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1390.2281,990.7897)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1440.3511,976.6869)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1490.4741,934.3782)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1540.597,1018.9955)" fill="rgb(255,255,255)" stroke="#5470c6" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,87.0313,128.822)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,137.1543,836.9274)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,187.2772,727.6301)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,237.4002,862.8766)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,287.5231,783.7595)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,337.6461,804.2087)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,387.769,702.386)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,437.892,932.968)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,488.015,874.582)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,538.1379,757.6693)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,588.2609,746.81)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,638.3838,806.3242)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,688.5068,911.9547)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,738.6298,805.9011)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,788.7527,711.8349)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,838.8757,841.4403)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,888.9986,786.298)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,939.1216,630.4613)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,989.2445,909.1341)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1039.3674,684.7574)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1089.4905,869.223)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1139.6134,873.1718)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1189.7363,702.668)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1239.8593,788.6956)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1289.9823,692.3729)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1340.1052,700.1295)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1390.2281,698.5782)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1440.3511,671.0776)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1490.4741,605.3582)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.0001" transform="matrix(2,0,0,2,1540.597,780.0928)" fill="rgb(255,255,255)" stroke="#91cc75" class="zr0-cls-3"></path>
+<path d="M-5 -5l205.6553 0l0 24l-205.6553 0Z" transform="translate(730.6724 5)" fill="rgb(0,0,0)" fill-opacity="0" stroke="#ccc" stroke-width="0" class="zr0-cls-0"></path>
+<path d="M0 7L25 7" transform="translate(731.6724 5)" fill="#000" stroke="#5470c6" stroke-width="2" stroke-linecap="butt" stroke-miterlimit="10" class="zr0-cls-0"></path>
+<path d="M18.1 7A5.6 5.6 0 1 1 18.1 6.9994" transform="translate(731.6724 5)" fill="#fff" stroke="#5470c6" stroke-width="2" stroke-linecap="butt" stroke-miterlimit="10" class="zr0-cls-0"></path>
+<path d="M18.1 7A5.6 5.6 0 1 1 18.1 6.9994" transform="translate(731.6724 5)" fill="url(#zr0-p0)" stroke="#5470c6" stroke-width="2" stroke-linecap="butt" stroke-miterlimit="10" class="zr0-cls-0"></path>
+<text dominant-baseline="central" text-anchor="start" style="font-size:14px;font-family:Microsoft YaHei;" x="30" y="7" transform="translate(731.6724 5)" fill="#333">NVMevirt</text>
+<path d="M-1 0l95.5449 0l0 14l-95.5449 0Z" transform="translate(731.6724 5)" fill="transparent" class="zr0-cls-4"></path>
+<path d="M0 7L25 7" transform="translate(837.2173 5)" fill="#000" stroke="#91cc75" stroke-width="2" stroke-linecap="butt" stroke-miterlimit="10" class="zr0-cls-0"></path>
+<path d="M18.1 7A5.6 5.6 0 1 1 18.1 6.9994" transform="translate(837.2173 5)" fill="#fff" stroke="#91cc75" stroke-width="2" stroke-linecap="butt" stroke-miterlimit="10" class="zr0-cls-0"></path>
+<path d="M18.1 7A5.6 5.6 0 1 1 18.1 6.9994" transform="translate(837.2173 5)" fill="url(#zr0-p1)" stroke="#91cc75" stroke-width="2" stroke-linecap="butt" stroke-miterlimit="10" class="zr0-cls-0"></path>
+<text dominant-baseline="central" text-anchor="start" style="font-size:14px;font-family:Microsoft YaHei;" xml:space="preserve" x="30" y="7" transform="translate(837.2173 5)" fill="#333">ZNS SSD</text>
+<path d="M-1 0l90.1104 0l0 14l-90.1104 0Z" transform="translate(837.2173 5)" fill="transparent" class="zr0-cls-4"></path>
+<path d="M-5 -5l10 0l0 10l-10 0Z" transform="translate(5 5)" fill="rgb(0,0,0)" fill-opacity="0" stroke="#ccc" stroke-width="0" class="zr0-cls-0"></path>
+<defs >
+<clipPath id="zr0-c0">
+<path d="M86 59l1507 0l0 1130.23l-1507 0Z" fill="#000" class="zr0-cls-1"></path>
+</clipPath>
+<clipPath id="zr0-c1">
+<path d="M86 59l1507 0l0 1130.23l-1507 0Z" fill="#000" class="zr0-cls-1"></path>
+</clipPath>
+<pattern width="1" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(29.999999999999996)" id="zr0-p0">
+<g >
+<path d="M0 -7l1 0l0 2l-1 0Z" fill="rgb(0,0,0)" fill-opacity="0.2"></path>
+<path d="M1 -7l1 0l0 2l-1 0Z" fill="rgb(0,0,0)" fill-opacity="0.2"></path>
+<path d="M0 0l1 0l0 2l-1 0Z" fill="rgb(0,0,0)" fill-opacity="0.2"></path>
+<path d="M1 0l1 0l0 2l-1 0Z" fill="rgb(0,0,0)" fill-opacity="0.2"></path>
+</g>
+</pattern>
+<pattern width="16" height="12" patternUnits="userSpaceOnUse" id="zr0-p1">
+<g >
+<path d="M6.4 -3A2.4 2.4 0 1 1 6.4 -3.0002" fill="rgb(0,0,0)" fill-opacity="0.2"></path>
+<path d="M22.4 -3A2.4 2.4 0 1 1 22.4 -3.0002" fill="rgb(0,0,0)" fill-opacity="0.2"></path>
+<path d="M0 3A0 0 0 1 1 0 3" fill="rgb(0,0,0)" fill-opacity="0.2"></path>
+<path d="M14.4 3A2.4 2.4 0 1 1 14.4 2.9998" fill="rgb(0,0,0)" fill-opacity="0.2"></path>
+<path d="M16 3A0 0 0 1 1 16 3" fill="rgb(0,0,0)" fill-opacity="0.2"></path>
+<path d="M30.4 3A2.4 2.4 0 1 1 30.4 2.9998" fill="rgb(0,0,0)" fill-opacity="0.2"></path>
+<path d="M6.4 9A2.4 2.4 0 1 1 6.4 8.9998" fill="rgb(0,0,0)" fill-opacity="0.2"></path>
+<path d="M22.4 9A2.4 2.4 0 1 1 22.4 8.9998" fill="rgb(0,0,0)" fill-opacity="0.2"></path>
+</g>
+</pattern>
+</defs>
+<style ><![CDATA[
+.zr0-cls-0:hover {
+pointer-events:none;
+}
+.zr0-cls-1:hover {
+cursor:pointer;
+fill:rgba(0,0,0,1);
+}
+.zr0-cls-2:hover {
+cursor:pointer;
+}
+.zr0-cls-3:hover {
+cursor:pointer;
+fill:rgba(255,255,255,1);
+}
+.zr0-cls-4:hover {
+cursor:pointer;
+fill:rgba(0,0,0,0);
+}
+
+]]>
+
+</style>
+</svg>
