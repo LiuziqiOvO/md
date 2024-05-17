@@ -450,20 +450,6 @@ Docker 制造隔离环境的主要方法是通过 Linux 内核提供的命名空
 镜像是由多个文件系统（layers）构成的，每个文件系统都包含了容器运行所需的文件和配置信息。Docker 使用联合文件系统（UnionFS）的技术将这些文件系统层叠在一起，形成一个完整的镜像。这种分层存储的设计使得镜像可以有效地共享和重用，同时也使得镜像的构建、传输和存储更加高效。
 
 
-
-###  基本概念
-
-容器和镜像是 Docker 中两个重要的概念，它们是 Docker 平台的核心组成部分，用于实现应用程序的打包、分发和运行。以下是关于容器和镜像的简要介绍：
-
-1. **容器（Container）**：
-   - 容器是 Docker 中运行应用程序的实体。它类似于一个轻量级的虚拟机，具有自己的文件系统、进程空间、网络和资源限制等特性。
-   - 容器提供了一种标准化的环境，使应用程序可以在不同的平台和环境中无缝运行，而不受底层操作系统的影响。
-   - 容器是独立、可移植和可部署的，可以通过 Docker 引擎在任何支持 Docker 的主机上运行。
-2. **镜像（Image）**：
-   - 镜像是容器的模板，用于创建和运行容器。它包含了运行应用程序所需的所有文件、库、依赖项和配置信息。
-   - 镜像是不可变的，一旦创建就不会发生变化。你可以基于现有的镜像创建新的镜像，并在其基础上进行定制和扩展。
-   - 镜像可以通过 Docker Hub 或其他镜像仓库进行共享和分发，也可以通过 Dockerfile 来自定义构建。
-
 ##  Docker命令
 
 - `docker images` 可以检查本地所被 tag 的镜像。加上 `-a` 选项也显示所有没有 tag 的镜像（有时候似乎也被成为 layer）。这些没名字的镜像可能是用 Dockerfile 生成镜像时的中间步骤。
@@ -491,9 +477,8 @@ docker rmi -f 镜像ID 镜像ID
 docker rmi -f $(docker images -aq) # 把所有容器的ID都传入,删掉
 ```
 
+### RUN
 
-
-### 容器命令
 
 ```bash
 docker run	
@@ -508,11 +493,16 @@ docker run
 
 docker run -it 	centos /bin/bash	#进入centos容器
 
-exit		#退回主机（容器停止）
-Ctrl+P+Q 	#退出，容器不停止
+
+
+docker run -it --net=host --privileged ditto_image
 
 docker attatch + id 重新进入容器
+
 ```
+
+exit		   #退回主机（容器停止）
+Ctrl+P+Q 	#退出，容器不停止
 
 
 
@@ -520,11 +510,16 @@ docker attatch + id 重新进入容器
 docker ps	#列出正在运行的容器
 	-a		#看曾经运行过的容器
     
-docker rm 	#删除容器  （rmi删除镜像）
+docker rm   #删除容器，+名字（tag），
 docker rm -f $(docker ps -aq)#删除所有
 docker ps -a -q |xargs docker rm #用管道符,同理
 ```
 
+docker的镜像ID是根据内容生成的，根据同样的配置创建出来的镜像，即使名字不一样，也会是同一个ID。
+
+镜像 ID 是自动的，而标签（如 latest）是仓库级别的（用户给的名字）
+
+在 Docker 中，"Untagged" 表示一个镜像失去了它的标签（tag）。Docker 镜像总是通过 <repository>:<tag> 的形式来标识，其中 <repository> 是镜像的仓库名，<tag> 是镜像的标签。标签用于区分同一个仓库中不同版本的镜像。
 
 
 ```bash
