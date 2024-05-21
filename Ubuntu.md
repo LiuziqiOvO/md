@@ -616,9 +616,52 @@ docker run -it --rm oscomp-test /bin/bash
 
 
 
-## 网络问题
+`ENTRYPOINT` 指令用于设置容器启动时执行的默认命令或应用程序。当你运行容器时，指定的命令会作为容器的主进程运行。这与 `CMD` 指令的作用类似，但 `ENTRYPOINT` 指令的参数不会被 Dockerfile 中的 `CMD` 指令覆盖，而是被添加在其后作为参数传递给 `ENTRYPOINT` 指定的命令。
 
-### 阿里云镜像加速
+在这个 Dockerfile 中，`ENTRYPOINT` 指定了 `/bin/bash` 命令，它会在容器启动时执行。而 `/root/ditto_test/script.sh` 则作为 `ENTRYPOINT` 的参数传递给 `/bin/bash` 命令，这意味着在容器启动时会执行 `/root/ditto_test/script.sh` 脚本。
+
+通过设置 `ENTRYPOINT`，你可以确保每次运行容器时都会执行特定的命令或脚本，而不必在 `docker run` 命令中手动指定。
+
+
+
+
+
+## 将当前的容器存为镜像？
+
+如果你想在容器的当前状态基础上创建一个新的镜像，可以通过以下步骤实现：
+
+1. **在容器中进行更改：**首先，你需要进入正在运行的容器，并对其进行修改。你可以使用 `docker exec` 命令来进入容器，然后在容器内执行你想要的操作。
+
+2. **将容器转换为镜像：**一旦你对容器进行了所需的修改，你可以使用 `docker commit` 命令将容器的当前状态保存为一个新的镜像。命令的基本格式是：
+
+   ```bash
+   docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]
+   ```
+
+   - `CONTAINER` 是你想要保存为镜像的容器的 ID 或名称。
+   - `REPOSITORY[:TAG]` 是你为新镜像指定的名称和标签。
+
+   例如：
+
+   ```bash
+   docker commit my_container my_image:latest
+   ```
+
+   这将会把名为 `my_container` 的容器当前状态保存为一个名为 `my_image` 的镜像，标签为 `latest`。
+
+3. **验证新镜像：**最后，你可以使用 `docker images` 命令来验证新创建的镜像是否存在。如果一切顺利，你应该能够在列表中看到你刚刚创建的镜像。
+
+请注意，通过此方法创建的镜像将会包含容器的当前状态，但不会包含容器的历史记录。因此，建议仅在开发和测试阶段使用此方法。在生产环境中，最好使用 Dockerfile 来定义镜像的构建过程，以确保镜像的可重复性和可管理性。
+
+
+
+
+
+## 网络
+
+### 代理
+
+#### 阿里云镜像加速
 
 [^阿里云]: https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors
 
@@ -635,7 +678,7 @@ sudo tee /etc/docker/daemon.json <<-'EOF'
 sudo systemctl restart docker
 ```
 
-### 如何优雅地配置Docker 代理
+#### 如何优雅地配置Docker 代理
 
 此处的代理指的是，使用docker客户端进行`docker pull` 之类命令时的网络代理。并不是容器内的网络。
 
@@ -719,11 +762,57 @@ docker run -it  --privileged --entrypoint bash alphamj/os-contest:v7.6
 
 -p  50003 : 22
 
+### 多容器组网
 
+Docker 容器的联网方式主要有以下几种：
 
-## 
+1. **桥接网络（Bridge Network）**：
+   - 默认的联网方式。
+   - 每个 Docker 容器都会被分配一个私有的 IP 地址。
+   - 容器在同一宿主机上可以通过这些 IP 地址相互访问。
+2. **宿主机网络（Host Network）**：
+   - 容器共享宿主机的网络。
+   - 容器内的进程可以像在宿主机上一样进行网络通信。
+3. **覆盖网络（Overlay Network）**：
+   - 用于在多个 Docker 守护进程之间创建一个网络。
+   - 容器可以分布在不同的宿主机上，但可以像在同一个网络中一样相互访问。
+4. **Macvlan 网络**：
+   - 允许容器拥有独立的 MAC 地址。
+   - 容器看起来像宿主机网络上的物理设备。
+5. **第三方网络插件**：
+   - 如 Weave, Calico, Flannel 等，提供额外的网络功能和特性。
 
+对于您的需求，即两台服务器上运行多组 Docker 容器，并且需要服务 Docker 与客户 Docker 之间通信，建议使用覆盖网络（Overlay Network）。以下是实现步骤：
 
+1. **创建覆盖网络**：
+
+   ```
+   docker network create --driver overlay my_overlay
+   ```
+
+2. 在两台服务器上启动 Docker 容器时，指定创建的覆盖网络：
+
+   ```
+   docker run --network my_overlay ...
+   ```
+
+3. **连接到覆盖网络**：
+
+   - 所有连接到 `my_overlay` 网络的容器将能够互相 ping 通和通信。
+
+4. **配置服务发现**：
+
+   - 根据需要配置服务发现机制，以便客户端能够找到服务端。
+
+5. **安全设置**：
+
+   - 根据需要配置网络的安全设置，比如加密通信等。
+
+6. **端口映射**（如果需要从外部访问服务）：
+
+   - 在运行容器时使用 `-p` 参数映射端口。
+
+通过这种方式，您可以实现跨服务器的 Docker 容器之间的网络通信，并且能够灵活地扩展您的服务和客户端容器。
 
 # Nginx
 
