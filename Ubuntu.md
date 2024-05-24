@@ -814,6 +814,18 @@ Docker 容器的联网方式主要有以下几种：
 
 通过这种方式，您可以实现跨服务器的 Docker 容器之间的网络通信，并且能够灵活地扩展您的服务和客户端容器。
 
+## SR-IOV
+
+SR-IOV（Single Root I/O Virtualization，单根I/O虚拟化）
+
+
+
+
+
+
+
+
+
 # Nginx
 
  成本低廉内存消耗少配置文件非常简单
@@ -1578,39 +1590,6 @@ strace -f -e trace=file -p [Process_ID]
 
 
 
-
-
-
-
-## 磁盘查看、挂载类
-
-#### dd_模拟磁盘读写	
-
-使用`fdisk -l`命令来查看新磁盘是否被系统识别[[1\]](https://blog.csdn.net/ybdesire/article/details/79145180)。该命令会列出所有被系统识别的磁盘和分区信息。
-
-使用`lsblk`命令来查看磁盘和分区的树形结构[[2\]](https://blog.csdn.net/qq_35462323/article/details/104039679)。该命令会显示磁盘的名称、大小、类型以及挂载点等信息。
-
-使用`df -h`命令来查看磁盘占用情况[[1\]](https://blog.csdn.net/ybdesire/article/details/79145180)。该命令会显示已挂载的磁盘和分区的使用情况。
-
-如果你想查看磁盘的文件系统类型，可以使用`df -T`命令[[1\]](https://blog.csdn.net/ybdesire/article/details/79145180)。该命令会显示所有磁盘和分区的文件系统类型。
-
-#### 掉盘，重新识别
-
-```bash
-# waltz时使用SPDK导致的掉盘(从内核解绑) 
-echo 1 >/sys/bus/pci/devices/0000:65:00.0/remove
-echo 1 >/sys/bus/pci/devices/0000:66:00.0/remove
-echo 1 >/sys/bus/pci/devices/0000:67:00.0/remove
-echo 1 >/sys/bus/pci/devices/0000:68:00.0/remove
-echo 1 >/sys/bus/pci/rescan
-```
-
-
-
-
-
-
-
 ## 代码审查
 
 loccount
@@ -1619,7 +1598,7 @@ loccount
 
 
 
-# Linux常用配置、脚本
+# Linux环境变量、脚本
 
 ## 编程环境
 
@@ -1847,9 +1826,115 @@ hugetlbfs /dev/hugepages-1GB hugetlbfs pagesize=1G 0 0
 
 
 
+
+
+
+
+
+
+
+
+
+
+#  磁盘
+
+
+
+### dd_模拟磁盘读写
+
+使用`fdisk -l`命令来查看新磁盘是否被系统识别[[1\]](https://blog.csdn.net/ybdesire/article/details/79145180)。该命令会列出所有被系统识别的磁盘和分区信息。
+
+使用`lsblk`命令来查看磁盘和分区的树形结构[[2\]](https://blog.csdn.net/qq_35462323/article/details/104039679)。该命令会显示磁盘的名称、大小、类型以及挂载点等信息。
+
+使用`df -h`命令来查看磁盘占用情况[[1\]](https://blog.csdn.net/ybdesire/article/details/79145180)。该命令会显示已挂载的磁盘和分区的使用情况。
+
+如果你想查看磁盘的文件系统类型，可以使用`df -T`命令[[1\]](https://blog.csdn.net/ybdesire/article/details/79145180)。该命令会显示所有磁盘和分区的文件系统类型。
+
+### 掉盘，重新识别
+
+```bash
+# waltz时使用SPDK导致的掉盘(从内核解绑) 
+echo 1 >/sys/bus/pci/devices/0000:65:00.0/remove
+echo 1 >/sys/bus/pci/devices/0000:66:00.0/remove
+echo 1 >/sys/bus/pci/devices/0000:67:00.0/remove
+echo 1 >/sys/bus/pci/devices/0000:68:00.0/remove
+echo 1 >/sys/bus/pci/rescan
+```
+
+
+
+
+
+## lvm分区扩容
+
+根据你的输出信息，根目录 (`/`) 已经满了，而且它是通过逻辑卷管理 (LVM) 进行管理的。为了扩容根目录，我们需要进行以下步骤：
+
+- 查看可用空间并确定扩容方案。
+- 执行适当的 LVM 命令来扩展逻辑卷。
+- 使用 `resize2fs` 命令来调整文件系统大小以适应新的逻辑卷大小。
+
+**1: 查看可用空间**
+
+从 `lsblk` 命令的输出中可以看出，逻辑卷 `/dev/mapper/ubuntu--vg-ubuntu--lv` 的大小为 444G，已经使用了 100% 的空间。我们需要查看可用的物理卷和逻辑卷来确定扩容的可能性。
+
+**2: 执行 LVM 命令扩展逻辑卷**
+
+如果有足够的空闲物理卷可供使用，我们可以执行以下命令来扩展逻辑卷：
+
+```bash
+sudo lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+```
+
+这个命令会将逻辑卷扩展到所有可用空闲空间。确保物理卷上有足够的空间可供使用。
+
+
+
+如果当前卷`ubuntu--vg`没空间了，先把其他磁盘添加到卷组 `ubuntu--vg` 中
+
+```bash
+sudo vgextend ubuntu--vg /dev/sdb
+
+sudo lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+```
+
+
+
+**3: 调整文件系统大小**
+
+一旦逻辑卷扩展完成，我们需要使用 `resize2fs` 命令来调整文件系统大小以适应新的逻辑卷大小：
+
+```bash
+sudo resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
+```
+
+这将会自动调整文件系统大小以适应新的逻辑卷大小。
+
+
+
+
+
+
+
+
+
+```bash
+
+
+sudo lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+# 上述命令将会从 /dev/sdc2 物理卷中获取可用空间来扩展 /dev/mapper/ubuntu--vg-ubuntu--lv 逻辑卷。
+```
+
+
+
+
+
 # 守护进程daemon
 
 当谈到守护进程（daemon）时，我们通常是指在后台运行的长期运行的系统服务或进程。它们通常不会与用户直接交互，而是在系统启动时启动，并持续运行以提供特定的功能或服务。下面是关于守护进程和普通进程的一些区别以及它们的作用：
+
+
+
+
 
 
 
