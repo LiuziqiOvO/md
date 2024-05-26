@@ -1,0 +1,30 @@
+seqwrite: (g=0): rw=write, bs=(R) 16.0KiB-16.0KiB, (W) 16.0KiB-16.0KiB, (T) 16.0KiB-16.0KiB, ioengine=libaio, iodepth=1
+fio-3.35
+Starting 1 process
+
+seqwrite: (groupid=0, jobs=1): err= 0: pid=1544726: Wed May 15 00:57:36 2024
+  write: IOPS=45.8k, BW=715MiB/s (750MB/s)(2804MiB/3920msec); 0 zone resets
+    slat (nsec): min=1367, max=15244, avg=1588.04, stdev=121.73
+    clat (nsec): min=13643, max=54604, avg=19859.69, stdev=1301.32
+     lat (nsec): min=18235, max=56198, avg=21447.73, stdev=1308.04
+    clat percentiles (nsec):
+     |  1.00th=[17536],  5.00th=[18048], 10.00th=[18304], 20.00th=[18816],
+     | 30.00th=[19072], 40.00th=[19584], 50.00th=[19840], 60.00th=[20096],
+     | 70.00th=[20608], 80.00th=[20864], 90.00th=[21376], 95.00th=[21888],
+     | 99.00th=[22656], 99.50th=[22912], 99.90th=[25216], 99.95th=[40192],
+     | 99.99th=[42752]
+   bw (  KiB/s): min=732224, max=733440, per=100.00%, avg=732982.86, stdev=479.90, samples=7
+   iops        : min=45764, max=45840, avg=45811.43, stdev=29.99, samples=7
+  lat (usec)   : 20=55.63%, 50=44.37%, 100=0.01%
+  cpu          : usr=7.53%, sys=10.59%, ctx=179454, majf=0, minf=12
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=0,179452,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: bw=715MiB/s (750MB/s), 715MiB/s-715MiB/s (750MB/s-750MB/s), io=2804MiB (2940MB), run=3920-3920msec
+
+Disk stats (read/write):
+  nvme0n1: ios=45/178458, sectors=2064/5710656, merge=0/0, ticks=1/3410, in_queue=3411, util=97.77%
