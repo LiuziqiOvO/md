@@ -704,7 +704,7 @@ vim /etc/systemd/system/multi-user.target.wants/docker.service
 
 systemctl show --property=Environment docker
 
-### 如何直接访问服务器内的某个容器
+### 端口映射: 如何直接访问服务器内的某个容器
 
 大致原理：https://blog.csdn.net/qq_43488795/article/details/126658342
 
@@ -818,7 +818,7 @@ Docker 容器的联网方式主要有以下几种：
 
 SR-IOV（Single Root I/O Virtualization，单根I/O虚拟化）
 
-
+(TODO: notion)
 
 
 
@@ -1836,9 +1836,7 @@ hugetlbfs /dev/hugepages-1GB hugetlbfs pagesize=1G 0 0
 
 
 
-#  磁盘
-
-
+#  磁盘、分区、文件系统
 
 ### dd_模拟磁盘读写
 
@@ -1913,10 +1911,6 @@ sudo resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
 
 
 
-
-
-
-
 ```bash
 
 
@@ -1938,7 +1932,9 @@ sudo lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
 
 
 
-# 其他OS知识
+
+
+# OS基本知识
 
 ## Linux系统目录结构
 
