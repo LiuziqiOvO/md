@@ -1871,7 +1871,7 @@ echo 1 >/sys/bus/pci/rescan
 - 执行适当的 LVM 命令来扩展逻辑卷。
 - 使用 `resize2fs` 命令来调整文件系统大小以适应新的逻辑卷大小。
 
-**1: 查看可用空间**
+**1: 查看可用空间*
 
 从 `lsblk` 命令的输出中可以看出，逻辑卷 `/dev/mapper/ubuntu--vg-ubuntu--lv` 的大小为 444G，已经使用了 100% 的空间。我们需要查看可用的物理卷和逻辑卷来确定扩容的可能性。
 
@@ -1890,7 +1890,7 @@ sudo lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
 如果当前卷`ubuntu--vg`没空间了，先把其他磁盘添加到卷组 `ubuntu--vg` 中
 
 ```bash
-sudo vgextend ubuntu--vg /dev/sdb
+sudo vgextend ubuntu-vg /dev/sdb #或者某个分区
 
 sudo lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
 ```
