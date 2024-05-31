@@ -449,7 +449,6 @@ Docker 制造隔离环境的主要方法是通过 Linux 内核提供的命名空
 
 镜像是由多个文件系统（layers）构成的，每个文件系统都包含了容器运行所需的文件和配置信息。Docker 使用联合文件系统（UnionFS）的技术将这些文件系统层叠在一起，形成一个完整的镜像。这种分层存储的设计使得镜像可以有效地共享和重用，同时也使得镜像的构建、传输和存储更加高效。
 
-
 ##  命令
 
 `docker images` 可以检查本地所被 tag 的镜像。
@@ -596,6 +595,12 @@ docker cp ID: /home/test.java /home		#拷贝 ID 冒号 原文件 目标目录
 
 
 
+### 在容器内重启守护进程
+
+```
+service ssh restart
+```
+
 
 
 ## 编写DockerFile
@@ -604,15 +609,7 @@ docker cp ID: /home/test.java /home		#拷贝 ID 冒号 原文件 目标目录
 docker build . -t oscomp-test
 ```
 
-```bash
-docker run -it --rm oscomp-test /bin/bash
-```
 
--d 后台运行
-
---rm 退出后删除容器
-
---it 
 
 
 
@@ -624,6 +621,76 @@ docker run -it --rm oscomp-test /bin/bash
 
 
 
+
+
+
+要创建一个 Dockerfile 来完成你提到的步骤，包括修改 SSH 配置、生成 SSH 密钥并分发到多个远程主机，你可以按照以下示例进行操作。
+
+### Dockerfile 示例
+
+```Dockerfile
+# 使用官方的 Ubuntu 基础镜像
+FROM ubuntu:latest
+
+# 更新包列表并安装必要的软件包
+RUN apt-get update && apt-get install -y \
+    openssh-server \
+    vim \
+    sshpass \
+    && rm -rf /var/lib/apt/lists/*
+
+# 配置 SSH 服务
+RUN mkdir /var/run/sshd
+RUN echo 'root:1209' | chpasswd
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+# 启动 SSH 服务
+RUN service ssh restart
+
+# 生成 SSH 密钥
+RUN ssh-keygen -t rsa -f /root/.ssh/id_rsa -q -N "" -C "fp_node1"
+
+# 将公钥分发到指定的远程主机
+RUN sshpass -p '1209' ssh-copy-id -o StrictHostKeyChecking=no root@10.10.10.1
+RUN sshpass -p '1209' ssh-copy-id -o StrictHostKeyChecking=no root@10.10.10.2
+RUN sshpass -p '1209' ssh-copy-id -o StrictHostKeyChecking=no root@10.10.10.3
+RUN sshpass -p '1209' ssh-copy-id -o StrictHostKeyChecking=no root@10.10.10.4
+RUN sshpass -p '1209' ssh-copy-id -o StrictHostKeyChecking=no root@10.10.10.5
+RUN sshpass -p '1209' ssh-copy-id -o StrictHostKeyChecking=no root@10.10.10.6
+
+# 暴露 SSH 端口
+EXPOSE 22
+
+# 启动 SSH 服务并保持容器运行
+CMD ["/usr/sbin/sshd", "-D"]
+```
+
+### 说明
+
+1. **基础镜像**：使用最新的 Ubuntu 官方镜像作为基础镜像。
+2. **安装软件包**：更新包列表并安装必要的软件包，包括 `openssh-server`、`vim` 和 `sshpass`。
+3. **配置 SSH**：修改 SSH 配置文件 `/etc/ssh/sshd_config` 以允许 root 登录，并启用密码认证。
+4. **设置 root 密码**：将 root 用户密码设置为 `1209`。
+5. **重启 SSH 服务**：确保 SSH 服务已启动并应用配置更改。
+6. **生成 SSH 密钥**：在 root 用户的主目录中生成一个新的 SSH 密钥对。
+7. **分发公钥**：使用 `sshpass` 工具将公钥分发到指定的远程主机，避免手动输入密码。
+8. **暴露端口**：暴露容器内的 SSH 端口（22）。
+9. **保持容器运行**：使用 `sshd -D` 命令启动 SSH 服务并保持容器在前台运行。
+
+### 构建和运行 Docker 容器
+
+1. **构建 Docker 镜像**：
+   ```bash
+   docker build -t my_ssh_container .
+   ```
+
+2. **运行 Docker 容器**：
+   ```bash
+   docker run -d -p 2222:22 --name ssh_container my_ssh_container
+   ```
+
+这将启动一个新的 Docker 容器，运行 SSH 服务并完成所有配置。你可以通过 SSH 连接到这个容器，并且该容器会自动将你的公钥分发到指定的远程主机。
 
 
 ## 将当前的容器存为镜像？
@@ -818,11 +885,9 @@ Docker 容器的联网方式主要有以下几种：
 
 SR-IOV（Single Root I/O Virtualization，单根I/O虚拟化）
 
-(TODO: notion)
+SR-IOV（Single Root I/O Virtualization，单根I/O虚拟化）是一种硬件虚拟化技术，让docker共享同一个硬件(例如网卡)
 
-
-
-
+https://www.notion.so/ziqi-rocks-on-zns/Docker-RDMA-SR-IOV-2104cf47884c4062a51107c8e74d42f9
 
 
 
@@ -1148,7 +1213,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
 ```
 
-
+​	
 
 .zshrc:
 
@@ -1339,11 +1404,18 @@ PermitRootLogin yes  #修改这一行为yes
 StrictModes yes
 ```
 
-systemctl restart ssh.service
+重启: systemctl restart ssh.service
+
+42
+
+```
+ssh-keygen -t rsa -C "lzq1"
+ssh-copy-id root@10.10.10.5
+```
 
 
 
-scp -r -P 45033 ./rocksdb lzq@222.20.97.186:/home/lzq/
+
 
 
 
@@ -1581,7 +1653,7 @@ strace -f -e trace=file -p [Process_ID]
 
 
 
-## 查看目录创建时间
+### 查看目录创建时间
 
 ```bash
  #检查文件夹创建时间,发现waltz的头文件includ的确实是以前跑ROCKSDB的时候生成的
@@ -1590,9 +1662,127 @@ strace -f -e trace=file -p [Process_ID]
 
 
 
-## 代码审查
+### 代码审查
 
-loccount
+查看代码有效行数：=loccount
+
+
+
+##  用户管理
+
+创建用户
+
+```bash
+sudo adduser lzq
+```
+
+
+
+### 设置sudo密码
+
+```bash
+sudo passwd 	
+```
+
+### 用户执行不了sudo
+
+>lzq is not in the sudoers file.  This incident will be reported.
+
+```
+sudo usermod -aG sudo lzq
+```
+
+其他相关:
+
+`users`
+
+`who `
+
+`ps -a` 
+
+
+
+> 在 Ubuntu 系统中，你可以使用多个命令来查看最近登录的用户。以下是一些常用方法：
+
+### 使用 `last` 命令
+
+`last` 命令会显示最近登录的用户信息。它从 `/var/log/wtmp` 文件中读取数据。
+
+```bash
+last
+```
+
+输出示例：
+
+```
+user1    pts/0        192.168.1.100    Tue May 25 10:24   still logged in
+user2    pts/1        192.168.1.101    Tue May 25 09:12 - 09:30  (00:18)
+user1    pts/2        192.168.1.102    Tue May 25 08:30 - 09:10  (00:40)
+```
+
+- **user1** 和 **user2** 是用户名。
+- **pts/0** 等是登录终端。
+- **192.168.1.100** 等是用户登录时使用的 IP 地址。
+- **时间信息** 显示了用户的登录时间和时长。
+
+### 使用 `who` 命令
+
+`who` 命令显示当前登录的用户信息。
+
+```bash
+who
+```
+
+输出示例：
+
+```
+user1    pts/0        2024-05-31 10:24 (192.168.1.100)
+user2    pts/1        2024-05-31 09:12 (192.168.1.101)
+```
+
+- **user1** 和 **user2** 是当前登录的用户。
+- **pts/0** 等是登录终端。
+- **2024-05-31 10:24** 是用户的登录时间。
+- **192.168.1.100** 是用户登录时使用的 IP 地址。
+
+### 使用 `lastlog` 命令
+
+`lastlog` 命令显示所有用户上次登录的信息。它从 `/var/log/lastlog` 文件中读取数据。
+
+```bash
+lastlog
+```
+
+输出示例：
+
+```
+Username         Port     From             Latest
+root             tty1                      Sun May 30 11:54:42 +0000 2024
+user1            pts/0    192.168.1.100    Tue May 25 10:24:00 +0000 2024
+user2            pts/1    192.168.1.101    Tue May 25 09:12:00 +0000 2024
+```
+
+- **Username** 是用户名。
+- **Port** 是登录终端。
+- **From** 是登录时的 IP 地址。
+- **Latest** 是上次登录时间。
+
+### 使用 `journalctl` 命令查看日志
+
+`journalctl` 命令可以查看系统日志，包括 SSH 登录记录。
+
+```bash
+journalctl -u ssh
+```
+
+或查看最近的日志条目：
+
+```bash
+journalctl -u ssh -n 50
+```
+
+- **-u ssh** 过滤与 SSH 服务相关的日志。
+- **-n 50** 显示最近的 50 条日志。
 
 
 
