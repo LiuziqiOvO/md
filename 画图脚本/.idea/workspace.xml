@@ -4,7 +4,59 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8b15179-0f64-48d8-9e2a-1ca97d1fdd71" name="Changes" comment="" />
+    <list default="true" id="c8b15179-0f64-48d8-9e2a-1ca97d1fdd71" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/画图脚本.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2_print.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/4_wal_parse.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/5_wal_parse_write.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SVG2PDF.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_off/results_16_threads.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_off/results_1_threads.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_off/results_2_threads.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_off/results_32_threads.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_off/results_4_threads.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_off/results_8_threads.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_16_threads.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_1_threads.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_2_threads.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_32_threads.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_4_threads.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_64_threads.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_8_threads.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_value_size_1024.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_value_size_128.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_value_size_2048.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_value_size_256.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_value_size_4096.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_value_size_512.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_value_size_64.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/run4value_size.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../C&amp;Cpp.md" beforeDir="false" afterPath="$PROJECT_DIR$/../C&amp;Cpp.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Paper/WA Zone.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Paper/splitZNS.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/../Paper/splitZNS.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Paper/已看/5_小组汇报_Overcoming the Memory Wall with CXL-Enabled SSDs.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Paper/已看/6_单人汇报_Johnny Cache the End of DRAM Cache Conflicts.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../毕设/~$02015628-柳子淇-毕业设计（论文）-Word版.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../毕设/毕设_NAS_en.md" beforeDir="false" afterPath="$PROJECT_DIR$/../毕设/毕设_NAS_en.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bandwidth_vs_block_size.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doudong.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/iops_vs_block_size.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/latency_vs_block_size.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/modified_performance_chart.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/print1.py" beforeDir="false" afterPath="$PROJECT_DIR$/1_print_zone.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/print2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/print3.py" beforeDir="false" afterPath="$PROJECT_DIR$/3_print.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/printbodong.py" beforeDir="false" afterPath="$PROJECT_DIR$/0_printbodong.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/recovery_time.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/zone_bw.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/zone_iops.svg" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,59 +69,66 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2OPx9764XI6xsOAzNHgRZEj9anB" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/liuziqi/AppData/Roaming/JetBrains/PyCharm2023.1/light-edit&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.0_printbodong (1).executor": "Run",
+    "Python.1_print_zone (1).executor": "Run",
+    "Python.1_print_zone.executor": "Run",
+    "Python.2_print.executor": "Run",
+    "Python.3_print.executor": "Run",
+    "Python.4_wal_parse.executor": "Run",
+    "Python.5_wal_parse_write.executor": "Run",
+    "Python.SVG2PDF.executor": "Run",
+    "Python.print1.executor": "Run",
+    "Python.print2.executor": "Run",
+    "Python.print_zone.executor": "Run",
+    "Python.printbodong.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/md/画图脚本/WAL",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\md\画图脚本\WAL" />
+      <recent name="D:\md\画图脚本\WAL\wal_on" />
+      <recent name="D:\md\画图脚本\SVG" />
       <recent name="C:\Users\liuziqi\AppData\Roaming\JetBrains\PyCharm2023.1\light-edit" />
       <recent name="C:\Users\liuziqi\AppData\Roaming\JetBrains\PyCharm2023.1\light-edit\fio_results" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\md\画图脚本\SVG" />
+    </key>
   </component>
-  <component name="RunManager" selected="Python.print2">
-    <configuration name="Dictionary_based" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="light-edit" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/Desktop/2023年《自然语言处理》课程实验（2020级本科）/1 实验源码/1 基于字典版" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/Desktop/2023年《自然语言处理》课程实验（2020级本科）/1 实验源码/1 基于字典版/Dictionary_based.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="print1 (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="light-edit" />
+  <component name="RunManager" selected="Python.SVG2PDF">
+    <configuration name="0_printbodong (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="画图脚本" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -81,7 +140,99 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/print1.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/0_printbodong.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="3_print" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="画图脚本" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/3_print.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="4_wal_parse" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="画图脚本" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/4_wal_parse.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="5_wal_parse_write" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="画图脚本" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/5_wal_parse_write.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="SVG2PDF" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="画图脚本" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/SVG2PDF.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -92,6 +243,7 @@
     </configuration>
     <configuration name="print1" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="light-edit" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -112,81 +264,31 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="print2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="light-edit" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/print2.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="print3" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="light-edit" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/print3.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="printbodong" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="light-edit" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/printbodong.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+    <list>
+      <item itemvalue="Python.print1" />
+      <item itemvalue="Python.5_wal_parse_write" />
+      <item itemvalue="Python.4_wal_parse" />
+      <item itemvalue="Python.0_printbodong (1)" />
+      <item itemvalue="Python.3_print" />
+      <item itemvalue="Python.SVG2PDF" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.print2" />
-        <item itemvalue="Python.printbodong" />
-        <item itemvalue="Python.print1 (1)" />
-        <item itemvalue="Python.print3" />
-        <item itemvalue="Python.Dictionary_based" />
+        <item itemvalue="Python.SVG2PDF" />
+        <item itemvalue="Python.3_print" />
+        <item itemvalue="Python.5_wal_parse_write" />
+        <item itemvalue="Python.4_wal_parse" />
+        <item itemvalue="Python.0_printbodong (1)" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-PY-241.18034.82" />
+        <option value="bundled-python-sdk-975db3bf15a3-2767605e8bc2-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.18034.82" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -209,6 +311,11 @@
       <workItem from="1715952623599" duration="4697000" />
       <workItem from="1716275937802" duration="472000" />
       <workItem from="1716715010338" duration="17000" />
+      <workItem from="1721975905383" duration="13366000" />
+      <workItem from="1722061729255" duration="12478000" />
+      <workItem from="1722308018764" duration="413000" />
+      <workItem from="1722308444644" duration="137000" />
+      <workItem from="1722308764054" duration="5444000" />
     </task>
     <servers />
   </component>
@@ -216,11 +323,20 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/LightEditProject$3_print.coverage" NAME="3_print 覆盖结果" MODIFIED="1722325494428" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$print2.coverage" NAME="print2 覆盖结果" MODIFIED="1721999884636" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$0_printbodong__1_.coverage" NAME="0_printbodong (1) 覆盖结果" MODIFIED="1722155834003" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/LightEditProject$main.coverage" NAME="main 覆盖结果" MODIFIED="1715707497633" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/LightEditProject$printbodong.coverage" NAME="printbodong 覆盖结果" MODIFIED="1715957193896" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$printbodong.coverage" NAME="printbodong 覆盖结果" MODIFIED="1722008172239" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$1_print_zone.coverage" NAME="1_print_zone 覆盖结果" MODIFIED="1722155208678" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$2_print.coverage" NAME="2_print 覆盖结果" MODIFIED="1722155341400" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$print_zone.coverage" NAME="print_zone 覆盖结果" MODIFIED="1721991981594" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$SVG2PDF.coverage" NAME="SVG2PDF 覆盖结果" MODIFIED="1722331109947" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$4_wal_parse.coverage" NAME="4_wal_parse 覆盖结果" MODIFIED="1722311085751" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/LightEditProject$print3.coverage" NAME="print3 覆盖结果" MODIFIED="1715955653701" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/LightEditProject$Dictionary_based.coverage" NAME="Dictionary_based Coverage Results" MODIFIED="1687949413316" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/2023年《自然语言处理》课程实验（2020级本科）/1 实验源码/1 基于字典版" />
+    <SUITE FILE_PATH="coverage/LightEditProject$5_wal_parse_write.coverage" NAME="5_wal_parse_write 覆盖结果" MODIFIED="1722313194990" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/LightEditProject$print1__1_.coverage" NAME="print1 (1) 覆盖结果" MODIFIED="1715955982099" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/LightEditProject$print2.coverage" NAME="print2 覆盖结果" MODIFIED="1716275999127" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$Dictionary_based.coverage" NAME="Dictionary_based Coverage Results" MODIFIED="1687949413316" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/2023年《自然语言处理》课程实验（2020级本科）/1 实验源码/1 基于字典版" />
+    <SUITE FILE_PATH="coverage/LightEditProject$1_print_zone__1_.coverage" NAME="1_print_zone (1) 覆盖结果" MODIFIED="1722014850157" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
