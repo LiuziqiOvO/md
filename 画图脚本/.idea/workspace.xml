@@ -5,57 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c8b15179-0f64-48d8-9e2a-1ca97d1fdd71" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/画图脚本.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2_print.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/4_wal_parse.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/5_wal_parse_write.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SVG2PDF.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_off/results_16_threads.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_off/results_1_threads.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_off/results_2_threads.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_off/results_32_threads.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_off/results_4_threads.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_off/results_8_threads.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_16_threads.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_1_threads.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_2_threads.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_32_threads.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_4_threads.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_64_threads.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_8_threads.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_value_size_1024.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_value_size_128.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_value_size_2048.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_value_size_256.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_value_size_4096.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_value_size_512.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WAL/wal_on/results_value_size_64.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run4value_size.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../C&amp;Cpp.md" beforeDir="false" afterPath="$PROJECT_DIR$/../C&amp;Cpp.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Paper/WA Zone.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Paper/splitZNS.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/../Paper/splitZNS.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Paper/已看/5_小组汇报_Overcoming the Memory Wall with CXL-Enabled SSDs.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Paper/已看/6_单人汇报_Johnny Cache the End of DRAM Cache Conflicts.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/~$02015628-柳子淇-毕业设计（论文）-Word版.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/毕设_NAS_en.md" beforeDir="false" afterPath="$PROJECT_DIR$/../毕设/毕设_NAS_en.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bandwidth_vs_block_size.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doudong.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/iops_vs_block_size.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/latency_vs_block_size.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/modified_performance_chart.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/print1.py" beforeDir="false" afterPath="$PROJECT_DIR$/1_print_zone.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/print2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/print3.py" beforeDir="false" afterPath="$PROJECT_DIR$/3_print.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/printbodong.py" beforeDir="false" afterPath="$PROJECT_DIR$/0_printbodong.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/recovery_time.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/zone_bw.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/zone_iops.svg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,33 +36,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.0_printbodong (1).executor": "Run",
-    "Python.1_print_zone (1).executor": "Run",
-    "Python.1_print_zone.executor": "Run",
-    "Python.2_print.executor": "Run",
-    "Python.3_print.executor": "Run",
-    "Python.4_wal_parse.executor": "Run",
-    "Python.5_wal_parse_write.executor": "Run",
-    "Python.SVG2PDF.executor": "Run",
-    "Python.print1.executor": "Run",
-    "Python.print2.executor": "Run",
-    "Python.print_zone.executor": "Run",
-    "Python.printbodong.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/md/画图脚本/WAL",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.0_printbodong (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.1_print_zone (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.1_print_zone.executor&quot;: &quot;Run&quot;,
+    &quot;Python.2_print.executor&quot;: &quot;Run&quot;,
+    &quot;Python.3_print.executor&quot;: &quot;Run&quot;,
+    &quot;Python.4_wal_parse.executor&quot;: &quot;Run&quot;,
+    &quot;Python.5_wal_parse_write.executor&quot;: &quot;Run&quot;,
+    &quot;Python.SVG2PDF.executor&quot;: &quot;Run&quot;,
+    &quot;Python.print1.executor&quot;: &quot;Run&quot;,
+    &quot;Python.print2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.print_zone.executor&quot;: &quot;Run&quot;,
+    &quot;Python.printbodong.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/md/画图脚本/WAL&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\md\画图脚本\WAL" />
@@ -265,12 +215,12 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.print1" />
-      <item itemvalue="Python.5_wal_parse_write" />
-      <item itemvalue="Python.4_wal_parse" />
       <item itemvalue="Python.0_printbodong (1)" />
       <item itemvalue="Python.3_print" />
+      <item itemvalue="Python.4_wal_parse" />
+      <item itemvalue="Python.5_wal_parse_write" />
       <item itemvalue="Python.SVG2PDF" />
+      <item itemvalue="Python.print1" />
     </list>
     <recent_temporary>
       <list>
@@ -316,6 +266,8 @@
       <workItem from="1722308018764" duration="413000" />
       <workItem from="1722308444644" duration="137000" />
       <workItem from="1722308764054" duration="5444000" />
+      <workItem from="1724777084518" duration="154000" />
+      <workItem from="1724777458820" duration="113000" />
     </task>
     <servers />
   </component>
