@@ -1,3 +1,5 @@
+
+
 # LSM-Tree
 
 [^LSM-Tree]: Log-Structured Merge-Tree
@@ -1356,3 +1358,428 @@ https://mp.weixin.qq.com/s/s8s6VtqwdyjthR6EtuhnUA
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+> 
+
+
+
+
+
+
+
+# Redis 1.0
+
+https://zhuanlan.zhihu.com/p/698783137
+
+> Redis（Remote Dictionary Server）是一个开源的[内存数据库](https://zhida.zhihu.com/search?q=内存数据库&zhida_source=entity&is_preview=1)，遵守 BSD 协议，它提供了一个高性能的键值（key-value）存储系统，常用于缓存、[消息队列](https://zhida.zhihu.com/search?q=消息队列&zhida_source=entity&is_preview=1)、会话存储等应用场景。本文主要向大家分享redis基本概念和流程，希望能和大家一起从源码角度分析一条命令执行过程，希望能帮助开发同学掌握redis的实现细节，提升编程水平、设计思想。
+
+
+
+## 源码目录结构
+
+![img](RocksDB.assets/v2-a6fd0c95dc841bcf4890806efa3ea13e_720w.webp)
+
+
+
+## 核心结构
+
+### redisServer
+
+redisServer是存储redis服务端运行的结构体，在启动的时候就会初始化完成，结构如下，它主要包含跟监听的socket有关的参数port和fd；对应存储数据的*redisDb列表；链接的客户端列表*clients；事件循环*el
+
+```
+struct redisServer {
+    int port;       // 服务端监听的端口
+    int fd;         // 服务端起的socket对应的文件句柄
+    redisDb *db;    // redis db的列表，一般实际生产环境只用一个
+//  3-lines
+    list *clients;  // 服务端的列表
+// 2 lines
+    aeEventLoop *el; // 事件循环
+//  36 lines
+};
+```
+
+
+
+### redisClient
+
+redisClient是客户端在服务端存储的状态信息，每当一个客户端与服务端链接时，都会新创建redisClient结构体到redisServer->clients列表中。
+
+redisClient的结构，它包含命令传输所使用的querybuf，命令在经过处理后会存放到argv中；然后比较重要的是*reply表示服务端给到客户端的回复的数据，这是个列表会在客户端写就绪的时候一个一个写回客户端，sentlen则是标识了传输的长度；然后就是对应的db与socket句柄fd。
+
+![img](https://pica.zhimg.com/80/v2-6b7f445ff52f58ee6000314fa66fcda8_720w.webp)
+
+###  redisDb
+
+redisDb是redis的键值对存储的位置，主要包含两大块，一块存储数据，另一块存储过期信信息，dict结构实际上是两个[哈希表](https://zhida.zhihu.com/search?q=哈希表&zhida_source=entity&is_preview=1)，至于为什么有两个，这里是为了做渐进式rehash使用（后面会详细介绍），rehashidx用于表示rehash进度，iterators迭代器是表示遍历集合操作个数，表里面的元素就是entry，这里面包含key和value以及指向下一个元素的指针。
+
+```text
+typedef struct redisDb {
+    dict *dict;    // 字典1 存储数据
+    dict *expires; // 字典2存储过期数据
+    int id;        // db的id
+} redisDb;
+
+typedef struct dict {
+    dictType *type; // 类型，主要定义相关的函数
+    void *privdata;
+    dictht ht[2];  // 两个hash table，用于做渐进式rehash使用
+    int rehashidx; /* rehash进度 rehashidx == -1表示不是正在rehash*/
+    int iterators; /* number of iterators currently running */
+} dict;
+
+typedef struct dictht {
+    dictEntry **table;      // 存储数据的表
+    unsigned long size;     // 大小
+    unsigned long sizemask; // size-1，计算index的使用[1]
+    unsigned long used;     // 已经使用的长度 
+} dictht;
+
+typedef struct dictEntry {
+    void *key;             // 键，在redis中一般是指向一个SDS类型的数据
+    union {
+        void *val;         // 值，在redis中一般指向redisObject
+        uint64_t u64;      // 特定情况下优化整数存储，比如过期     
+        int64_t s64;       // 特定情况下优化整数存储
+    } v;
+    struct dictEntry *next; // 下一个entry
+} dictEntry;
+```
+
+
+
+### redisObject
+
+edisObject是redis存储对象基本的表现形式，它可以存储类似SDS list set等数据结构，并且存储了一些信息用于内存管理，比如refcount这是一个整数字段，用于存储对象的[引用计数](https://zhida.zhihu.com/search?q=引用计数&zhida_source=entity&is_preview=1)。每当有一个新的指针指向这个对象时，引用计数会增加；当指针不再指向这个对象时，引用计数会减少。当引用计数降到 0 时，表示没有任何地方再使用这个对象，对象的内存可以被回收。lru在储对象的 LRU（[最近最少使用](https://zhida.zhihu.com/search?q=最近最少使用&zhida_source=entity&is_preview=1)）时间，这个时间戳是相对于服务器的 lruclock 的，用于实现缓存淘汰策略。当 Redis 需要释放内存时，它会根据这个时间戳来判断哪些对象是最近最少被使用的，从而决定淘汰哪些对象。
+
+```
+typedef struct redisObject {
+    void *ptr;              // 指向具体数据的指针
+    int refcount;           // 引用计数
+    unsigned type:4;        // 类型
+    unsigned notused:2;     // 未使用，可能是为了扩展/占位
+    unsigned encoding:4;    // 编码方式 
+    unsigned lru:22;        // 最近最少使用
+} robj;
+```
+
+
+
+### aeEventLoop
+
+aeEventloop是redis事件模型基础数据，它主要包含文件事件和时间事件的两个链表。对于文件事件来说，包含文件句柄fd，事件类型mask，对应处理函数fileProc；对于时间事件来说包含id、执行时间（when_sec、when_ms）和对应执行函数timeProc 对应的源代码如下：
+
+![img](https://pic1.zhimg.com/80/v2-6da54686d4d1eff7643b8940fc2fa920_720w.webp)
+
+
+
+
+
+### 一次IO流程
+
+
+
+
+
+
+
+
+
+
+
+# Redis操作
+
+key是区分大小写的
+
+默认使用字符串存储数据（包括数字），并且是二进制安全的。
+
+> 二进制安全?
+>
+> C语言中表示字符串结尾的符号是'\0',如果字符串本身就具有'\0'字符，就会被截断，即非二进制安全。
+
+
+
+**redis-cli的命令：**
+
+SET 
+
+GET
+
+DEL
+
+EXISTS
+
+
+
+KEYS  查找，支持模式，比如 * 查找所有key
+
+FLUSHALL 全删除
+
+
+
+TTL （time to live）查看某个key还有多久过期，-1表示永久，-2表示已经过期
+
+EXPIRE 设置过期时间
+
+SETEX  k t v ， 设置一个k，过期时间为t，值为v
+
+SETNX 如果不存在，则设置这个k的值，如果存在就不动
+
+
+
+
+
+### List
+
+（自动创建）
+
+Lpush / Rpush	+	列表名	+	数据
+
+将元素添加到list的头部or尾部。如果添加多个数据会依次push
+
+
+
+Lpop / Rpop
+
+从列表的头部or尾部删除元素。可以加数字表示删除几个。
+
+
+
+Lrange	+	列表名	+	范围，（-1表示到末尾）
+
+
+
+Llen	查看列表长度
+
+
+
+Ltrim	+	索引a	+	索引b
+
+只保留[a,b]，其他全删除
+
+
+
+### Set
+
+无重复集合。
+
+Sadd	集合名	元素	在某集合中添加元素
+
+Smembers	集合名	元素	 显示集合中全部元素
+
+Sismember	集合名	元素	判断元素是否在集合中
+
+Srem	集合名	元素	remove集合中的元素
+
+**集合的运算**
+
+​	
+
+
+
+
+
+### Zset
+
+有序集合，集合中每个元素都关联一个浮点类型的分数，并按照分数从小到大排序
+
+命令都是Z开头的：
+
+Zadd	集合名	元素分数	元素	元素分数	元素	元素分数	元素
+
+Zrange	集合名	0	-1	显示所有元素
+
+Zrange	集合名	0	-1	WITHSCORES（连带显示分数）
+
+Zscore	集合名	元素名	查看分数
+
+Zrank	集合名	元素名	查看排名（从小到大）
+
+Zrevrank	集合名	元素名	查看排名（从大）
+
+Zrem	删除
+
+增加分数...
+
+
+
+
+
+
+
+### Hash
+
+字符类型的字段-值的映射表
+
+Hset	表名	k	v
+
+Hget	表名	k	
+
+Hgetall		
+
+Hdel	
+
+Hexist
+
+Hkeys
+
+Hlen
+
+
+
+### 
+
+## 发布订阅功能
+
+subsribe	频道名
+
+publish	频道名称	内容
+
+但是消息不能持久化，无法记录
+
+
+
+
+
+## Stream
+
+一个简易的消息队列
+
+Xadd	消息名	*（消息ID，不填）	消息内容（list or set）
+
+添加成功，会返回一个消息ID
+
+
+
+XLen	消息名	
+
+XRange	消息名	-	+	显示所有消息
+
+XTrim	消息名	MAXLEN	0	删除所有消息
+
+
+
+XRead	count 2（一次读取两条）	block  1000（没读到阻塞1000ms）	streams	消息名	0（表示从头开始读，$表示只读新增的)
+
+
+
+**XGroup消费者组**
+
+XGroup	create	消息名	组名
+
+XInfo	GROUPS	组名	查看组的信息
+
+XGroup	createconsumer	添加消费者
+
+
+
+
+
+### Geospatial
+
+存储地理位置信息的数据结构，支持各种计算操作（获取经纬度，计算两个地点间的距离 ，查找附近的人）
+
+Geo开头
+
+
+
+### HyperLogLog
+
+统计去重后的元素个数，适合大规模统计非精确结果
+
+PF开头
+
+
+
+### Bitmap
+
+用String类型来模拟Bit数组，数组下标即为偏移量， 值只有0，1
+
+SetBit	位图名	偏移值	值（0/1)
+
+GetBit	
+
+BitCount	统计1的个数
+
+BitBitPos	0/1	获取第一个1或0的位置
+
+可以直接用操作string的 SET方法来操作bitmap
+
+
+
+### Bitfield
+
+#写
+
+BitField	player:1	set	u8	#0	1
+
+
+
+get	player:1	(用对string的get来看一下)
+
+#读
+
+BitField	player:1	get	u8	#0	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Redis源码
+
+## 前言
+
+https://tech.youzan.com/redisyuan-ma-jie-xi/
+
+> ## C语言存储字符串的问题
+>
+> ### 1.二进制安全
+>
+> C语言中表示字符串结尾的符号是'\0',如果字符串本身就具有'\0'字符，就会被截断，即非二进制安全。
+>
+> ### 2.计算字符串的长度性能低
+>
+> C语言中有一个计算字符串长度的函数strlen，但这个函数与Java的不一样，需要遍历整个字符串来计算长度，时间复杂度是O（n），如果需要在循环中计算，性能将十分低下
+>
+> ### 3.字符串拼接性能低
+>
+> 因为C语言字符串不记录长度，对于一个长度n的字符串来说，底层是n+1的字符数组
+>
+> ```
+> char a[n+1]  
+> 1
+> ```
+>
+> 如果需要增长字符串，则需要对底层的字符数组进行重分配的操作
+>
+> 接下来由数据结构入手，看看redis是如何解决这几个问题的
