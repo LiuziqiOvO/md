@@ -4,63 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8b15179-0f64-48d8-9e2a-1ca97d1fdd71" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.stfolder/syncthing-folder-ec3f23.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../.stfolder/syncthing-folder-ec3f23.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../3_Lab/14_(SSD Cache)Baleen.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../3_Lab/15_(CXL_VM)(Memstrata)Managing Memory Tiers with CXL_osdi24-zhong-yuhong.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../3_Lab/CXL.md" beforeDir="false" afterPath="$PROJECT_DIR$/../3_Lab/CXL.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../3_Lab/~syncthing~CXL.md.tmp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Go.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Go.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../RocksDB.md" beforeDir="false" afterPath="$PROJECT_DIR$/../RocksDB.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ubuntu.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Ubuntu.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../algo.md" beforeDir="false" afterPath="$PROJECT_DIR$/../algo.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024[BSB2001][U202015628][柳子淇]/2023[班级][学号][姓名]5.毕业论文[latex包].zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024[BSB2001][U202015628][柳子淇]/2024[BSB2001][U202015628][柳子淇]1.毕设任务书[扫描版].pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024[BSB2001][U202015628][柳子淇]/2024[BSB2001][U202015628][柳子淇]2.参考文献[评分页扫描+中文+原文] (2).pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024[BSB2001][U202015628][柳子淇]/2024[BSB2001][U202015628][柳子淇]4.开题报告[扫描版].pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024[BSB2001][U202015628][柳子淇]/2024[BSB2001][U202015628][柳子淇]5.毕业论文.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024[BSB2001][U202015628][柳子淇]/2024[BSB2001][U202015628][柳子淇]5.毕业论文.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024[BSB2001][U202015628][柳子淇]/2024[BSB2001][U202015628][柳子淇]5.毕业论文[匿名版].pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024[BSB2001][U202015628][柳子淇]/2024[BSB2001][U202015628][柳子淇]6.答辩文稿.pptx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024[BSB2001][U202015628][柳子淇]/2024[BSB2001][U202015628][柳子淇]7.查重报告.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024[BSB2001][U202015628][柳子淇]/2024[BSB2001][U202015628][柳子淇]8.成绩评定页[扫描版].pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024[BSB2001][U202015628][柳子淇]/ReadMe.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/0、毕业设计任务书（2023-5-30）.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/1、计算机学院参考文献译文模板（2023-2-7）.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/2、计算机学院参考文献译文Latex模板(2023-2-11).zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/2、计算机学院开题报告Latex模板(2023-2-10).zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/2、计算机学院开题报告模板（2023-2-12）.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/3、计算机开题答辩记录纸.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/4、计算机学院毕业设计Latex模板(2023-2-11).zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/4、计算机学院毕业设计Latex模板(2023-2-23).zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/4、计算机学院毕业设计模板 2023-7-2.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/5、毕业设计答辩记录纸.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/6、计算机学院本科毕业设计论文自查表（2023-5-25）.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/7、导师成绩评定页 （双面，需手填评语）(2021春).docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/7、导师成绩评定页 （双面，需手填评语）(2021春).pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/8、答辩成绩评定页（双面，需手填评语）(2021春).docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/8、答辩成绩评定页（双面，需手填评语）(2021春).pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/9、毕业设计档案袋提交规范V2023_V1.7.doc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/A、毕业设计档案袋实例（需要更新）.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/B、附件1 本科生优秀毕业设计(论文)奖申报表（排版）.doc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/C、华中科技大学本科毕业设计（论文）中期检查表（批注）4-11.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/D、华中科技大学本科毕业设计（论文）抽查材料记录表.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/E、计算机学院毕业设计电子资料提交要求.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/E、计算机学院毕业设计电子资料提交要求/E、电子资料提交要求/2023毕设电子资料[CS190X][学号][姓名]/2023[CS190X][学号][姓名]1.毕设任务书[扫描版].pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/E、计算机学院毕业设计电子资料提交要求/E、电子资料提交要求/2023毕设电子资料[CS190X][学号][姓名]/2023[班级][学号][姓名]2.文献翻译[评分页扫描+中文+原文].pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/E、计算机学院毕业设计电子资料提交要求/E、电子资料提交要求/2023毕设电子资料[CS190X][学号][姓名]/2023[班级][学号][姓名]4.开题报告[扫描版].pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/E、计算机学院毕业设计电子资料提交要求/E、电子资料提交要求/2023毕设电子资料[CS190X][学号][姓名]/2023[班级][学号][姓名]5.毕业论文.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/E、计算机学院毕业设计电子资料提交要求/E、电子资料提交要求/2023毕设电子资料[CS190X][学号][姓名]/2023[班级][学号][姓名]5.毕业论文.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/E、计算机学院毕业设计电子资料提交要求/E、电子资料提交要求/2023毕设电子资料[CS190X][学号][姓名]/2023[班级][学号][姓名]5.毕业论文[latex包].zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/E、计算机学院毕业设计电子资料提交要求/E、电子资料提交要求/2023毕设电子资料[CS190X][学号][姓名]/2023[班级][学号][姓名]5.毕业论文[匿名版].pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/E、计算机学院毕业设计电子资料提交要求/E、电子资料提交要求/2023毕设电子资料[CS190X][学号][姓名]/2023[班级][学号][姓名]6.答辩文稿.pptx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/E、计算机学院毕业设计电子资料提交要求/E、电子资料提交要求/2023毕设电子资料[CS190X][学号][姓名]/2023[班级][学号][姓名]7.查重报告.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/E、计算机学院毕业设计电子资料提交要求/E、电子资料提交要求/2023毕设电子资料[CS190X][学号][姓名]/2023[班级][学号][姓名]8.成绩评定页[扫描版].pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/E、计算机学院毕业设计电子资料提交要求/E、电子资料提交要求/2023毕设电子资料[CS190X][学号][姓名]/ReadMe.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../毕设/2024春本科毕业设计公文包（计算机学院）2024-2-26/F、华中科技大学毕设要求（20220303）.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="c8b15179-0f64-48d8-9e2a-1ca97d1fdd71" name="Changes" comment="Changes" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -76,6 +20,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "LiuziqiOvO"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/LiuziqiOvO/md.git",
+    "accountId": "aae282f6-067c-407e-94c3-0176ab1a1d03"
+  }
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -322,12 +278,44 @@
       <workItem from="1722308764054" duration="5444000" />
       <workItem from="1724777084518" duration="154000" />
       <workItem from="1724777458820" duration="113000" />
-      <workItem from="1726214126176" duration="133000" />
+      <workItem from="1726214126176" duration="434000" />
     </task>
+    <task id="LOCAL-00001" summary="Changes">
+      <option name="closed" value="true" />
+      <created>1726214524663</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1726214524663</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Changes">
+      <option name="closed" value="true" />
+      <created>1726214539144</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1726214539144</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changes" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/LightEditProject$3_print.coverage" NAME="3_print 覆盖结果" MODIFIED="1722325494428" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

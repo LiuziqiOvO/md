@@ -1705,8 +1705,6 @@ ssh-copy-id root@10.10.10.5
 
 
 
-
-
 ## 关于安装包管理
 
 qemu-misc
@@ -1966,13 +1964,13 @@ sudo adduser lzq
 
 
 
-### 设置sudo密码
+设置sudo密码
 
 ```bash
 sudo passwd 	
 ```
 
-### 用户执行不了sudo
+用户执行不了sudo
 
 >lzq is not in the sudoers file.  This incident will be reported.
 
@@ -1992,7 +1990,7 @@ sudo usermod -aG sudo lzq
 
 > 在 Ubuntu 系统中，你可以使用多个命令来查看最近登录的用户。以下是一些常用方法：
 
-### 使用 `last` 命令
+使用 `last` 命令
 
 `last` 命令会显示最近登录的用户信息。它从 `/var/log/wtmp` 文件中读取数据。
 
@@ -2013,7 +2011,7 @@ user1    pts/2        192.168.1.102    Tue May 25 08:30 - 09:10  (00:40)
 - **192.168.1.100** 等是用户登录时使用的 IP 地址。
 - **时间信息** 显示了用户的登录时间和时长。
 
-### 使用 `who` 命令
+使用 `who` 命令
 
 `who` 命令显示当前登录的用户信息。
 
@@ -2033,7 +2031,7 @@ user2    pts/1        2024-05-31 09:12 (192.168.1.101)
 - **2024-05-31 10:24** 是用户的登录时间。
 - **192.168.1.100** 是用户登录时使用的 IP 地址。
 
-### 使用 `lastlog` 命令
+使用 `lastlog` 命令
 
 `lastlog` 命令显示所有用户上次登录的信息。它从 `/var/log/lastlog` 文件中读取数据。
 
@@ -2055,7 +2053,7 @@ user2            pts/1    192.168.1.101    Tue May 25 09:12:00 +0000 2024
 - **From** 是登录时的 IP 地址。
 - **Latest** 是上次登录时间。
 
-### 使用 `journalctl` 命令查看日志
+ 使用 `journalctl` 命令查看日志
 
 `journalctl` 命令可以查看系统日志，包括 SSH 登录记录。
 
@@ -2074,7 +2072,7 @@ journalctl -u ssh -n 50
 
 
 
-
+hostnamectl	这个命令不仅会显示系统的主机名，还会显示操作系统的相关信息。
 
 # Linux环境变量、脚本
 
@@ -2390,8 +2388,6 @@ sudo resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
 
 
 ```bash
-
-
 sudo lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
 # 上述命令将会从 /dev/sdc2 物理卷中获取可用空间来扩展 /dev/mapper/ubuntu--vg-ubuntu--lv 逻辑卷。
 ```
