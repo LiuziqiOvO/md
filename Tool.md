@@ -60,30 +60,9 @@ Linux版:
 
 [https://apt.syncthing.net/](https://apt.syncthing.net/)
 
+https://www.cnblogs.com/HaiJaine/p/18339629
 
-
-```
-tmux new-session -d -s split_session \; \
-    new-window -d -n "split_11" "./split 1577808000000046 1580486400000000 11" \; \
-    new-window -d -n "split_12" "./split 1577808000000046 1580486400000000 12" \; \
-    new-window -d -n "split_13" "./split 1577808000000046 1580486400000000 13" \; \
-    new-window -d -n "split_14" "./split 1577808000000046 1580486400000000 14" \; \
-    new-window -d -n "split_15" "./split 1577808000000046 1580486400000000 1" \; \
-    attach-session -t split_session
-
-```
-
-
-
-```bash
-tmux new-session -d -s split_session \; \ 
-	new-window -d -n "split_11" "./split 1577808000000046 1580486400000000 11" \; \ 
-    new-window -d -n "split_12" "./split 1577808000000046 1580486400000000 12" \; \    
-    new-window -d -n "split_13" "./split 1577808000000046 1580486400000000 13" \; \
-    new-window -d -n "split_14" "./split 1577808000000046 1580486400000000 14" \; \
-    new-window -d -n "split_15" "./split 1577808000000046 1580486400000000 15" \; \
-    attach-session -t split_session  
-```
+[CSDN配置教程](https://blog.csdn.net/weixin_42951763/article/details/140421699?spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7Ebaidujs_baidulandingword%7ECtr-2-140421699-blog-139358421.235%5Ev43%5Epc_blog_bottom_relevance_base8&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7Ebaidujs_baidulandingword%7ECtr-2-140421699-blog-139358421.235%5Ev43%5Epc_blog_bottom_relevance_base8&utm_relevant_index=5)
 
 
 
@@ -91,4 +70,18 @@ tmux new-session -d -s split_session \; \
 
 
 
-tmux new-session -d -s split_session \; \    new-window -d -n "split_16" "./split 1577808000000046 1580486400000000 16" \; \    new-window -d -n "split_17" "./split 1577808000000046 1580486400000000 17" \; \    new-window -d -n "split_18" "./split 1577808000000046 1580486400000000 18" \; \    new-window -d -n "split_19" "./split 1577808000000046 1580486400000000 19" \; \    new-window -d -n "split_20" "./split 1577808000000046 1580486400000000 20" \; \    attach-session -t split_session
+**GUI：** 
+
+syncthing serve --gui-address=0.0.0.0:8384  
+
+ufw allow 8384 （允许远程访问这个GUI）
+
+**隐藏运行:** 
+
+nohup syncthing --gui-address=0.0.0.0:8384   &> /dev/null &
+
+**自启动：**
+
+\#添加开机启动 systemctl enable syncthing@root.service 
+
+#启动syncthing服务 systemctl start syncthing@root.service
