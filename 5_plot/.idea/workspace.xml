@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c8b15179-0f64-48d8-9e2a-1ca97d1fdd71" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../3_Lab/ZNS.md" beforeDir="false" afterPath="$PROJECT_DIR$/../3_Lab/ZNS.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../3_Lab/报告/14_信息存储技术_ZNS综述.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/../3_Lab/报告/14_信息存储技术_ZNS综述.pptx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../3_Lab/报告/15_AliBlockTrace分析.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/../3_Lab/报告/15_AliBlockTrace分析.pptx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../3_Lab/报告/5_ZoneKV .pptx" beforeDir="false" afterPath="$PROJECT_DIR$/../3_Lab/报告/5_ZoneKV .pptx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../4_Paper/已看/10_WALTZ(SPDK ZNS).pdf" beforeDir="false" afterPath="$PROJECT_DIR$/../4_Paper/已看/10_WALTZ(SPDK ZNS).pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Go.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Go.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Go.sync-conflict-20241025-123437-5D3YXSK.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../健忘.md" beforeDir="false" afterPath="$PROJECT_DIR$/../健忘.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2OPx9764XI6xsOAzNHgRZEj9anB" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.0_printbodong (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.1_print_zone (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.1_print_zone.executor&quot;: &quot;Run&quot;,
+    &quot;Python.2_print.executor&quot;: &quot;Run&quot;,
+    &quot;Python.3_print.executor&quot;: &quot;Run&quot;,
+    &quot;Python.4_wal_parse.executor&quot;: &quot;Run&quot;,
+    &quot;Python.5_wal_parse_write.executor&quot;: &quot;Run&quot;,
+    &quot;Python.SVG2PDF.executor&quot;: &quot;Run&quot;,
+    &quot;Python.print1.executor&quot;: &quot;Run&quot;,
+    &quot;Python.print2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.print_zone.executor&quot;: &quot;Run&quot;,
+    &quot;Python.printbodong.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/liuziqi/Desktop&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\md\画图脚本\WAL" />
+      <recent name="D:\md\画图脚本\WAL\wal_on" />
+      <recent name="D:\md\画图脚本\SVG" />
+      <recent name="C:\Users\liuziqi\AppData\Roaming\JetBrains\PyCharm2023.1\light-edit" />
+      <recent name="C:\Users\liuziqi\AppData\Roaming\JetBrains\PyCharm2023.1\light-edit\fio_results" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\md\画图脚本\SVG" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.SVG2PDF">
+    <configuration name="2_print" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="画图脚本" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/zns" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/zns/2_print.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="SVG2PDF" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="画图脚本" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/mathmodel-q4" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mathmodel-q4/SVG2PDF.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="clean" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="画图脚本" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/mathmodel-q4/data" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mathmodel-q4/data/clean.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="plot仿真光子未叠加" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="画图脚本" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/mathmodel-q4/plot" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mathmodel-q4/plot/plot仿真光子未叠加.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="plot_仿真_光子数-时间" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="画图脚本" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/mathmodel-q4/plot" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mathmodel-q4/plot/plot_仿真_光子数-时间.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="print1" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="light-edit" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\liuziqi\AppData\Roaming\JetBrains\PyCharm2023.1\light-edit\print1.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.print1" />
+      <item itemvalue="Python.2_print" />
+      <item itemvalue="Python.clean" />
+      <item itemvalue="Python.plot_仿真_光子数-时间" />
+      <item itemvalue="Python.plot仿真光子未叠加" />
+      <item itemvalue="Python.SVG2PDF" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.SVG2PDF" />
+        <item itemvalue="Python.plot仿真光子未叠加" />
+        <item itemvalue="Python.plot_仿真_光子数-时间" />
+        <item itemvalue="Python.clean" />
+        <item itemvalue="Python.2_print" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-PY-241.18034.82" />
+        <option value="bundled-python-sdk-975db3bf15a3-2767605e8bc2-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.18034.82" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c8b15179-0f64-48d8-9e2a-1ca97d1fdd71" name="Changes" comment="" />
+      <created>1685796591642</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1685796591642</updated>
+      <workItem from="1685796592734" duration="85000" />
+      <workItem from="1686548555869" duration="66000" />
+      <workItem from="1687939668969" duration="4218000" />
+      <workItem from="1692295043527" duration="12000" />
+      <workItem from="1710181934238" duration="441000" />
+      <workItem from="1712216429612" duration="891000" />
+      <workItem from="1715617495018" duration="895000" />
+      <workItem from="1715697249115" duration="4571000" />
+      <workItem from="1715704629182" duration="5952000" />
+      <workItem from="1715929641724" duration="3618000" />
+      <workItem from="1715952623599" duration="4697000" />
+      <workItem from="1716275937802" duration="472000" />
+      <workItem from="1716715010338" duration="17000" />
+      <workItem from="1721975905383" duration="13366000" />
+      <workItem from="1722061729255" duration="12478000" />
+      <workItem from="1722308018764" duration="413000" />
+      <workItem from="1722308444644" duration="137000" />
+      <workItem from="1722308764054" duration="5444000" />
+      <workItem from="1724777084518" duration="154000" />
+      <workItem from="1724777458820" duration="113000" />
+      <workItem from="1727181213917" duration="699000" />
+      <workItem from="1727181987026" duration="245000" />
+      <workItem from="1727182244438" duration="12628000" />
+      <workItem from="1728207203553" duration="3000" />
+      <workItem from="1730520302166" duration="3000" />
+      <workItem from="1730523865514" duration="138000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/LightEditProject$1_print_zone__1_.coverage" NAME="1_print_zone (1) 覆盖结果" MODIFIED="1722014850157" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$4_wal_parse.coverage" NAME="4_wal_parse 覆盖结果" MODIFIED="1722311085751" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$3_print.coverage" NAME="3_print 覆盖结果" MODIFIED="1727207582447" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/zns" />
+    <SUITE FILE_PATH="coverage/LightEditProject$5_wal_parse_write.coverage" NAME="5_wal_parse_write 覆盖结果" MODIFIED="1722313194990" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$main.coverage" NAME="main 覆盖结果" MODIFIED="1715707497633" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$printbodong.coverage" NAME="printbodong 覆盖结果" MODIFIED="1722008172239" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$0_printbodong__1_.coverage" NAME="0_printbodong (1) 覆盖结果" MODIFIED="1727181263406" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$.coverage" NAME="生成仿真数据 覆盖结果" MODIFIED="1727187195061" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mathmodel-q4/py" />
+    <SUITE FILE_PATH="coverage/LightEditProject$print_zone.coverage" NAME="print_zone 覆盖结果" MODIFIED="1721991981594" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$Dictionary_based.coverage" NAME="Dictionary_based Coverage Results" MODIFIED="1687949413316" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/2023年《自然语言处理》课程实验（2020级本科）/1 实验源码/1 基于字典版" />
+    <SUITE FILE_PATH="coverage/LightEditProject$plotfft.coverage" NAME="plotfft数据对比 覆盖结果" MODIFIED="1727183449994" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mathmodel-q4/plot" />
+    <SUITE FILE_PATH="coverage/LightEditProject$clean.coverage" NAME="clean 覆盖结果" MODIFIED="1727210000640" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mathmodel-q4/data" />
+    <SUITE FILE_PATH="coverage/LightEditProject$plot.coverage" NAME="plot仿真光子未叠加 覆盖结果" MODIFIED="1727231017833" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mathmodel-q4/plot" />
+    <SUITE FILE_PATH="coverage/LightEditProject$SVG2PDF.coverage" NAME="SVG2PDF 覆盖结果" MODIFIED="1727231154308" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mathmodel-q4" />
+    <SUITE FILE_PATH="coverage/LightEditProject$2_print.coverage" NAME="2_print 覆盖结果" MODIFIED="1727207588585" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/zns" />
+    <SUITE FILE_PATH="coverage/LightEditProject$print3.coverage" NAME="print3 覆盖结果" MODIFIED="1715955653701" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$print2.coverage" NAME="print2 覆盖结果" MODIFIED="1721999884636" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$print1__1_.coverage" NAME="print1 (1) 覆盖结果" MODIFIED="1715955982099" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$1_print_zone.coverage" NAME="1_print_zone 覆盖结果" MODIFIED="1722155208678" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LightEditProject$plot___.coverage" NAME="plot_仿真_光子数-时间 覆盖结果" MODIFIED="1727230831157" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mathmodel-q4/plot" />
+  </component>
+</project>

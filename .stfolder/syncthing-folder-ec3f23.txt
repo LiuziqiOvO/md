@@ -1,0 +1,5 @@
+# This directory is a Syncthing folder marker.
+# Do not delete.
+
+folderID: wuoan-ne624
+created: 2024-08-24T12:25:11+08:00
