@@ -1,0 +1,189 @@
+{
+    "languages": null,
+    "filetype": "pdf",
+    "pdf_toc": [
+        {
+            "title": "Abstract",
+            "level": 0,
+            "page": 0
+        },
+        {
+            "title": "1 Introduction",
+            "level": 0,
+            "page": 0
+        },
+        {
+            "title": "2 Background and related work",
+            "level": 0,
+            "page": 1
+        },
+        {
+            "title": "2.1 Tiny objects are important and numerous",
+            "level": 1,
+            "page": 1
+        },
+        {
+            "title": "2.2 Caching tiny objects in flash is hard",
+            "level": 1,
+            "page": 2
+        },
+        {
+            "title": "2.3 Current approaches and related work",
+            "level": 1,
+            "page": 3
+        },
+        {
+            "title": "3 Kangaroo Overview and Motivation",
+            "level": 0,
+            "page": 3
+        },
+        {
+            "title": "4 Kangaroo Design and Implementation",
+            "level": 0,
+            "page": 5
+        },
+        {
+            "title": "4.1 Pre-flash admission to KLog",
+            "level": 1,
+            "page": 5
+        },
+        {
+            "title": "4.2 KLog",
+            "level": 1,
+            "page": 5
+        },
+        {
+            "title": "4.3 KLog KSet: Minimizing flash writes",
+            "level": 1,
+            "page": 6
+        },
+        {
+            "title": "4.4 KSet",
+            "level": 1,
+            "page": 6
+        },
+        {
+            "title": "5 Evaluation",
+            "level": 0,
+            "page": 8
+        },
+        {
+            "title": "5.1 Experimental setup",
+            "level": 1,
+            "page": 8
+        },
+        {
+            "title": "5.2 Main result: Kangaroo significantly reduces misses vs. prior cache designs under realistic constraints",
+            "level": 1,
+            "page": 8
+        },
+        {
+            "title": "5.3 Kangaroo performs well as constraints change",
+            "level": 1,
+            "page": 9
+        },
+        {
+            "title": "5.4 Parameter sensitivity and benefit attribution",
+            "level": 1,
+            "page": 10
+        },
+        {
+            "title": "5.5 Production deployment test",
+            "level": 1,
+            "page": 11
+        },
+        {
+            "title": "6 Conclusion",
+            "level": 0,
+            "page": 12
+        },
+        {
+            "title": "Acknowledgments",
+            "level": 0,
+            "page": 12
+        },
+        {
+            "title": "References",
+            "level": 0,
+            "page": 12
+        },
+        {
+            "title": "A Simplified Markov model of Kangaroo (not peer-reviewed)",
+            "level": 0,
+            "page": 14
+        },
+        {
+            "title": "A.1 Baseline set-associative cache",
+            "level": 1,
+            "page": 14
+        },
+        {
+            "title": "A.2 Add KLog, no admission policies",
+            "level": 1,
+            "page": 15
+        },
+        {
+            "title": "A.3 Add threshold admission before KSet",
+            "level": 1,
+            "page": 16
+        },
+        {
+            "title": "A.4 Add probabilistic admission before KLog",
+            "level": 1,
+            "page": 16
+        },
+        {
+            "title": "B Scaling Methodology for Experiments (not peer-reviewed)",
+            "level": 0,
+            "page": 17
+        },
+        {
+            "title": "B.1 Overview and Goals",
+            "level": 1,
+            "page": 17
+        },
+        {
+            "title": "B.2 Load factor and request rate",
+            "level": 1,
+            "page": 17
+        },
+        {
+            "title": "B.3 Flash cache size",
+            "level": 1,
+            "page": 17
+        },
+        {
+            "title": "B.4 Accelerating simulations",
+            "level": 1,
+            "page": 18
+        },
+        {
+            "title": "B.5 DRAM constraints",
+            "level": 1,
+            "page": 18
+        },
+        {
+            "title": "B.6 Applying the methodology",
+            "level": 1,
+            "page": 18
+        }
+    ],
+    "pages": 20,
+    "ocr_stats": {
+        "ocr_pages": 0,
+        "ocr_failed": 0,
+        "ocr_success": 0,
+        "ocr_engine": "none"
+    },
+    "block_stats": {
+        "header_footer": 0,
+        "code": 0,
+        "table": 0,
+        "equations": {
+            "successful_ocr": 0,
+            "unsuccessful_ocr": 0,
+            "equations": 0
+        }
+    },
+    "computed_toc": []
+}

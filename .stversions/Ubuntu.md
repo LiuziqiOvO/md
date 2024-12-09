@@ -289,10 +289,6 @@ tmux new -s myscan
 tmux attach -t  myscan
 ```
 
-好用的命令：
-
-**Ctrl + B + W**：查看全局
-
 ### `Ctrl + B` 快捷键
 
 - **c**（create）：新建一个窗口
@@ -316,6 +312,7 @@ tmux attach -t  myscan
 ### 其他常用命令
 
 - **Ctrl + B + R**：刷新窗口内容
+- **Ctrl + B + W**：查看当前会话的窗口列表
 - **Ctrl + B + L**：锁定会话
 - **Ctrl + B + :**：进入命令模式，输入命令（例如：`resize-pane` 来调整面板大小）
 

@@ -1,0 +1,109 @@
+{
+    "languages": null,
+    "filetype": "pdf",
+    "pdf_toc": [
+        {
+            "title": "GL-Cache",
+            "level": 0,
+            "page": 0
+        },
+        {
+            "title": "1.Introduction",
+            "level": 1,
+            "page": 0
+        },
+        {
+            "title": "2.背景和动机",
+            "level": 1,
+            "page": 0
+        },
+        {
+            "title": "3.GL-Cache",
+            "level": 1,
+            "page": 0
+        },
+        {
+            "title": "3.1 ",
+            "level": 2,
+            "page": 1
+        },
+        {
+            "title": "3.2",
+            "level": 2,
+            "page": 1
+        },
+        {
+            "title": "3.3 对象组",
+            "level": 2,
+            "page": 1
+        },
+        {
+            "title": "3.4 Utility of object groups",
+            "level": 2,
+            "page": 1
+        },
+        {
+            "title": "3.5 ",
+            "level": 2,
+            "page": 2
+        },
+        {
+            "title": "3.6 对象组的逐出",
+            "level": 2,
+            "page": 2
+        },
+        {
+            "title": "3.7 参数",
+            "level": 2,
+            "page": 2
+        },
+        {
+            "title": "4.Evaluation",
+            "level": 1,
+            "page": 2
+        },
+        {
+            "title": "Prototype system",
+            "level": 2,
+            "page": 2
+        },
+        {
+            "title": "Micro-implementation",
+            "level": 2,
+            "page": 2
+        },
+        {
+            "title": "Cache效率",
+            "level": 2,
+            "page": 3
+        },
+        {
+            "title": "4.6 Sensitivity analysis",
+            "level": 2,
+            "page": 5
+        },
+        {
+            "title": "Conclusion",
+            "level": 1,
+            "page": 5
+        }
+    ],
+    "pages": 6,
+    "ocr_stats": {
+        "ocr_pages": 0,
+        "ocr_failed": 0,
+        "ocr_success": 0,
+        "ocr_engine": "none"
+    },
+    "block_stats": {
+        "header_footer": 0,
+        "code": 0,
+        "table": 0,
+        "equations": {
+            "successful_ocr": 0,
+            "unsuccessful_ocr": 0,
+            "equations": 0
+        }
+    },
+    "computed_toc": []
+}

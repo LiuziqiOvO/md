@@ -1,0 +1,159 @@
+{
+    "languages": null,
+    "filetype": "pdf",
+    "pdf_toc": [
+        {
+            "title": "Introduction",
+            "level": 0,
+            "page": 1
+        },
+        {
+            "title": "Tiered main memory systems",
+            "level": 0,
+            "page": 2
+        },
+        {
+            "title": "Software-based migration",
+            "level": 1,
+            "page": 2
+        },
+        {
+            "title": "Hardware caching",
+            "level": 1,
+            "page": 2
+        },
+        {
+            "title": "Comparison",
+            "level": 1,
+            "page": 3
+        },
+        {
+            "title": "Design",
+            "level": 0,
+            "page": 3
+        },
+        {
+            "title": "Implementation",
+            "level": 0,
+            "page": 4
+        },
+        {
+            "title": "Page initialization and associated metadata",
+            "level": 1,
+            "page": 4
+        },
+        {
+            "title": "Static policy",
+            "level": 1,
+            "page": 4
+        },
+        {
+            "title": "Dynamic policy and migration daemon",
+            "level": 1,
+            "page": 5
+        },
+        {
+            "title": "Evaluation",
+            "level": 0,
+            "page": 6
+        },
+        {
+            "title": "Setup",
+            "level": 1,
+            "page": 6
+        },
+        {
+            "title": "GUPS",
+            "level": 1,
+            "page": 6
+        },
+        {
+            "title": "Random updates to clustered hot values",
+            "level": 2,
+            "page": 7
+        },
+        {
+            "title": "Random updates to distributed hot values",
+            "level": 2,
+            "page": 8
+        },
+        {
+            "title": "Performance on large datasets",
+            "level": 2,
+            "page": 8
+        },
+        {
+            "title": "Summary",
+            "level": 2,
+            "page": 10
+        },
+        {
+            "title": "BC",
+            "level": 1,
+            "page": 10
+        },
+        {
+            "title": "Masstree",
+            "level": 1,
+            "page": 11
+        },
+        {
+            "title": "Performance",
+            "level": 2,
+            "page": 11
+        },
+        {
+            "title": "Performance over time, impact of the sampling rate",
+            "level": 2,
+            "page": 11
+        },
+        {
+            "title": "Summary",
+            "level": 2,
+            "page": 12
+        },
+        {
+            "title": "Silo",
+            "level": 1,
+            "page": 12
+        },
+        {
+            "title": "NAS benchmarks",
+            "level": 1,
+            "page": 12
+        },
+        {
+            "title": "Discussion",
+            "level": 0,
+            "page": 13
+        },
+        {
+            "title": "Related Work",
+            "level": 0,
+            "page": 13
+        },
+        {
+            "title": "Conclusion",
+            "level": 0,
+            "page": 14
+        }
+    ],
+    "pages": 17,
+    "ocr_stats": {
+        "ocr_pages": 0,
+        "ocr_failed": 0,
+        "ocr_success": 0,
+        "ocr_engine": "none"
+    },
+    "block_stats": {
+        "header_footer": 16,
+        "code": 0,
+        "table": 0,
+        "equations": {
+            "successful_ocr": 0,
+            "unsuccessful_ocr": 0,
+            "equations": 0
+        }
+    },
+    "computed_toc": []
+}

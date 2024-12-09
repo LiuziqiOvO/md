@@ -1,0 +1,104 @@
+{
+    "languages": null,
+    "filetype": "pdf",
+    "pdf_toc": [
+        {
+            "title": "Abstract",
+            "level": 0,
+            "page": 0
+        },
+        {
+            "title": "1 Introduction",
+            "level": 0,
+            "page": 0
+        },
+        {
+            "title": "2 Motivation: Why use zone appends?",
+            "level": 0,
+            "page": 1
+        },
+        {
+            "title": "3 Design and Implementation of ZWAL",
+            "level": 0,
+            "page": 2
+        },
+        {
+            "title": "3.1 ZWAL Design",
+            "level": 1,
+            "page": 2
+        },
+        {
+            "title": "3.2 ZWAL Implementation",
+            "level": 1,
+            "page": 3
+        },
+        {
+            "title": "4 ZWAL Evaluation",
+            "level": 0,
+            "page": 4
+        },
+        {
+            "title": "4.1 WAL Write Performance",
+            "level": 1,
+            "page": 4
+        },
+        {
+            "title": "4.2 WAL Recovery Time",
+            "level": 1,
+            "page": 4
+        },
+        {
+            "title": "4.3 Application Workload YCSB",
+            "level": 1,
+            "page": 5
+        },
+        {
+            "title": "4.4 Barrier Size Performance",
+            "level": 1,
+            "page": 5
+        },
+        {
+            "title": "5 Related Work",
+            "level": 0,
+            "page": 6
+        },
+        {
+            "title": "6 Discussion and Future Work",
+            "level": 0,
+            "page": 6
+        },
+        {
+            "title": "7 Conclusion",
+            "level": 0,
+            "page": 6
+        },
+        {
+            "title": "Acknowledgments",
+            "level": 0,
+            "page": 6
+        },
+        {
+            "title": "References",
+            "level": 0,
+            "page": 6
+        }
+    ],
+    "pages": 8,
+    "ocr_stats": {
+        "ocr_pages": 0,
+        "ocr_failed": 0,
+        "ocr_success": 0,
+        "ocr_engine": "none"
+    },
+    "block_stats": {
+        "header_footer": 0,
+        "code": 0,
+        "table": 0,
+        "equations": {
+            "successful_ocr": 0,
+            "unsuccessful_ocr": 0,
+            "equations": 0
+        }
+    },
+    "computed_toc": []
+}

@@ -1,0 +1,104 @@
+{
+    "languages": null,
+    "filetype": "pdf",
+    "pdf_toc": [
+        {
+            "title": "Introduction",
+            "level": 0,
+            "page": 1
+        },
+        {
+            "title": "Motivation and Related Work",
+            "level": 0,
+            "page": 2
+        },
+        {
+            "title": "Memory Tiering",
+            "level": 1,
+            "page": 3
+        },
+        {
+            "title": "Page Management",
+            "level": 1,
+            "page": 3
+        },
+        {
+            "title": "Related Work",
+            "level": 1,
+            "page": 5
+        },
+        {
+            "title": "Nomad Design and Implementation",
+            "level": 0,
+            "page": 5
+        },
+        {
+            "title": "Transactional Page Migration",
+            "level": 1,
+            "page": 6
+        },
+        {
+            "title": "Page Shadowing",
+            "level": 1,
+            "page": 7
+        },
+        {
+            "title": "Limitations",
+            "level": 1,
+            "page": 8
+        },
+        {
+            "title": "Evaluation",
+            "level": 0,
+            "page": 8
+        },
+        {
+            "title": "Micro-benchmarks",
+            "level": 1,
+            "page": 9
+        },
+        {
+            "title": "Real-world Applications",
+            "level": 1,
+            "page": 12
+        },
+        {
+            "title": "Discussions and Future Work",
+            "level": 0,
+            "page": 14
+        },
+        {
+            "title": "Conclusion",
+            "level": 0,
+            "page": 14
+        },
+        {
+            "title": "Acknowledgments",
+            "level": 0,
+            "page": 14
+        },
+        {
+            "title": "Artifact Appendix",
+            "level": 0,
+            "page": 17
+        }
+    ],
+    "pages": 18,
+    "ocr_stats": {
+        "ocr_pages": 0,
+        "ocr_failed": 0,
+        "ocr_success": 0,
+        "ocr_engine": "none"
+    },
+    "block_stats": {
+        "header_footer": 17,
+        "code": 0,
+        "table": 0,
+        "equations": {
+            "successful_ocr": 0,
+            "unsuccessful_ocr": 0,
+            "equations": 0
+        }
+    },
+    "computed_toc": []
+}

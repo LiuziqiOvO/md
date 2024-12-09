@@ -1,0 +1,139 @@
+{
+    "languages": null,
+    "filetype": "pdf",
+    "pdf_toc": [
+        {
+            "title": "Abstract",
+            "level": 0,
+            "page": 0
+        },
+        {
+            "title": "1 Introduction",
+            "level": 0,
+            "page": 0
+        },
+        {
+            "title": "2 Background",
+            "level": 0,
+            "page": 1
+        },
+        {
+            "title": "2.1 Log-Structured Merge (LSM) Tree",
+            "level": 1,
+            "page": 1
+        },
+        {
+            "title": "2.2 Zoned Namespace (ZNS) SSD",
+            "level": 1,
+            "page": 2
+        },
+        {
+            "title": "2.3 LSM Tree with ZNS SSD",
+            "level": 1,
+            "page": 3
+        },
+        {
+            "title": "2.4 Overhead of Batch-Group Write",
+            "level": 1,
+            "page": 3
+        },
+        {
+            "title": "3 WALTZ: Design and Implementation",
+            "level": 0,
+            "page": 4
+        },
+        {
+            "title": "3.1 Overview",
+            "level": 1,
+            "page": 4
+        },
+        {
+            "title": "3.2 Design of WALTZ",
+            "level": 1,
+            "page": 4
+        },
+        {
+            "title": "3.3 Example Walk-through of Put Query",
+            "level": 1,
+            "page": 6
+        },
+        {
+            "title": "4 Evaluation",
+            "level": 0,
+            "page": 6
+        },
+        {
+            "title": "4.1 Microbenchmarks",
+            "level": 1,
+            "page": 7
+        },
+        {
+            "title": "4.2 MixGraph Benchmarks",
+            "level": 1,
+            "page": 7
+        },
+        {
+            "title": "4.3 Sensitivity Study",
+            "level": 1,
+            "page": 8
+        },
+        {
+            "title": "4.4 Write Amplification Factor (WAF) Analysis ",
+            "level": 1,
+            "page": 8
+        },
+        {
+            "title": "4.5 Ablation Study",
+            "level": 1,
+            "page": 9
+        },
+        {
+            "title": "4.6 99th Percentile Latency over Time",
+            "level": 1,
+            "page": 10
+        },
+        {
+            "title": "4.7 Effect of Batch-Group Writes",
+            "level": 1,
+            "page": 10
+        },
+        {
+            "title": "5 Related Work",
+            "level": 0,
+            "page": 11
+        },
+        {
+            "title": "6 Conclusion",
+            "level": 0,
+            "page": 11
+        },
+        {
+            "title": "Acknowledgments",
+            "level": 0,
+            "page": 11
+        },
+        {
+            "title": "References",
+            "level": 0,
+            "page": 12
+        }
+    ],
+    "pages": 13,
+    "ocr_stats": {
+        "ocr_pages": 0,
+        "ocr_failed": 0,
+        "ocr_success": 0,
+        "ocr_engine": "none"
+    },
+    "block_stats": {
+        "header_footer": 0,
+        "code": 0,
+        "table": 0,
+        "equations": {
+            "successful_ocr": 0,
+            "unsuccessful_ocr": 0,
+            "equations": 0
+        }
+    },
+    "computed_toc": []
+}

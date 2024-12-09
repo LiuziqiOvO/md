@@ -1,0 +1,34 @@
+{
+    "languages": null,
+    "filetype": "pdf",
+    "pdf_toc": [
+        {
+            "title": "未标题",
+            "level": 0,
+            "page": 3
+        },
+        {
+            "title": "already showcased in Sections 3 and 4, there is a huge searchspace in designing physical index structures. Consequently, in ourexperiments, we focus on the most important data layouts andsearch algorithms. We use the data layouts depicted in Table 4.As search algorithms, we use scan, binS, intS,",
+            "level": 0,
+            "page": 8
+        }
+    ],
+    "pages": 14,
+    "ocr_stats": {
+        "ocr_pages": 0,
+        "ocr_failed": 0,
+        "ocr_success": 0,
+        "ocr_engine": "none"
+    },
+    "block_stats": {
+        "header_footer": 0,
+        "code": 0,
+        "table": 0,
+        "equations": {
+            "successful_ocr": 0,
+            "unsuccessful_ocr": 0,
+            "equations": 0
+        }
+    },
+    "computed_toc": []
+}

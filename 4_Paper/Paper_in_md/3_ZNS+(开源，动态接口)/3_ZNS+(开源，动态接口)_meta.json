@@ -1,0 +1,134 @@
+{
+    "languages": null,
+    "filetype": "pdf",
+    "pdf_toc": [
+        {
+            "title": "Introduction",
+            "level": 0,
+            "page": 1
+        },
+        {
+            "title": "Background",
+            "level": 0,
+            "page": 3
+        },
+        {
+            "title": "SSD Architecture",
+            "level": 1,
+            "page": 3
+        },
+        {
+            "title": "Zone Mapping in ZNS SSD",
+            "level": 1,
+            "page": 3
+        },
+        {
+            "title": "F2FS Segment Management",
+            "level": 1,
+            "page": 4
+        },
+        {
+            "title": "ZNS+ Interface and File System Support",
+            "level": 0,
+            "page": 4
+        },
+        {
+            "title": "Motivation",
+            "level": 1,
+            "page": 4
+        },
+        {
+            "title": "LFS-aware ZNS+ Interface",
+            "level": 1,
+            "page": 5
+        },
+        {
+            "title": "Internal Zone Compaction",
+            "level": 2,
+            "page": 5
+        },
+        {
+            "title": "Sparse Sequential Overwrite",
+            "level": 2,
+            "page": 6
+        },
+        {
+            "title": "ZNS+-aware LFS Optimization",
+            "level": 1,
+            "page": 7
+        },
+        {
+            "title": "Copyback-aware Block Allocation",
+            "level": 2,
+            "page": 7
+        },
+        {
+            "title": "Hybrid Segment Recycling",
+            "level": 2,
+            "page": 8
+        },
+        {
+            "title": "Experiments",
+            "level": 0,
+            "page": 9
+        },
+        {
+            "title": "Segment Compaction Performance",
+            "level": 1,
+            "page": 10
+        },
+        {
+            "title": "Threaded Logging Performance",
+            "level": 1,
+            "page": 10
+        },
+        {
+            "title": "SSD-internal Chip Utilization",
+            "level": 1,
+            "page": 11
+        },
+        {
+            "title": "Copyback-aware Block Allocation",
+            "level": 1,
+            "page": 12
+        },
+        {
+            "title": "Performance at High H/W Parallelism",
+            "level": 1,
+            "page": 12
+        },
+        {
+            "title": "Real SSD Performance",
+            "level": 1,
+            "page": 13
+        },
+        {
+            "title": "Related Work",
+            "level": 0,
+            "page": 14
+        },
+        {
+            "title": "Conclusion and Future Work",
+            "level": 0,
+            "page": 14
+        }
+    ],
+    "pages": 17,
+    "ocr_stats": {
+        "ocr_pages": 0,
+        "ocr_failed": 0,
+        "ocr_success": 0,
+        "ocr_engine": "none"
+    },
+    "block_stats": {
+        "header_footer": 16,
+        "code": 0,
+        "table": 0,
+        "equations": {
+            "successful_ocr": 0,
+            "unsuccessful_ocr": 0,
+            "equations": 0
+        }
+    },
+    "computed_toc": []
+}

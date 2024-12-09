@@ -1,0 +1,169 @@
+{
+    "languages": null,
+    "filetype": "pdf",
+    "pdf_toc": [
+        {
+            "title": "Introduction",
+            "level": 0,
+            "page": 1
+        },
+        {
+            "title": "Background and Motivation",
+            "level": 0,
+            "page": 2
+        },
+        {
+            "title": "In-Storage Computing and IO Stack",
+            "level": 1,
+            "page": 2
+        },
+        {
+            "title": "Host-Device Coordination",
+            "level": 1,
+            "page": 2
+        },
+        {
+            "title": "eBPF and its Limitations",
+            "level": 1,
+            "page": 2
+        },
+        {
+            "title": "Design",
+            "level": 0,
+            "page": 3
+        },
+        {
+            "title": "Overall Architecture",
+            "level": 1,
+            "page": 3
+        },
+        {
+            "title": "-IO APIs and Workflow",
+            "level": 1,
+            "page": 4
+        },
+        {
+            "title": "Cross-Platform  Runtime",
+            "level": 1,
+            "page": 4
+        },
+        {
+            "title": "Computation: Extending eBPF to sBPF",
+            "level": 2,
+            "page": 5
+        },
+        {
+            "title": "Data: Consistent File Access",
+            "level": 2,
+            "page": 5
+        },
+        {
+            "title": "Dynamic Request Dispatching",
+            "level": 1,
+            "page": 6
+        },
+        {
+            "title": "Modeling Execution Time",
+            "level": 2,
+            "page": 6
+        },
+        {
+            "title": "Periodical Profiling and Dispatching",
+            "level": 2,
+            "page": 6
+        },
+        {
+            "title": "Implementation",
+            "level": 0,
+            "page": 7
+        },
+        {
+            "title": "Evaluation",
+            "level": 0,
+            "page": 7
+        },
+        {
+            "title": "Experimental Setup",
+            "level": 1,
+            "page": 7
+        },
+        {
+            "title": "Single Application",
+            "level": 1,
+            "page": 8
+        },
+        {
+            "title": "Collocated Applications",
+            "level": 1,
+            "page": 10
+        },
+        {
+            "title": "Sensitivity Analysis",
+            "level": 1,
+            "page": 10
+        },
+        {
+            "title": "Dataset Size",
+            "level": 2,
+            "page": 10
+        },
+        {
+            "title": "Warmup",
+            "level": 2,
+            "page": 11
+        },
+        {
+            "title": "Profiling Period and Profiling Length",
+            "level": 2,
+            "page": 11
+        },
+        {
+            "title": "Buffer Size",
+            "level": 2,
+            "page": 11
+        },
+        {
+            "title": "Thread Count",
+            "level": 2,
+            "page": 11
+        },
+        {
+            "title": "Overhead of sBPF",
+            "level": 1,
+            "page": 11
+        },
+        {
+            "title": "Case Study: Spark SQL",
+            "level": 1,
+            "page": 12
+        },
+        {
+            "title": "Related Work",
+            "level": 0,
+            "page": 13
+        },
+        {
+            "title": "Conclusion",
+            "level": 0,
+            "page": 13
+        }
+    ],
+    "pages": 17,
+    "ocr_stats": {
+        "ocr_pages": 0,
+        "ocr_failed": 0,
+        "ocr_success": 0,
+        "ocr_engine": "none"
+    },
+    "block_stats": {
+        "header_footer": 16,
+        "code": 0,
+        "table": 0,
+        "equations": {
+            "successful_ocr": 0,
+            "unsuccessful_ocr": 0,
+            "equations": 0
+        }
+    },
+    "computed_toc": []
+}

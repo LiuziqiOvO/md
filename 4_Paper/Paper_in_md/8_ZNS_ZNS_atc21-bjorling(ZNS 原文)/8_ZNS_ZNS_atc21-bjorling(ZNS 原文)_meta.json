@@ -1,0 +1,109 @@
+{
+    "languages": null,
+    "filetype": "pdf",
+    "pdf_toc": [
+        {
+            "title": "Introduction",
+            "level": 0,
+            "page": 1
+        },
+        {
+            "title": "The Zoned Storage Model",
+            "level": 0,
+            "page": 2
+        },
+        {
+            "title": "The Block Interface Tax",
+            "level": 1,
+            "page": 2
+        },
+        {
+            "title": "Existing Tax-Reduction Strategies",
+            "level": 1,
+            "page": 2
+        },
+        {
+            "title": "Tax-free Storage with Zones",
+            "level": 1,
+            "page": 3
+        },
+        {
+            "title": "Evolving towards ZNS",
+            "level": 0,
+            "page": 3
+        },
+        {
+            "title": "Hardware Impact",
+            "level": 1,
+            "page": 3
+        },
+        {
+            "title": "Host Software Adoption",
+            "level": 1,
+            "page": 4
+        },
+        {
+            "title": "Implementation",
+            "level": 0,
+            "page": 5
+        },
+        {
+            "title": "General Linux Support",
+            "level": 1,
+            "page": 5
+        },
+        {
+            "title": "RocksDB Zone Support",
+            "level": 1,
+            "page": 6
+        },
+        {
+            "title": "ZenFS Architecture",
+            "level": 2,
+            "page": 6
+        },
+        {
+            "title": "Evaluation",
+            "level": 0,
+            "page": 8
+        },
+        {
+            "title": "Raw I/O Characteristics",
+            "level": 1,
+            "page": 8
+        },
+        {
+            "title": "RocksDB",
+            "level": 1,
+            "page": 9
+        },
+        {
+            "title": "Streams",
+            "level": 1,
+            "page": 11
+        },
+        {
+            "title": "Related Work",
+            "level": 0,
+            "page": 11
+        }
+    ],
+    "pages": 16,
+    "ocr_stats": {
+        "ocr_pages": 0,
+        "ocr_failed": 0,
+        "ocr_success": 0,
+        "ocr_engine": "none"
+    },
+    "block_stats": {
+        "header_footer": 15,
+        "code": 0,
+        "table": 0,
+        "equations": {
+            "successful_ocr": 0,
+            "unsuccessful_ocr": 0,
+            "equations": 0
+        }
+    },
+    "computed_toc": []
+}
