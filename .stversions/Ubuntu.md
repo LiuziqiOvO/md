@@ -289,6 +289,10 @@ tmux new -s myscan
 tmux attach -t  myscan
 ```
 
+好用的命令：
+
+**Ctrl + B + W**：查看全局
+
 ### `Ctrl + B` 快捷键
 
 - **c**（create）：新建一个窗口
@@ -312,7 +316,6 @@ tmux attach -t  myscan
 ### 其他常用命令
 
 - **Ctrl + B + R**：刷新窗口内容
-- **Ctrl + B + W**：查看当前会话的窗口列表
 - **Ctrl + B + L**：锁定会话
 - **Ctrl + B + :**：进入命令模式，输入命令（例如：`resize-pane` 来调整面板大小）
 
@@ -488,7 +491,7 @@ Docker 制造隔离环境的主要方法是通过 Linux 内核提供的命名空
 
 镜像是由多个文件系统（layers）构成的，每个文件系统都包含了容器运行所需的文件和配置信息。Docker 使用联合文件系统（UnionFS）的技术将这些文件系统层叠在一起，形成一个完整的镜像。这种分层存储的设计使得镜像可以有效地共享和重用，同时也使得镜像的构建、传输和存储更加高效。
 
-##  命令
+##  Docker 命令
 
 `docker images` 可以检查本地所被 tag 的镜像。
 
@@ -586,7 +589,25 @@ docker image prune -a
 
 
 
+> docker ps :在 `docker ps` 的输出中，端口映射部分通常是这样的：
+
 ```
+0.0.0.0:8200->8001/tcp, :::8200->8001/tcp
+```
+
+这表示 Docker 将容器内部的端口 **8001** 映射到了宿主机的 **8200** 端口，
+外部访问宿主机的 `8200` 端口时，Docker 会将请求转发到容器的 `8001` 端口。
+
+- **`0.0.0.0:8200`**：
+  表示宿主机的所有 IPv4 地址都可以通过端口 `8200` 访问容器的服务。
+- **`:::8200`**：
+  表示宿主机的所有 IPv6 地址都可以通过端口 `8200` 访问容器的服务。
+
+
+
+
+
+```ps
 docker ps	#列出正在运行的容器
 	-a		#看曾经运行过的容器
 	
@@ -599,7 +620,6 @@ docker restart
 docker stop
 docker kill
 ```
-
 
 
 
@@ -978,80 +998,7 @@ Node.js 是一种基于 JavaScript 的运行时环境，广泛应用于后端开
 5. **边缘计算**：Node.js 在边缘计算领域逐渐受到关注，通过将计算任务靠近数据源，降低延迟并优化带宽使用，特别适用于物联网（IoT）和内容分发网络（CDN）。
 6. **安全性增强**：随着网络安全威胁的增加，Node.js 的安全性也不断提高。开发者被鼓励遵循最佳安全实践，如定期更新、漏洞扫描等，以构建更为安全的应用。
 
-# SSH隧道
-
-> 如何连接到校园网内的服务器（实验室的机器）
->
-> 一台公网固定IP地址的外网服务器
->
-> 能用ToDesk控制实验室的服务器
->
-> 如何设置？
->
-> 
-
-要通过具有公网固定IP地址的外网服务器（liuziqi@221.9.165.166）跳转到位于校园网内部的内网服务器，可以设置一个反向SSH隧道。以下是详细步骤：
-
-1. **在内网服务器上建立反向SSH隧道**
-
-首先，确保您能够从内网服务器（校园网内的服务器）SSH连接到外网服务器。假设内网服务器的用户名是`user`，SSH服务在默认的22端口上运行。
-
-在内网服务器上运行以下命令：
-```bash
-ssh -fN -R 2222:localhost:22 liuziqi@221.9.165.166
-```
-解释：
-- `-f`：使SSH在后台运行。
-- `-N`：不执行远程命令，仅转发端口。
-- `-R 2222:localhost:22`：将外网服务器的2222端口转发到内网服务器的22端口（SSH端口）
-- `liuziqi@221.9.165.166`：外网服务器的用户名和IP地址。
-
-2. **确保外网服务器允许端口转发**
-
-在外网服务器（221.9.165.166）上，确保SSH配置允许反向隧道。编辑`/etc/ssh/sshd_config`文件，确保以下选项未被注释且设置为`yes`：	
-```bash
-AllowTcpForwarding yes
-GatewayPorts yes
-```
-修改后，重启SSH服务：
-```bash
-sudo systemctl restart sshd
-```
-
-### 3. 从外网服务器连接到内网服务器
-
-一旦隧道建立，您可以从任何地方通过连接外网服务器的2222端口来访问内网服务器。在外网服务器或其他机器上运行以下命令：
-```bash
-ssh -p 2222 user@localhost
-```
-解释：
-- `-p 2222`：连接到外网服务器的2222端口。
-- `user@localhost`：通过隧道连接到内网服务器的用户名和本地地址。
-
-### 示例场景
-
-1. **在内网服务器上建立隧道**：
-   ```bash
-   ssh -fN -R 2222:localhost:22 liuziqi@221.9.165.166
-   ```
-
-2. **在外网服务器上确保允许端口转发**：
-   编辑`/etc/ssh/sshd_config`文件，确认以下内容：
-   ```bash
-   AllowTcpForwarding yes
-   GatewayPorts yes
-   ```
-   然后重启SSH服务：
-   ```bash
-   sudo systemctl restart sshd
-   ```
-
-3. **从外网服务器或其他机器连接到内网服务器**：
-   ```bash
-   ssh -p 2222 user@localhost
-   ```
-
-通过这些步骤，您可以通过具有公网IP的外网服务器（221.9.165.166）安全地访问位于校园网内部的内网服务器。
+# 
 
 
 
@@ -1456,7 +1403,6 @@ sudo apt-get update
 
 
 
-
 ## oh-my-zsh
 
 apt-get安装：
@@ -1483,7 +1429,11 @@ sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/i
 
 [raw.githubusercontent.com](https://link.zhihu.com/?target=http%3A//raw.githubusercontent.com/)解析的IP地址为151.101.76.133
 
+更新: https://hosts.gitcdn.top/ 提供的: https://hosts.gitcdn.top/hosts.txt 直接查地址
+
 修改hosts文件
+
+
 
 ```text
 vim /etc/hosts
@@ -1507,6 +1457,7 @@ vim ~/.zshrc
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 #历史记录
 git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+
 ```
 
 ​	
@@ -1515,11 +1466,23 @@ git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/z
 
 ```
 # my path config
-export GOROOT=$HOME/sdk/go1.20.4
+export GOROOT=$HOME/sdk/go1.22.2
+export GOPATH=$HOME/lzq/Go
+export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
-export GOPATH=$HOME/Go
+# lzq: path config
 
+# Tabby, sftp path detect 
+precmd () { echo -n "\x1b]1337;CurrentDir=$(pwd)\x07" }
 
+# node.js
+export PATH=/usr/local/bin/node/bin:$PATH
+
+# clash-for-linux
+source /etc/profile.d/clash.sh
+
+# pyhton-pip
+export PATH=$PATH:/home/liuziqi/.local/bin
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -1720,7 +1683,7 @@ DEB包 （例:包名=>redis）
 
 # 用户管理
 
-创建用户
+### 创建用户
 
 新建用户
 
@@ -1789,7 +1752,7 @@ sudo ausearch -k system_config_change
 
 
 
-# 常用命令(已经没有意义了)
+# 常用命令(无意义了)
 
 ```bash
 cd -	#回到刚才的目录 cd = change	directory
@@ -2017,8 +1980,9 @@ sudo passwd
 
 >lzq is not in the sudoers file.  This incident will be reported.
 
-```
-sudo usermod -aG sudo lzq
+```bash
+sudo usermod -aG sudo lzq #	ubuntu 
+usermod -aG wheel lzq #	OpenEuler
 ```
 
 其他相关:
@@ -2117,49 +2081,11 @@ journalctl -u ssh -n 50
 
 hostnamectl	这个命令不仅会显示系统的主机名，还会显示操作系统的相关信息。
 
-# 环境变量、自启动脚本
-
-## 环境
-
-#### Go
-
-Goenv： home/lzq/sdk/go
-
-GoPATH ： home/lzq/Go
-
-Go的下载目录放在HOME下了
-
-#### conda
-
-home/miniconda3
-
-https://blog.csdn.net/weixin_44119391/article/details/128577681
-
-下载地址：https://repo.anaconda.com/archive/
-
-conda也在home下，直接运行sh
-
-#### 配置pytorch
-
-#### 连接不上dl.google.com
-
-测速网站，找个好IP
-
-https://tool.chinaz.com/speedtest/dl.google.com
-
-修改/etc/hosts，例如
-
-```
-220.181.174.97 dl.google.com
-```
 
 
 
-```
-20.205.243.166 github.com
-```
 
-
+# 环境变量、自启动脚本、守护进程
 
 ## 环境变量
 
@@ -2193,7 +2119,17 @@ sudo visudo
 Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 ```
 
-### 3. 解决方案：
+
+
+
+
+
+
+
+
+
+
+
 
 ## 开机自启脚本&service
 
@@ -2202,6 +2138,14 @@ Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/b
 
 
 开机启动脚本：`/etc/rc.local`
+
+
+
+特殊的目录, 这个目录下的所有 .sh 脚本会在用户登录时自动被系统执行: 
+
+`/etc/profile.d/ `
+
+
 
 
 
@@ -2231,69 +2175,11 @@ sudo systemctl start hugepages.service
 
 这样，在每次系统启动时，都会自动应用您的大页内存设置。
 
-## 配置HugePage
-
-```bash
-# 需要1G大小的 Huge Page 先来5个
-su root 
-echo 5 > /sys/kernel/mm/hugepages/hugepages-1048576kB/nr_hugepages
-
-```
-
-这个错误表明虽然您已经预留了大页内存，但系统中没有为这些大页大小挂载的 `hugetlbfs` 文件系统。`hugetlbfs` 是 Linux 下用于管理大页内存的一种特殊文件系统，能够提供对大页的直接访问。解决这个问题需要您手动挂载 `hugetlbfs`，以便系统和应用能够使用预留的大页。
-
-#### 1. 创建挂载点
-
-首先，您需要为每种大页大小创建一个挂载点。通常，这些挂载点位于 `/dev/hugepages` 或 `/mnt/huge`，但您可以根据需要选择不同的位置。例如，对于 2MB 和 1GB 大页：
-
-```bash
-sudo mkdir -p /dev/hugepages-2MB
-sudo mkdir -p /dev/hugepages-1GB
-```
-
-#### 2. 挂载 `hugetlbfs`
-
-然后，使用 `mount` 命令将 `hugetlbfs` 文件系统挂载到这些挂载点。为每种大页大小指定正确的 `pagesize`：
-
-```bash
-sudo mount -t hugetlbfs -o pagesize=2M hugetlbfs /dev/hugepages-2MB
-sudo mount -t hugetlbfs -o pagesize=1G hugetlbfs /dev/hugepages-1GB
-```
-
-#### 3. 验证挂载
-
-使用 `mount` 或 `df -h` 命令来确认 `hugetlbfs` 已经正确挂载：
-
-```bash
-mount | grep hugetlbfs
-```
-
-或者：
-
-```bash
-df -h | grep hugetlbfs
-```
-
-您应该能看到您的 `hugetlbfs` 挂载。
-
-#### 4. 持久化挂载配置(暂不)
-
-为了确保在系统重启后 `hugetlbfs` 挂载依然有效，您需要将挂载信息添加到 `/etc/fstab` 文件中。打开 `/etc/fstab` 文件并添加以下行：
-
-```fstab
-hugetlbfs /dev/hugepages-2MB hugetlbfs pagesize=2M 0 0
-hugetlbfs /dev/hugepages-1GB hugetlbfs pagesize=1G 0 0
-```
-
-保存文件并关闭编辑器。这将确保在每次系统启动时自动挂载 `hugetlbfs`。
-
-#### 注意
-
-确保您的系统和应用配置正确，并且它们能够访问和	使用新挂载的大页内存。如果您的应用特定地需要使用某种大小的大页，还需要检查应用的配置，确保它指向正确的大页内存和 `hugetlbfs` 挂载点。
 
 
+## 守护进程daemon
 
-
+当谈到守护进程（daemon）时，我们通常是指在后台运行的长期运行的系统服务或进程。它们通常不会与用户直接交互，而是在系统启动时启动，并持续运行以提供特定的功能或服务。下面是关于守护进程和普通进程的一些区别以及它们的作用：
 
 
 
@@ -2365,7 +2251,7 @@ hugetlbfs /dev/hugepages-1GB hugetlbfs pagesize=1G 0 0
 
 
 
-
+# 
 
 
 
@@ -2461,23 +2347,135 @@ sudo lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
 # 上述命令将会从 /dev/sdc2 物理卷中获取可用空间来扩展 /dev/mapper/ubuntu--vg-ubuntu--lv 逻辑卷。
 ```
 
+## LVM缩容
+
+- 严格遵循：备份 -> 卸载 -> 缩减文件系统 -> 缩减逻辑卷 -> 移动数据 -> 移除物理卷
+
+  ```bash
+  # 1. 确保 /home 已卸载
+  sudo umount /home
+  # (!)如果被占用,可以终止所有使用/home的进程：
+  sudo fuser -km /home
+  
+  # 2. 检查文件系统
+  sudo e2fsck -f /dev/openeuler_hostname-0oncl/home
+  
+  # 3. 使用 -r 参数同时缩减文件系统和逻辑卷
+  sudo lvreduce -L 890G -r /dev/openeuler_hostname-0oncl/home
+  
+  sudo e2fsck -f /dev/openeuler_hostname-0oncl/home
+  
+  ```
+
+> 1. 不要对正在挂载的空间强行操作
+> 2. 可以经常e2fsck来进行检查
+> 2. sudo pvs (查看数据分布,确保要操作的盘是空闲的)
+
+刚才缩小了文件系统和逻辑卷, 现在释放物理卷.
+
+- 移除物理卷前确保它们确实是完全空闲的!!!!
+
+```
+# 可以一次移除多个完全空闲的物理卷
+sudo vgreduce openeuler_hostname-3qe8a /dev/sdc1 /dev/sdd1 /dev/sde1 /dev/sdf1 /dev/sdg1 /dev/sd
+
+
+# 移除不再使用的物理卷的LVM标记
+
+sudo pvremove /dev/sdc1 /dev/sdd1 /dev/sde1 /dev/sdf1 /dev/sdg1 /dev/sdh1
+```
+
+也可以:
+
+```bash
+sudo pvresize --setphysicalvolumesize 1.6T /dev/sde1    (缩小物理卷至1.6T)          
+ 
+ # 验证:
+ sudo pvs                                                                  
+  PV         VG                       Fmt  Attr PSize   PFree                    
+  /dev/sda3  openeuler_hostname-0oncl lvm2 a--  892.66g 818.66g                  
+  /dev/sde1  openeuler_hostname-0oncl lvm2 a--   <1.60t   1.58t  
+```
 
 
 
 
-# 守护进程daemon
-
-当谈到守护进程（daemon）时，我们通常是指在后台运行的长期运行的系统服务或进程。它们通常不会与用户直接交互，而是在系统启动时启动，并持续运行以提供特定的功能或服务。下面是关于守护进程和普通进程的一些区别以及它们的作用：
 
 
 
 
 
+## 配置HugePage
+
+```bash
+# 需要1G大小的 Huge Page 先来5个
+su root 
+echo 5 > /sys/kernel/mm/hugepages/hugepages-1048576kB/nr_hugepages
+
+```
+
+这个错误表明虽然您已经预留了大页内存，但系统中没有为这些大页大小挂载的 `hugetlbfs` 文件系统。`hugetlbfs` 是 Linux 下用于管理大页内存的一种特殊文件系统，能够提供对大页的直接访问。解决这个问题需要您手动挂载 `hugetlbfs`，以便系统和应用能够使用预留的大页。
+
+#### 1. 创建挂载点
+
+首先，您需要为每种大页大小创建一个挂载点。通常，这些挂载点位于 `/dev/hugepages` 或 `/mnt/huge`，但您可以根据需要选择不同的位置。例如，对于 2MB 和 1GB 大页：
+
+```bash
+sudo mkdir -p /dev/hugepages-2MB
+sudo mkdir -p /dev/hugepages-1GB
+```
+
+#### 2. 挂载 `hugetlbfs`
+
+然后，使用 `mount` 命令将 `hugetlbfs` 文件系统挂载到这些挂载点。为每种大页大小指定正确的 `pagesize`：
+
+```bash
+sudo mount -t hugetlbfs -o pagesize=2M hugetlbfs /dev/hugepages-2MB
+sudo mount -t hugetlbfs -o pagesize=1G hugetlbfs /dev/hugepages-1GB
+```
+
+#### 3. 验证挂载
+
+使用 `mount` 或 `df -h` 命令来确认 `hugetlbfs` 已经正确挂载：
+
+```bash
+mount | grep hugetlbfs
+```
+
+或者：
+
+```bash
+df -h | grep hugetlbfs
+```
+
+您应该能看到您的 `hugetlbfs` 挂载。
+
+#### 4. 持久化挂载配置(暂不)
+
+为了确保在系统重启后 `hugetlbfs` 挂载依然有效，您需要将挂载信息添加到 `/etc/fstab` 文件中。打开 `/etc/fstab` 文件并添加以下行：
+
+```fstab
+hugetlbfs /dev/hugepages-2MB hugetlbfs pagesize=2M 0 0
+hugetlbfs /dev/hugepages-1GB hugetlbfs pagesize=1G 0 0
+```
+
+保存文件并关闭编辑器。这将确保在每次系统启动时自动挂载 `hugetlbfs`。
+
+#### 注意
+
+确保您的系统和应用配置正确，并且它们能够访问和	使用新挂载的大页内存。如果您的应用特定地需要使用某种大小的大页，还需要检查应用的配置，确保它指向正确的大页内存和 `hugetlbfs` 挂载点。
 
 
 
 
-# OS基本知识
+
+
+
+
+
+
+
+#  其他OS基本知识
 
 ## Linux系统目录结构
 
@@ -2769,21 +2767,60 @@ sudo netstat -tuln
 
 sudo apt-get install nmap
 
+或者
 
-
-**检查防火墙配置**
+**推荐:用`ufw`检查防火墙配置**
 
 查看防火墙规则，看看哪些端口被允许通过防火墙。在 Linux 上可以使用 `iptables` 或 `ufw`
 
-
-
-```
-sudo ufw allow 4000                                            
-规则已添加                                                                      
-规则已添加 (v6)
- 
+```bash
 sudo ufw status
+sudo ufw status verbose
+
+# 开放某个端口
+sudo ufw allow 4000                                            
+规则已添加                                                             规则已添加 (v6)  
+
+# reload 防火墙
+sudo ufw reload
+
 ```
+
+
+
+使用`lsof`(代表“List Open Files”，)查看哪个进程在用这个端口
+
+```
+sudo lsof -i :8080 
+```
+
+​                                         
+
+
+
+## SSH隧道
+
+> 如何连接到校园网内的服务器（实验室的机器）
+>
+> 一台公网固定IP地址的外网服务器
+>
+> 能用ToDesk控制实验室的服务器
+>
+> 如何设置？
+
+
+
+> 这个编辑器自带的 “端口转发功能”是怎么实现的， 我现在：remote连接服务器写代码，我在服务器的80端口开启服务，我想在笔记本电脑访问，但是不修改服务器的防火墙，这是怎么做到的
+
+
+
+这种端口转发通常是通过 SSH 隧道（SSH Tunnel）实现的。让我为您解释其工作原理：
+
+基本原理：
+
+本地电脑 <-----> SSH隧道 <-----> 远程服务器(localhost:XXXX)       (remote:80)
+
+实现方式：# 基本的SSH端口转发命令ssh -L 本地端口:远程主机:远程端口 用户名@服务器地址# 例如，将远程80端口映射到本地8080ssh -L 8080:localhost:80 user@remote-server工作流程：在 SSH 连接中建立一个加密通道将本地端口的所有流量通过这个加密通道转发到远程服务器的指定端口远程服务器收到请求后，将响应通过同样的通道返回编辑器（如 VS Code）中的实现：VS Code 使用 ssh2 或类似的库建立 SSH 连接自动处理端口转发的配置在后台维护 SSH 隧道
 
 
 
