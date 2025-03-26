@@ -1,5 +1,3 @@
-
-
 多线程与多进程等。
 
 # 编译、调试、性能分析工具：
@@ -86,16 +84,16 @@ delete 1   #删除1号断点
 
 
 
-| 命令     | 命令缩写 | 命令说明                                                     |
-| -------- | -------- | ------------------------------------------------------------ |
-| file     | f        | 装入要调试的文件路径                                         |
-|          |          |                                                              |
-|          |          |                                                              |
-| start    | st       | 开始执行程序,在main函数的第一条语句前面停下来                |
-| run      | r        | 开始运行程序                                                 |
-| step     | s        | 执行下一条语句,如果该语句为函数调用,则进入函数执行其中的第一条语句 |
+| 命令     | 命令缩写 | 命令说明                                                                                 |
+| -------- | -------- | ---------------------------------------------------------------------------------------- |
+| file     | f        | 装入要调试的文件路径                                                                     |
+|          |          |                                                                                          |
+|          |          |                                                                                          |
+| start    | st       | 开始执行程序,在main函数的第一条语句前面停下来                                            |
+| run      | r        | 开始运行程序                                                                             |
+| step     | s        | 执行下一条语句,如果该语句为函数调用,则进入函数执行其中的第一条语句                       |
 | next     | n        | 执行下一条语句,如果该语句为函数调用,不会进入函数内部执行(即不会一步步地调试函数内部语句) |
-| continue | c        | 继续程序的运行,直到遇到下一个断点                            |
+| continue | c        | 继续程序的运行,直到遇到下一个断点                                                        |
 
 ### **观察变量**
 
@@ -258,12 +256,12 @@ sudo make install
 
 
 
-|          |                                                              |
-| :------- | ------------------------------------------------------------ |
-| dd       | 删除行                                                       |
-| yy       | 复制行                                                       |
-| u        | 复原前一个动作。                                             |
-| [Ctrl]+r | 重做上一个动作。                                             |
+|          |                                                                                                                    |
+| :------- | ------------------------------------------------------------------------------------------------------------------ |
+| dd       | 删除行                                                                                                             |
+| yy       | 复制行                                                                                                             |
+| u        | 复原前一个动作。                                                                                                   |
+| [Ctrl]+r | 重做上一个动作。                                                                                                   |
 | .        | 不要怀疑！这就是小数点！意思是重复前一个动作的意思。 如果你想要重复删除、重复贴上等等动作，按下小数点『.』就好了！ |
 
 
@@ -325,28 +323,6 @@ tmux attach -t  myscan
 
 ## 配置
 
-回到Windows安装Git到D盘的environment中
-
-### ssh
-
-本地生成密钥
-
-`ssh-keygen -t rsa -C "1021578619@qq.com"`
-
--C：C是comment的缩写，“你的邮箱地址“（因为邮箱地址具有唯一性所以一般用这个），这是用于识别这个密钥的注释
-
-一路回车,密钥保存到`用户/2657/.ssh/id_rsa.pub`
-
-复制粘贴到GitHub-Setting-SSH and GPG keys,命名test1
-
-`ssh -T git@github.com`
-
-第一次连接需要确认yes
-
-![image-20211222114855088](./Ubuntu.assets/image-20211222114855088.png)
-
-
-
 
 
 ## 结构
@@ -383,14 +359,119 @@ git push -u origin master (master:master,同名省略)
 
 2024年3月7日16:48:45: 
 
+## 问题
+
+### 用SSH解决网络问题
+
+配置GITHUB SSH密钥
+
+1. 生成 SSH 密钥（如果未配置）：
+
+   ```
+   bash
+   
+   
+   复制编辑
+   ssh-keygen -t rsa -b 4096
+   ```
+
+   直接按回车，使用默认路径，设置一个密码。
+
+2. 将公钥添加到 GitHub：
+
+   ```
+   bash
+   
+   
+   复制编辑
+   cat ~/.ssh/id_rsa.pub
+   ```
+
+   将输出的内容复制到 GitHub → **Settings** → **SSH and GPG keys** → **New SSH Key**。
+
+3. 测试 SSH 连接：
+
+   ```
+   ssh -T git@github.com
+   ```
+
+   成功时输出：
+
+   ```
+   Hi LiuziqiOvO! You've successfully authenticated, but GitHub does not provide shell access.
+   ```
+
+**切换为SSH连接：**
+
+查看当前 Git 远程 URL：
+
+```
+git remote -v
+```
+
+示例输出（如果是 HTTPS）：
+
+```
+origin  https://github.com/LiuziqiOvO/SPDK.ocf.git (fetch)
+origin  https://github.com/LiuziqiOvO/SPDK.ocf.git (push)
+```
+
+将远程 URL 从 `HTTPS` 改为 `SSH`：
+
+```
+git remote set-url origin git@github.com:LiuziqiOvO/SPDK.ocf.git
+```
+
 ### token
 
-github强制使用token了
+github登录密码强制使用token了
 
 ```bash
 git remote set-url origin https://token@github.com/username/project.git
 
 ```
+
+### 如果本地比远程超前
+
+我来帮您解决这个 git 合并冲突的问题。这个错误表明您本地的 `config.sh` 文件有未提交的修改，而远程仓库也对该文件进行了更改。我们有几种方法可以解决：
+
+1. 如果您想保留本地修改，可以先将其暂存：
+
+```bash
+# 暂存当前修改
+git stash
+
+# 拉取远程更新
+git pull
+
+# 恢复之前的修改，然后手动解决冲突
+git stash pop
+```
+
+2. 如果您想放弃本地修改，直接使用远程版本：
+
+```bash
+# 放弃本地修改
+git checkout -- config.sh
+
+# 然后重新拉取
+git pull
+```
+
+3. 如果您想保留本地修改并提交：
+
+```bash
+# 添加修改到暂存区
+git add config.sh
+
+# 提交修改
+git commit -m "更新 config.sh"
+
+# 然后拉取并合并远程更改
+git pull
+```
+
+建议使用第一种方法（git stash），这样可以安全地保存您的本地修改，同时又能获取远程更新。如果在 `git stash pop` 后出现冲突，您可以手动解决冲突，选择保留需要的更改。
 
 
 
@@ -954,11 +1035,167 @@ Docker 容器的联网方式主要有以下几种：
 
 ## SR-IOV
 
-SR-IOV（Single Root I/O Virtualization，单根I/O虚拟化）
-
-SR-IOV（Single Root I/O Virtualization，单根I/O虚拟化）是一种硬件虚拟化技术，让docker共享同一个硬件(例如网卡)
+SR-IOV（Single Root I/O Virtualization，单根I/O虚拟化）是一种硬件虚拟化技术，让docker共享同一个硬件(例如RDMA网卡)
 
 https://www.notion.so/ziqi-rocks-on-zns/Docker-RDMA-SR-IOV-2104cf47884c4062a51107c8e74d42f9
+
+
+#### Docker-RDMA：SR-IOV配置
+配置SR-IOV（单根虚拟化) for RDMA in Docker
+
+**SR-IOV**（Single Root I/O Virtualization，单根I/O虚拟化）是一种硬件虚拟化技术，旨在解决物理网络适配器在虚拟化环境中的性能和资源利用率问题。它可以解决以下一些主要问题：
+
+1. 性能问题：在传统的虚拟化环境中，多个虚拟机共享同一个物理网络适配器的情况下，可能会出现性能瓶颈。由于网络适配器的资源（如带宽、处理能力）被多个虚拟机共享，因此可能会导致网络性能下降。SR-IOV允许在物理网络适配器上创建多个虚拟功能（VF），每个VF都可以直接访问适配器的硬件资源，从而提高了网络性能。
+2. 资源隔离问题
+3. 网络吞吐量问题
+
+#### 前提：
+
+1. RDMA网卡： **`Mellanox Technologies MT27800 Family [ConnectX-5]`**
+2. 安装好MLNX_OFED驱动
+3. 在BIOS中启用CPU虚拟化，并启用SR-IOV，如图
+   ![img](Ubuntu.assets/Untitled.png)
+   ![image-20250224170335984](Ubuntu.assets/image-20250224170335984.png)
+
+4.  在grub中增加配置：**intel_iommu=on**
+
+5.  确保openSM启用了虚拟化支持（我这个路径下是空的，但默认应该是开启的?）
+
+   Make sure that the openSM is enabled with virtualization.
+
+   - For MLNX OFED 4.x update the file /etc/opensm/opensm.conf with :
+   - For UFM 5.x and 6.x update the file /opt/ufm/files/conf/opensm/opensm.conf with :
+
+   > virt_enabled 2
+
+6. 重启，使配置生效：restart opensm
+
+#### 在固件中启用SR-IOV
+
+> MST（Mellanox Software Tools），它包括一系列的命令行工具和管理服务，用于配置和管理 Mellanox 硬件设备。通过 MST，用户可以进行诸如网卡诊断、固件更新、性能调优、端口配置等操作
+
+```bash
+$mst start
+
+$mst status
+MST modules:
+------------
+    MST PCI module is not loaded
+    MST PCI configuration module loaded
+
+MST devices:
+------------
+/dev/mst/mt4119_pciconf0         - PCI configuration cycles access.
+                                   domain:bus:dev.fn=0000:b1:00.0 addr.reg=88 data.reg=92 cr_bar.gw_offset=-1
+                                   Chip revision is: 00
+# Query the Status of the device.
+$mlxconfig -d /dev/mst/mt4119_pciconf0 q
+
+# Enable SR-IOV, set the desired number of VFs as follows:
+
+$mlxconfig -d /dev/mst/mt4119_pciconf0 set SRIOV_EN=1 NUM_OF_VFS=4 
+​```Brainstorm ideas for 
+
+在驱动中启用SR-IOV才能看到虚拟卡（这个步骤有啥意义没看懂，后续参见：）：
+
+​```bash
+ibstat
+
+cat /sys/class/infiniband/mlx5_0/device/mlx5_num_vfs
+# mlx5_num_vfs 把该参数改成4 , 
+echo 4 > /sys/class/infiniband/mlx5_0/device/mlx5_num_vfs
+```
+
+至此，
+
+可以看到四张VF：
+
+![image-20250224172452896](Ubuntu.assets/image-20250224172452896.png)
+
+> 注意：这个参数不是持久的，重启会归零 (?)
+
+```bash
+# 将 VF 的管理员状态设置为 "Follow"，以使其跟随 PF 的状态。
+root@host1:/home/lzq# cat /sys/class/infiniband/mlx5_0/device/sriov/0/policy
+Down
+root@host1:/home/lzq# echo Follow > /sys/class/infiniband/mlx5_0/device/sriov/0/policy
+root@host1:/home/lzq# cat /sys/class/infiniband/mlx5_0/device/sriov/0/policy
+Follow
+```
+
+(后面还有几个配置，没看懂，不知道有啥用：https://enterprise-support.nvidia.com/s/article/Docker-RDMA-SRIOV-Networking-with-ConnectX4-ConnectX5-ConnectX6）
+
+### Opensm启用虚拟化?
+
+Open the file /etc/opensm/opensm.conf and add:
+
+> virt_enabled 2
+
+但是上面配置文件目录里是空的。
+
+**重启**restart opensm
+
+### 安装Docker 插件
+
+```bash
+sudo docker pull rdma/sriov-plugin
+
+sudo docker pull rdma/container_tools_installer
+
+# run了这个installer然后就能用docker_rdma_sriov了
+```
+
+参考：
+
+https://docs.nvidia.com/networking/display/mlnxofedv590590/docker+using+sr-iov
+
+https://enterprise-support.nvidia.com/s/article/Docker-RDMA-SRIOV-Networking-with-ConnectX4-ConnectX5-ConnectX6
+
+### 测试:使用SR-IOV创建容器网络
+
+先run这个插件
+
+```bash
+sudo docker run -v /run/docker/plugins:/run/docker/plugins \\
+          -v /etc/docker:/etc/docker \\
+          -v /var/run:/var/run \\
+          --net=host --privileged rdma/sriov-plugin       
+2024/05/26 13:04:32 Mellanox sriov plugin started version=0.1.2
+2024/05/26 13:04:32 Ready to accept commands.
+```
+
+创建网络
+
+```bash
+docker network create -d sriov \\
+                       --subnet=10.10.1.0/24 \\
+                       -o netdevice=ibs21 \\
+                       sriov_net
+```
+
+创建网络以后可以看到这个”插件”有相应的输出：
+
+```bash
+2024/05/26 13:55:48 Entering go-plugins-helpers createnetwork
+2024/05/26 13:55:48 CreateNetwork() : [ &{NetworkID:0db4c14c044a01025f353b3e4b4c24d453dc0f6c725068ecb8f8e9f86545f424 Options:map[com.docker.network.enable_ipv6:false com.docker.network.generic:map[netdevice:ibs21]] IPv4Data:[0xc420360780] IPv6Data:[]} ]
+2024/05/26 13:55:48 CreateNetwork IPv4Data len : [ 1 ]
+2024/05/26 13:55:48 parseNetworkGenericOptions map[netdevice:ibs21]
+2024/05/26 13:55:48 Single port driver for device:  ibs21
+2024/05/26 13:55:48 cur_vfs =  4
+2024/05/26 13:55:48 SRIOV CreateNetwork : [0db4c14c044a01025f353b3e4b4c24d453dc0f6c725068ecb8f8e9f86545f424] IPv4Data : [ &{AddressSpace:LocalDefault Pool:10.10.1.0/24 Gateway:10.10.1.1/24 AuxAddresses:map[]} ]
+```
+
+启动一个使用该网络的容器
+
+```bash
+sudo docker run -it --net=sriov_net --privileged --ip=10.10.10.4 --name lzq_ditto_0 ditto_baseimage /bin/bash
+```
+
+
+
+
+
+
 
 
 

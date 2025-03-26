@@ -20,6 +20,99 @@ sudo apt install clang-format
 
 
 
+.clang-format文件：
+
+```
+---
+Language: Cpp
+# 基础样式配置
+BasedOnStyle: Google
+Standard: Cpp11
+
+# 缩进配置
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+AccessModifierOffset: -4
+IndentCaseLabels: true
+NamespaceIndentation: None
+
+# 行长度和换行配置
+ColumnLimit: 120
+AlignAfterOpenBracket: Align
+AllowAllParametersOfDeclarationOnNextLine: true
+BinPackArguments: false
+BinPackParameters: false
+AlwaysBreakTemplateDeclarations: Yes
+
+# 大括号配置
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass: false
+  AfterControlStatement: false
+  AfterEnum: false
+  AfterFunction: false
+  AfterNamespace: false
+  AfterStruct: false
+  AfterUnion: false
+  BeforeCatch: false
+  BeforeElse: false
+  IndentBraces: false
+
+# 空格配置
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+SpacesInAngles: false
+SpaceAfterCStyleCast: false
+SpaceAfterTemplateKeyword: true
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeRangeBasedForLoopColon: true
+
+# 对齐配置
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignEscapedNewlines: Left
+AlignOperands: true
+AlignTrailingComments: true
+
+# 指针和引用配置
+DerivePointerAlignment: false
+PointerAlignment: Left
+
+# 注释配置
+CommentPragmas: '^ IWYU pragma:'
+FixNamespaceComments: true
+ReflowComments: true
+
+# 函数配置
+AllowShortFunctionsOnASingleLine: Empty
+AlwaysBreakAfterReturnType: None
+BreakConstructorInitializers: BeforeColon
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+
+# 其他配置
+Cpp11BracedListStyle: true
+IndentPPDirectives: None
+KeepEmptyLinesAtTheStartOfBlocks: false
+MaxEmptyLinesToKeep: 1
+SortIncludes: true
+SortUsingDeclarations: true
+
+# 宏配置
+AlignConsecutiveMacros: true
+
+```
+
+
+
+
+
+
+
+
+
 ## Latex-workshop
 
 配置:
@@ -154,9 +247,54 @@ sudo apt install clang-format
 
 
 
+## 其他工具
+
+**跳转**
+
+- IntelliCode（跳转）
+- Bookmarks（在代码的某行打标签快速跳转）
+- （看函数调用关系图）
+- CodeLLDB（没咋用明白）
+
+**美化**
+
+- Bracket（彩虹括号，两个对应的括号之间有竖线）
+- vscode-icon（最显眼的图标）
+- Ninja（在行内显示output）
+
+**其他工具：**
+
+- 合集：VSC-Essentials（少）
+- 合集：VSCode Essentials（多）
+- Todo Tree - Gruntfuggly: TODO 软件
+- 
+- 
+
+
+
+
+
+## LATEX插件
+
+使用vscode本地编译LaTeX
+
+windows直装:https://www.tug.org/texlive/windows.html#install
+
+插件：LaTeX Workshop
+
+
+
+## SHELL插件
+
+1. shellcheck - Timon Wong: 语法检查, 以及错误提示
+2. 
+3. 
+
 
 
 # Jetbrain系列
+
+
 
 
 
@@ -165,16 +303,6 @@ sudo apt install clang-format
 可以继承Vscode绝大部分插件，
 
 
-
-
-
-# VSCDOE + LATEX
-
-使用vscode本地编译LaTeX
-
-windows直装:https://www.tug.org/texlive/windows.html#install
-
-插件：LaTeX Workshop
 
 
 

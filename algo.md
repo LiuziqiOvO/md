@@ -1,3 +1,21 @@
+重新整理：
+
+# 动态规划
+
+https://huxulm.github.io/lc-rating/list/dynamic_programming#7c7c1f2efad055701647c7012b9ce425
+
+## 入门DP
+
+
+
+## 网格图DP
+
+
+
+
+
+
+
 
 
 # 分治
