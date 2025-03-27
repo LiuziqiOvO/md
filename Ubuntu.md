@@ -36,6 +36,54 @@ perf record -e cache-misses
 
 
 
+使用GDB加载该coredump
+
+gdb /path/to/your/program /data/coredump/core.your_program_name.pid
+
+
+
+**主动生成core dump**
+
+```bash
+
+gcore -o /desired/path/core_dump_filename PID
+
+# 或者使用kill  -6， 但这会终止当前进程。
+
+kill -SIGABRT PID
+
+```
+
+
+
+
+
+要将核心转储（core dump）文件保存到工作空间（`${workspaceFolder}`）下的 `coredump` 目录，您可以按照以下步骤进行配置：
+
+1. **创建 `coredump` 目录**：
+
+   首先，确保在您的工作空间目录下存在一个名为 `coredump` 的目录。您可以使用以下命令创建该目录：
+
+   ```bash
+   mkdir -p ${workspaceFolder}/coredump
+   ```
+
+1. **设置核心转储文件的生成路径和命名格式**：
+
+   核心转储文件的生成路径和命名由内核参数 `kernel.core_pattern` 控制。您可以通过以下命令将核心转储文件保存到 `coredump` 目录，并设置文件名格式：
+
+   ```bash
+   echo "${workspaceFolder}/coredump/core-%e-%p-%t" | sudo tee /proc/sys/kernel/core_pattern
+   ```
+
+例如，生成的核心转储文件可能命名为 `core-myapp-1234-1617181920`，表示应用程序名为 `myapp`，进程 ID 为 `1234`，时间戳为 `1617181920`。
+
+**请注意，此设置仅对当前会话有效**
+
+
+
+
+
 ## Cache Lab
 
 Understanding Cache Memories，
